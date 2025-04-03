@@ -94,7 +94,7 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
 };
 
 // GE IMAGE SIZE
-export type AspectRatioKey = keyof typeof aspectRatioOptions;
+/*export type AspectRatioKey = keyof typeof aspectRatioOptions;
 export const getImageSize = (
   type: string,
   image: any,
@@ -107,7 +107,7 @@ export const getImageSize = (
     );
   }
   return image?.[dimension] || 1000;
-};
+};*/
 
 // DOWNLOAD IMAGE
 export const download = (url: string, filename: string) => {
