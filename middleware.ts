@@ -5,7 +5,7 @@ const isProtectedRoute = createRouteMatcher(['/articles(.*)', '/credit(.*)', '/p
 
 export default clerkMiddleware(async (auth, req) => {
     if (isProtectedRoute(req)) await auth.protect()
-  })
+});
 
 export const config = {
   matcher: [

@@ -7,10 +7,7 @@ declare type CreateUserParams = {
   };
   
   declare type UpdateUserParams = {
-    firstName: string;
-    lastName: string;
-    username: string;
-    photo: string;
+    email: string;
   };
   
   // ====== IMAGE PARAMS
