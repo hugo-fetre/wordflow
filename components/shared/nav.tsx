@@ -1,13 +1,14 @@
 "use client"
 import { navLinks1, navLinks2, navLinks3, navNotLogged } from '@/constants'
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { SignedIn, SignedOut, SignOutButton, useClerk, UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 import React from 'react'
 
 const MainNav = () => {
 
   const pathName = usePathname();
+  const { signOut } = useClerk();
   return (
     <div className='nav--main'>
         <div className='nav--link--wrapper'>
@@ -49,9 +50,11 @@ const MainNav = () => {
                 })}
             </SignedIn>
           </div>
-          <div className='nav--user--button'>
-              <UserButton />
-          </div>
+          <SignedIn>
+            <div className='nav--user--button'>
+              <button onClick={() => signOut({ redirectUrl: '/presentation' })}>Sign out</button>
+            </div>
+          </SignedIn>
         </div>
         
     </div>

@@ -189,14 +189,12 @@ export const navLinks1 = [
       width: 1000,
       height: 1778,
     },
-  };
+  };*/
   
   export const defaultValues = {
-    title: "",
-    aspectRatio: "",
-    color: "",
-    prompt: "",
-    publicId: "",
+    title: "Nouveau workspace",
+    description: "",
+    website: "",
   };
   
-  export const creditFee = -1;*/
+  export const creditFee = -1;

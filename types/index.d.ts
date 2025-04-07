@@ -10,16 +10,16 @@ declare type CreateUserParams = {
     email: string;
   };
   
-  // ====== IMAGE PARAMS
+  // ====== Workspace PARAMS
   declare type AddWorkspaceParams = {
-    workspace: {
+    /*workspace: {
         publicId: string;
         name: string;
         description: string;
         website: string;
         keywords: string[];
         articlesIdeas: string[];
-    };
+    };*/
     manager: string;
   };
   
@@ -106,6 +106,10 @@ declare type CreateUserParams = {
     creditBalance: number;
     data?: IImage | null;
     config?: Transformations | null;
+  };
+
+  declare type BusinessInfoFormProps = {
+    data?: IWorkspace | null;
   };
   
   declare type TransformedImageProps = {

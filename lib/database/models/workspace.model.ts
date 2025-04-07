@@ -13,10 +13,10 @@ export interface IWorkspace extends Document{
 }
 
 const WorkspaceSchema = new Schema({
-    publicId: { type: String, required: true },
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    website: { type: String, required: true },
+    publicId: { type: String },
+    name: { type: String, default:"Nouveau Workspace" },
+    description: { type: String },
+    website: { type: String },
     keywords: { type: [String] },
     articlesIdeas: { type: [String] },
     manager: { type: Schema.Types.ObjectId, ref: 'User' },

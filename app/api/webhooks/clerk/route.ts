@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
+import { createWorkspace } from "@/lib/actions/workspace.actions";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -67,6 +68,11 @@ export async function POST(req: Request) {
     };
 
     const newUser = await createUser(user);
+    
+    const workspace = {
+      manager: newUser._id
+    }
+    const newWorkspace = await createWorkspace(workspace);
 
     // Set public metadata
     if (newUser) {
@@ -77,7 +83,7 @@ export async function POST(req: Request) {
       });
     }
 
-    return NextResponse.json({ message: "OK", user: newUser });
+    return NextResponse.json({ message: "OK", user: newUser, workspace: newWorkspace });
   }
 
   // UPDATE

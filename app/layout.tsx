@@ -20,7 +20,7 @@ const Poppinsfont = Poppins({
 const Firafont = Fira_Code({
   subsets: ["latin"],
   weight: ['400', '500', '600', '700'],
-  variable: "--font-poppins",
+  variable: "--font-fira",
 });
 
 
@@ -34,6 +34,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     /*<ClerkProvider>
       <html lang="en">

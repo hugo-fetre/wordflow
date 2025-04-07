@@ -8,6 +8,7 @@
 Black: #121212
 White: #fff
 Light grey (for text): #a6a6a6
+Dark grey (for labels): #545454
 
 Font sizes:
 Button: 10pt;
@@ -163,6 +164,67 @@ body{
   font-size: 10pt;
   text-align: center;
 }
+/*============================ General */
+h2{
+  font-size: 18pt;
+  font-weight: 400;
+}
+label{
+  font-size: 10pt;
+  color: #545454;
+  margin-bottom: 5px;
+}
+sub{
+  font-size: 10pt;
+  margin-bottom: 5px;
+}
+/*============================ Variables */
+.t40px{
+  margin-top: 40px;
+}
+.t10px{
+  margin-top: 10px;
+}
+
+/*============================ Inputs */
+.in--text--big{
+  font-size: 24pt;
+  font-weight: bold;
+  border: 0px;
+  padding: 0;
+}
+.in--text--title{
+  font-size: 24pt;
+  font-weight: 400;
+}
+.in--text--narrative{
+  font-size: 10pt;
+  font-weight: 400;
+  font-family: "Fira Code", monospace;
+}
+.in--text--link{
+  font-size: 14pt;
+  font-weight: 400;
+  font-family: "Fira Code", monospace;
+}
+/*_______________ Radio that appears as a button to select */
+.radio--hidden{
+  display: none;
+}
+.radio--label{
+  padding: 10px 20px;
+  margin-right: 5px;
+  border: 1px solid #545454;
+  color: #545454;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.radio--hidden:checked + .radio--label{
+  background: #3462eb;
+  color: #fff;
+  border: none;
+}
 
 /*============================ Nav */
 .link--logo{
@@ -202,10 +264,19 @@ body{
 }
 .nav--user--button{
   position: relative;
-  left: 20%;
+  left: 0%;
 }
 
 /*============================ Buttons */
+.primaryButton{
+  background: #121212;
+  color: #fff;
+  border-radius: 7px;
+  font-size: 10pt;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
 .secondaryButton{
   background: #fff;
   color: #121212;
@@ -216,14 +287,38 @@ body{
   cursor: pointer;
 }
 
+/*============================ Main display */
 .mainWindow{
   width: 95vw;
   height: 70vh;
   position: absolute;
   top: 5vh;
   left: 2.5vw;
+  padding: 7.5vh 15% 0 27.5%;
   background-image: url("../public/bg-sign-in.png");
   background-size: cover;
   border-radius: 15px;
   z-index: -1;
+}
+
+.content--wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+/*============================ Keywords page */
+.content--wrapper{
+  min-height: 150px;
+  width: 100%;
+}
+.articles--wrapper{
+  min-height: 150px;
+  width: 100%;
+}
+/*============================ meta-data page */
+.image--submit--wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
