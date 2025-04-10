@@ -7,7 +7,14 @@ import { getWorkspacesList } from '@/lib/actions/workspace.actions'
 import { IWorkspace } from '@/lib/database/models/workspace.model'
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
-import React from 'react'
+import React, { ReactNode } from 'react'
+
+type LayoutProps = {
+    children: ReactNode
+    params: {
+      workspaceId: string
+    }
+}
 
 const Layout = async ({ children, params }: { children: React.ReactNode; params: { workspaceId: string }; }) => {
 
