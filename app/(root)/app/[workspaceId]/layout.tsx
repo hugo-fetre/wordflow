@@ -19,7 +19,7 @@ const Layout = async ({ children, params }: { children: React.ReactNode; params:
         const user = await getUserById(userId);
         workspacesList = await getWorkspacesList(user._id);
     }
-    var currentWorkspaceId = (await params).workspaceId;
+    var currentWorkspaceId = params.workspaceId;
 
     return(
         <main className='root'>

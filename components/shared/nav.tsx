@@ -19,22 +19,22 @@ const MainNav = ({ currentWorkspaceId }: { currentWorkspaceId: string }) => {
   return (
     <div className='nav--main'>
         <div className='nav--workspace--selector--wrapper'>
-        <select
-          className='nav--workspace--selector'
-          value={currentWorkspaceId}
-          onChange={(e) => {
-            const selectedId = e.target.value;
-            if (selectedId && selectedId !== currentWorkspaceId) {
-              redirect('/app/'+selectedId);
-            }
-          }}
-        >
-          {workspaces.map((w) => (
-            <option key={w._id} value={w._id}>
-              {w.name}
-            </option>
-          ))}
-        </select>
+          <select
+            className='nav--workspace--selector'
+            value={currentWorkspaceId}
+            onChange={(e) => {
+              const selectedId = e.target.value;
+              if (selectedId && selectedId !== currentWorkspaceId) {
+                redirect('/app/'+selectedId);
+              }
+            }}
+          >
+            {workspaces.map((w) => (
+              <option key={w._id} value={w._id}>
+                {w.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className='nav--link--wrapper'>
           <div className='nav--links--col'>
