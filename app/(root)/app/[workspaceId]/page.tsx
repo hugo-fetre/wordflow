@@ -2,9 +2,9 @@ import BusinessInfoForm from '@/components/shared/business_info_form'
 import MainNav from '@/components/shared/nav';
 import React from 'react'
 
-const dashboardPage = async ({ params }: { params: { workspaceId: string }; }) => {
+const dashboardPage = ({ params }: { params: { workspaceId: string }; }) => {
 
-  const p = (await params)
+  const p =  params;
   return (
     <div>
       <div className="mainWindow">
