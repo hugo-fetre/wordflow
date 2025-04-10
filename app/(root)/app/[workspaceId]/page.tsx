@@ -11,7 +11,7 @@ type SearchParamProps = {
 }
 
 const DashboardPage = ({ params }: SearchParamProps) => {
-  const { workspaceId } = params;
+  const workspaceId = params.workspaceId.toString();
   
   return (
     <div>
