@@ -12,10 +12,7 @@ const DashboardPage = async ({params}: { params: Promise<{ workspaceId: string }
   
   return (
     <div>
-      <div className="mainWindow">
-        <BusinessInfoForm id={workspaceId}></BusinessInfoForm>                     
-      </div>
-      <MainNav currentWorkspaceId={workspaceId} />
+        <BusinessInfoForm id={workspaceId}></BusinessInfoForm>
     </div>
   )
 }
