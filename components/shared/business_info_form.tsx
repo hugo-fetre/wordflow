@@ -29,7 +29,7 @@ const formSchema = z.object({
 
 const BusinessInfoForm = ({ id }: { id: string }) => {
 
-    const router = useRouter()
+    //const router = useRouter()
     const workspaces = useWorkspaces();
     const currentWorkspace = workspaces.find(w => w._id == id); //params.workspaceId;
     
@@ -59,7 +59,7 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
           //manager: string;
         };
         updateWorkspace(id, w).then(() => {
-          router.refresh()  // 🔄 re-fetch les données côté serveur sans reload complet
+          //router.refresh()  // 🔄 re-fetch les données côté serveur sans reload complet
           form.reset(values); // 🔁 remet isDirty à false → bouton disparaît
         })
     }
