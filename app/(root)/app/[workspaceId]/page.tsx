@@ -2,7 +2,7 @@ import BusinessInfoForm from '@/components/shared/business_info_form'
 import MainNav from '@/components/shared/nav';
 import React from 'react'
 
-const dashboardPage = ({ params }: SearchParamProps) => {
+const dashboardPage = ({ params }: { params: { workspaceId: string } }) => {
 
   const p =  params;
   return (
