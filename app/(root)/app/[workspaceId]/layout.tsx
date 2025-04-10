@@ -16,10 +16,12 @@ type LayoutProps = {
     }
 }
 
-const Layout = async ({ children, params }: { children: React.ReactNode; params: { workspaceId: string }; }) => {
+const Layout = async ({ children, params }: LayoutProps ) => {
 
     const { userId }= await auth();
-        
+    if (!userId) {
+        return { notFound: true }  // Si pas d'utilisateur authentifié, on retourne un 404
+    } 
     var workspacesList:IWorkspace[] = [];
     var currentWorkspace = undefined;
     if(userId){
