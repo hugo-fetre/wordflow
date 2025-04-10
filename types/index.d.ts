@@ -91,7 +91,7 @@ declare type CreateUserParams = {
   };
   
   declare type SearchParamProps = {
-    params: { id: string; type: TransformationTypeKey };
+    workspaceId: string;
     searchParams: { [key: string]: string | string[] | undefined };
   };
   

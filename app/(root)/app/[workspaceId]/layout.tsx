@@ -16,7 +16,7 @@ type LayoutProps = {
     }
 }
 
-const Layout = async ({ children, params }: LayoutProps ) => {
+const Layout = async ({ children, params: {workspaceId} }: { children: React.ReactNode; params: SearchParamProps; }) => {
 
     const { userId }= await auth();
     if (!userId) {
@@ -28,7 +28,7 @@ const Layout = async ({ children, params }: LayoutProps ) => {
         const user = await getUserById(userId);
         workspacesList = await getWorkspacesList(user._id);
     }
-    var currentWorkspaceId = params.workspaceId;
+    var currentWorkspaceId = workspaceId;
 
     return(
         <main className='root'>
