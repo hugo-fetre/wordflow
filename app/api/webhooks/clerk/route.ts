@@ -70,7 +70,7 @@ export async function POST(req: Request) {
     const newUser = await createUser(user);
     
     const workspace = {
-      manager: newUser._id
+      manager: newUser._id.toString()
     }
     const newWorkspace = await createWorkspace(workspace);
 

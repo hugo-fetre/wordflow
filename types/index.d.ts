@@ -24,16 +24,12 @@ declare type CreateUserParams = {
   };
   
   declare type UpdateWorkspaceParams = {
-    workspace: {
-        _id: string;
-        publicId: string;
-        name: string;
-        description: string;
-        website: string;
-        keywords: string[];
-        articlesIdeas: string[];
-    };
-    manager: string;
+    name: string;
+    description: string;
+    website: string;
+    keywords: string[];
+    articlesIdeas: string[];
+    //manager: string;
   };
   
   declare type Transformations = {

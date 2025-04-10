@@ -1,26 +1,26 @@
-export const navLinks1 = [
+export const navLinks1 = (workspaceId: string | null) => [
     {
       label: "Accueil",
-      route: "/",
+      route: "/app/"+workspaceId,
     },
     {
       label: "Gestion des mots clés",
-      route: "/keywords",
+      route: "/app/"+workspaceId+"/keywords",
     },
     {
       label: "Générateur d'articles",
-      route: "/generate",
+      route: "/app/"+workspaceId+"/generate",
     },
   ];
 
-  export const navLinks2 = [
+  export const navLinks2 = (workspaceId: string | null) => [
     {
       label: "Tendances",
-      route: "/trends",
+      route: "/app/"+workspaceId+"/trends",
     },
     {
       label: "Meta-descripteur",
-      route: "/meta-generator",
+      route: "/app/"+workspaceId+"/meta-generator",
     },
     {
       label: "SEO Check-up",

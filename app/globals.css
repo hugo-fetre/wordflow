@@ -9,6 +9,8 @@ Black: #121212
 White: #fff
 Light grey (for text): #a6a6a6
 Dark grey (for labels): #545454
+Internet Blue: #3462eb
+Purple grey: #aba9bc
 
 Font sizes:
 Button: 10pt;
@@ -74,7 +76,7 @@ Button: 10pt;
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
+  /*--input: oklch(0.92 0.004 286.32);*/
   --ring: oklch(0.705 0.015 286.067);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -108,7 +110,7 @@ Button: 10pt;
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  /*--input: oklch(1 0 0 / 15%);*/
   --ring: oklch(0.552 0.016 285.938);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -185,27 +187,43 @@ sub{
 .t10px{
   margin-top: 10px;
 }
-
+.no-shadow{
+  box-shadow: none !important;
+}
 /*============================ Inputs */
 .in--text--big{
   font-size: 24pt;
   font-weight: bold;
   border: 0px;
   padding: 0;
+  border-radius: 0;
 }
 .in--text--title{
   font-size: 24pt;
   font-weight: 400;
 }
 .in--text--narrative{
-  font-size: 10pt;
+  font-size: 9pt;
   font-weight: 400;
   font-family: "Fira Code", monospace;
+  border: none;
+  border-radius: 0;
+  min-height: 150px;
+  padding: 0;
 }
 .in--text--link{
   font-size: 14pt;
   font-weight: 400;
   font-family: "Fira Code", monospace;
+}
+.in--sub{
+  font-size: 8pt;
+}
+.in--label{
+  font-size: 10pt;
+  font-weight: 300;
+  color: #545454;
+  margin-bottom: 5px;
 }
 /*_______________ Radio that appears as a button to select */
 .radio--hidden{
@@ -245,12 +263,14 @@ sub{
   left: 0;
   background: #121212;
   color: #fff;
-}
-.nav--link--wrapper{
   display: flex;
   flex-direction: row;
+}
+.nav--link--wrapper{
   position: relative;
-  left: 30%;
+  left: 3.5%;
+  display: flex;
+  flex-direction: row;
 }
 .nav--links--col{
   display: flex;
@@ -266,6 +286,31 @@ sub{
   position: relative;
   left: 0%;
 }
+.nav--workspace--selector--wrapper{
+  margin: 0 5% 0 7.5%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.nav--workspace--selector{
+  width: 200px;
+  background: #121212;
+  padding: 5px 10px;
+  color: #aba9bc;
+  cursor: pointer;
+}
+.nav--workspace--selector option{
+  color: #5b5966;
+}
+.nav--workspace--selector--title{
+  color:#a6a6a6;
+}
+.nav--workspace--selector--label{
+  color: #aba9bc; /*Purpl grey: #aba9bc Purple: #9d9cd2 Dream blue: #becbff */
+  font-size: 12pt;
+  width: 250px;
+  border: 1px solid #3462eb;
+}
 
 /*============================ Buttons */
 .primaryButton{
@@ -273,6 +318,7 @@ sub{
   color: #fff;
   border-radius: 7px;
   font-size: 10pt;
+  font-weight: 300;
   padding: 10px;
   text-align: center;
   cursor: pointer;
@@ -286,7 +332,12 @@ sub{
   text-align: center;
   cursor: pointer;
 }
-
+.button--main--submit{
+  position: absolute;
+  top: 7.5vh;
+  right: 5%;
+  font-size: 8pt;
+}
 /*============================ Main display */
 .mainWindow{
   width: 95vw;

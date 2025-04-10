@@ -15,29 +15,28 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { defaultValues } from '@/constants'
+import { useWorkspaces } from '@/context/WorkspacesContext'
+import { Textarea } from '../ui/textarea'
+import { updateWorkspace } from '@/lib/actions/workspace.actions'
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   title: z.string().max(50),
   description: z.string(),
-  website: z.string().optional(),
+  //website: z.string().optional(),
 })
 
 
-const BusinessInfoForm = ({ data=null}: BusinessInfoFormProps) => {
-  /*return (
-    <div className='content--wrapper'>
-      <label htmlFor="title_input">Titre de votre business</label>
-      <input type="text" name='title_input' id='title_input' className='in--text--big' placeholder='Workspace name'/>
-      <label htmlFor="caption_input" className='t40px'>Description de votre business</label>
-      <textarea cols={50} rows={7} name="caption_input" id="caption_input" className='in--text--narrative' placeholder='Decrivez votre business ici...'></textarea>
-      <label htmlFor="website_input">Site web</label>
-      <input type="text" name='website_input' id='website_input' className='in--text--link' placeholder='www.votresite.xyz'/>
-    </div>
-  )*/
-    const initialValues = data ? {
-        title: data?.title,
-        description: data?.description,
-        website: data?.website,
+const BusinessInfoForm = ({ id }: { id: string }) => {
+
+    const router = useRouter()
+    const workspaces = useWorkspaces();
+    const currentWorkspace = workspaces.find(w => w._id == id); //params.workspaceId;
+    
+    const initialValues = currentWorkspace ? {
+        title: currentWorkspace.name,
+        description: currentWorkspace.description,
+        //website: currentWorkspace.website,
     } : defaultValues
 
     // 1. Define your form.
@@ -50,7 +49,19 @@ const BusinessInfoForm = ({ data=null}: BusinessInfoFormProps) => {
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // This will be type-safe and validated.
-        console.log(values)
+
+        const w = {
+          name: values.title,
+          description: values.description,
+          website: "",
+          keywords: currentWorkspace?.keywords ?? [""],
+          articlesIdeas: currentWorkspace?.articlesIdeas ?? [""],
+          //manager: string;
+        };
+        updateWorkspace(id, w).then(() => {
+          router.refresh()  // 🔄 re-fetch les données côté serveur sans reload complet
+          form.reset(values); // 🔁 remet isDirty à false → bouton disparaît
+        })
     }
 
     return (
@@ -61,16 +72,32 @@ const BusinessInfoForm = ({ data=null}: BusinessInfoFormProps) => {
                 name="title"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Titre de votre business</FormLabel>
+                      <FormLabel className='in--label'>Titre de votre business</FormLabel>
+                      <FormControl>
+                          <Input placeholder="Workspace name" {...field} className='in--text--big no-shadow'/>
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                    
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel className='in--label'>Décrivez votre business</FormLabel>
                     <FormControl>
-                        <Input placeholder="Workspace name" {...field} className='in--text--big'/>
+                        <Textarea spellCheck={false} cols={50} rows={7} placeholder="Parlez-nous de vous en quelques lignes. Expliquez-nous votre produit, votre vision, vos cibles, vos atouts... et tout ce que vous jugerez utile de nous partager." {...field} className='in--text--narrative no-shadow'/>
                     </FormControl>
-                    <FormDescription></FormDescription>
                     <FormMessage />
                     </FormItem>
                 )}
                 />
-                <Button type="submit">Submit</Button>
+                {form.formState.isDirty && (
+                  <Button type="submit" className='button--main--submit primaryButton'>Enregistrer</Button>
+                )}
             </form>
         </Form>
     )

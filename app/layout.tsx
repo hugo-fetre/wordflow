@@ -36,15 +36,6 @@ export default function RootLayout({
 }>) {
 
   return (
-    /*<ClerkProvider>
-      <html lang="en">
-        <body
-          className={cn("Poppinsfont intialiased", Poppinsfont.variable)}
-        >
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>*/
     <ClerkProvider appearance={{
       variables: { colorPrimary: "#212121"}
     }}>

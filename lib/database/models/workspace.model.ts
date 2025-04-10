@@ -10,12 +10,13 @@ export interface IWorkspace extends Document{
     manager?: {
         _id: string;
     }
+    _id: string;
 }
 
 const WorkspaceSchema = new Schema({
     publicId: { type: String },
     name: { type: String, default:"Nouveau Workspace" },
-    description: { type: String },
+    description: { type: String, default:"" },
     website: { type: String },
     keywords: { type: [String] },
     articlesIdeas: { type: [String] },
