@@ -6,12 +6,9 @@ import React from 'react'
 // Correction : Le type 'params' doit être défini comme un objet de type { workspaceId: string }
 // et non comme une promesse ou une structure incorrecte.
 
-type SearchParamProps = {
-  params: { workspaceId: string }
-}
-
-const DashboardPage = ({ params }: SearchParamProps) => {
-  const workspaceId = params.workspaceId.toString();
+const DashboardPage = async ({params}: { params: Promise<{ workspaceId: string }> }) => {
+  
+  const workspaceId = (await params).workspaceId;
   
   return (
     <div>
