@@ -4,13 +4,12 @@ import React from 'react'
 
 const dashboardPage = ({ params }: { params: { workspaceId: string } }) => {
 
-  const p =  params;
   return (
     <div>
       <div className="mainWindow">
-        <BusinessInfoForm id={p.workspaceId}></BusinessInfoForm>                     
+        <BusinessInfoForm id={params.workspaceId}></BusinessInfoForm>                     
       </div>
-      <MainNav currentWorkspaceId={p.workspaceId} />
+      <MainNav currentWorkspaceId={params.workspaceId} />
     </div>
   )
 }
