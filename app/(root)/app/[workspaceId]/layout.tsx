@@ -7,7 +7,7 @@ import { IWorkspace } from '@/lib/database/models/workspace.model'
 import { auth } from '@clerk/nextjs/server'
 import { ReactNode } from 'react'
 
-const Layout = async ({ children, params }: { children: ReactNode, params: { workspaceId: string } }) => {
+const Layout = async ({ children }: { children: ReactNode }) => {
     // Authentification de l'utilisateur (attente de la promesse)
     const { userId } = await auth()
 
@@ -19,7 +19,7 @@ const Layout = async ({ children, params }: { children: ReactNode, params: { wor
     const user = await getUserById(userId)
     const workspacesList = await getWorkspacesList(user._id)
     
-    const currentWorkspaceId = params.workspaceId  // Le workspaceId est obtenu directement depuis `params`
+    //const currentWorkspaceId = params.workspaceId  // Le workspaceId est obtenu directement depuis `params`
 
     return (
         <main className='root'>
@@ -27,10 +27,7 @@ const Layout = async ({ children, params }: { children: ReactNode, params: { wor
                 <div className='wrapper'>
                     <LogoComponent />
                     <WorkspacesProvider workspaces={workspacesList}>
-                        <div className="mainWindow">
-                            {children}
-                        </div>
-                        <MainNav currentWorkspaceId={currentWorkspaceId} />
+                        {children}
                     </WorkspacesProvider>
                 </div>
             </div>
