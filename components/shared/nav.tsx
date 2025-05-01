@@ -12,8 +12,7 @@ import { navLinks1, navLinks2, navLinks3, navNotLogged } from '@/constants'
 const MainNav = ({ currentWorkspaceId }: { currentWorkspaceId: string }) => {
 
   const workspaces = useWorkspaces();
-  const currentWorkspace = workspaces.find(w => w._id == currentWorkspaceId); //params.workspaceId;
-  console.log(workspaces);
+  //const currentWorkspace = workspaces.find(w => w._id == currentWorkspaceId); //params.workspaceId;
   const pathName = usePathname();
   const { signOut } = useClerk();
   return (

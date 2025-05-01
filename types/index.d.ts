@@ -31,6 +31,14 @@ declare type CreateUserParams = {
     articlesIdeas: string[];
     //manager: string;
   };
+
+ // ====== IA PARAMS
+ declare type articlePrompt = {
+   title: string;
+   description: string;
+   output_format: string;
+   output_style: string;
+ }
   
   declare type Transformations = {
     restore?: boolean;

@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation"
 const formSchema = z.object({
   title: z.string().max(50),
   description: z.string(),
-  //website: z.string().optional(),
+  website: z.string(),
 })
 
 
@@ -36,7 +36,7 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
     const initialValues = currentWorkspace ? {
         title: currentWorkspace.name,
         description: currentWorkspace.description,
-        //website: currentWorkspace.website,
+        website: currentWorkspace.website,
     } : defaultValues
 
     // 1. Define your form.
@@ -53,7 +53,7 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
         const w = {
           name: values.title,
           description: values.description,
-          website: "",
+          website: values.website,
           keywords: currentWorkspace?.keywords ?? [""],
           articlesIdeas: currentWorkspace?.articlesIdeas ?? [""],
           //manager: string;
@@ -78,8 +78,7 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
                       </FormControl>
                       <FormDescription></FormDescription>
                       <FormMessage />
-                    </FormItem>
-                    
+                    </FormItem>  
                 )}
                 />
                 <FormField
@@ -92,6 +91,19 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
                         <Textarea spellCheck={false} cols={50} rows={7} placeholder="Parlez-nous de vous en quelques lignes. Expliquez-nous votre produit, votre vision, vos cibles, vos atouts... et tout ce que vous jugerez utile de nous partager." {...field} className='in--text--narrative no-shadow'/>
                     </FormControl>
                     <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='in--label'>Votre site web</FormLabel>
+                      <FormControl>
+                        <Input placeholder="votresite.com" {...field} className='in--text--link no-shadow'/>
+                      </FormControl>
+                      <FormMessage />
                     </FormItem>
                 )}
                 />

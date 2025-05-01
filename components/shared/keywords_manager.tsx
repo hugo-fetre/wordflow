@@ -1,0 +1,177 @@
+"use client"
+import React, { useEffect, useState, useRef } from 'react'
+import { useWorkspaces } from '@/context/WorkspacesContext'
+import Image from 'next/image'
+import { updateWorkspace } from '@/lib/actions/workspace.actions'
+import { useRouter } from "next/navigation"
+import { generateArticleIdeas, generateKeywords } from '@/lib/actions/ai.actions'
+import Link from 'next/link'
+
+const KeywordsManager = ({ id }: { id: string }) => {
+
+    const router = useRouter()
+    const workspaces = useWorkspaces();
+    const currentWorkspace = workspaces.find(w => w._id == id);
+    
+    const initialKeywordsRef = useRef<string[]>([]); // stocke la version de base
+    const initialArticlesRef = useRef<string[]>([]); // stocke la version de base
+    const [hasChanged, setHasChanged] = useState(false);
+    const [keywords, setKeywords] = useState<string[]>([]);
+    const [articles, setArticles] = useState<string[]>([]);
+    const [newKeyword, setNewKeyword] = useState("");
+
+    // Set custom comparison function
+    const isEqual = (a: string[], b: string[]) => JSON.stringify(a) === JSON.stringify(b);
+
+    // Save initial keywords list and bind currentWorkspace.keywords with keywords
+    useEffect(() => {
+        if (currentWorkspace?.keywords) {
+            setKeywords(currentWorkspace.keywords);
+            initialKeywordsRef.current = currentWorkspace.keywords; // save initial version
+        }
+        if (currentWorkspace?.articlesIdeas){
+            setArticles(currentWorkspace.articlesIdeas);
+            initialArticlesRef.current = currentWorkspace.articlesIdeas;
+        }
+    }, [currentWorkspace]);
+
+   // Analyse changes between initial keywords list and modified list
+    useEffect(() => {
+        setHasChanged(!isEqual(keywords, initialKeywordsRef.current) || !isEqual(articles, initialArticlesRef.current));
+    }, [keywords, articles]);
+
+    // Define delete keyword function
+    const handleDeleteKeyword = (indexToDelete: number) => {
+        setKeywords(prev => prev.filter((_, i) => i !== indexToDelete))
+    }
+    // Define add keyword function
+    const handleAddKeyword = () => {
+        const trimmed = newKeyword.trim();
+        if (trimmed && !keywords.includes(trimmed)) {
+            setKeywords((prev) => [...prev, trimmed]);
+            setNewKeyword("");
+        }
+    };
+    // Define update currentworkspace function
+    const updateDatabase = () => {
+        const w = {
+            name: currentWorkspace?.name ?? "",
+            description: currentWorkspace?.description ?? "",
+            website: "",
+            keywords: keywords ?? [""],
+            articlesIdeas: articles ?? [""],
+            //manager: string;
+        };
+        updateWorkspace(id, w).then(() => {
+            router.refresh()  // 🔄 re-fetch les données côté serveur sans reload complet
+        })
+    };
+    // Call AI for keyword completion
+    const completeKeywords = async () => {
+        if(currentWorkspace){
+            const answer = await generateKeywords(currentWorkspace);
+            if(answer){
+                const withoutJsonTag = answer.replace('```json', '');
+                const cleanedText = withoutJsonTag.replace('```', '').trim();
+                const keywordsList = JSON.parse(cleanedText);
+                setKeywords(keywordsList);
+
+                // Database update
+                const updatedWorkspace = {
+                    name: currentWorkspace.name ?? "",
+                    description: currentWorkspace.description ?? "",
+                    website: "",
+                    keywords: keywordsList,
+                    articlesIdeas: currentWorkspace.articlesIdeas ?? [""],
+                };
+                await updateWorkspace(id, updatedWorkspace);
+                router.refresh();
+            } 
+        }
+    }
+
+    // Define delete article function
+    const handleDeleteArticle = (indexToDelete: number) => {
+        setArticles(prev => prev.filter((_, i) => i !== indexToDelete))
+    }
+
+     // Call AI for keyword completion
+    const completeArticleIdeas = async () => {
+        if(currentWorkspace){
+            const answer = await generateArticleIdeas(currentWorkspace);
+            if(answer){
+                const withoutJsonTag = answer.replace('```json', '');
+                const cleanedText = withoutJsonTag.replace('```', '').trim();
+                const articlesList = JSON.parse(cleanedText);
+                setArticles(articlesList);
+
+                // Database update
+                const updatedWorkspace = {
+                    name: currentWorkspace.name ?? "",
+                    description: currentWorkspace.description ?? "",
+                    website: "",
+                    keywords: currentWorkspace.keywords ?? [""],
+                    articlesIdeas: articlesList,
+                };
+                await updateWorkspace(id, updatedWorkspace);
+                router.refresh();
+            } 
+        }
+    }
+    
+    return (
+    <div className='content--wrapper'>
+        <div className="keyword--input">
+            <h2>Mots clés principaux</h2>
+            <input
+                type="text"
+                placeholder="Ajouter un mot-clé"
+                value={newKeyword}
+                onChange={(e) => setNewKeyword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleAddKeyword()}
+                className='in--keyword'
+            />
+            <button onClick={handleAddKeyword} className='smallPrimaryButton'>+</button>
+            <div className='smallSeparator'></div>
+            <button onClick={completeKeywords} className='smallColorButton'>Générer</button>
+            {hasChanged && (
+                <button className='button--main--submit primaryButton' onClick={updateDatabase}>
+                    Enregistrer
+                </button>
+            )}
+        </div>
+        <div className='keywords--wrapper'>
+            {keywords.length > 0 ? 
+                (keywords.map((k, i) => (
+                    <span key={i} className='keyword--unit'>
+                        {k}
+                        <button className='keyword--delete--btn' onClick={() => handleDeleteKeyword(i)}><Image width={14} height={14} src={"/delete-icon.png"} alt='fermer'/></button>
+                    </span>
+                ))) 
+                : ( <div>Aucun keyword</div>)
+            }
+        </div>
+        <div className="keyword--input t40px">
+            <h2>Suggestion d'articles</h2>
+            <div className='smallSeparator'></div>
+            <button onClick={completeArticleIdeas} className='smallColorButton'>Générer</button>
+        </div>
+        <div className='articles--wrapper b40px'>
+            {articles.length > 0 ? 
+                (articles.map((k, i) => (
+                    <span key={i} className='article--unit'>
+                        {k}
+                        <button className='article--delete--btn' onClick={() => handleDeleteArticle(i)}><Image width={14} height={14} src={"/delete-icon.png"} alt='fermer'/></button>
+                        <Link href={'/app/'+currentWorkspace?._id+'/generate/'+k} className='article--suggest--btn'>
+                            <Image width={20} height={20} src={"/chevron-right.png"} alt='Générer'/>
+                        </Link>
+                    </span>
+                ))) 
+                : ( <div>Aucune idée d'article</div>)
+            }
+        </div>
+    </div>
+    )
+}
+
+export default KeywordsManager

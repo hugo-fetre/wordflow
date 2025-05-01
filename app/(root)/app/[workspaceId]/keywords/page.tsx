@@ -1,12 +1,12 @@
+import KeywordsManager from '@/components/shared/keywords_manager'
 import React from 'react'
 
-const KeywordsPage = () => {
+
+const KeywordsPage = async ({params}: { params: Promise<{ workspaceId: string }> }) => {
+  const workspaceId = (await params).workspaceId;
   return (
-    <div className='content--wrapper'>
-      <h2>Mots clés principaux</h2>
-      <div className='keywords--wrapper'>toto</div>
-      <h2 className='t40px'>Suggestion d'articles</h2>
-      <div className='articles--wrapper'>titi</div>
+    <div>
+      <KeywordsManager id={workspaceId}></KeywordsManager>
     </div>
   )
 }

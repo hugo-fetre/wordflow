@@ -2,14 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs'
 
 const Poppinsfont = Poppins({
   subsets: ["latin"],
@@ -36,14 +29,12 @@ export default function RootLayout({
 }>) {
 
   return (
-    <ClerkProvider appearance={{
-      variables: { colorPrimary: "#212121"}
-    }}>
       <html lang="fr">
         <body className={cn("Poppinsfont intialiased", Poppinsfont.variable)}>
+        <ClerkProvider appearance={{ variables: { colorPrimary: "#212121"}}}>
           {children}
+        </ClerkProvider>
         </body>
       </html>
-    </ClerkProvider>
   );
 }

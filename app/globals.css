@@ -187,8 +187,21 @@ sub{
 .t10px{
   margin-top: 10px;
 }
+.b40px{
+  margin-bottom: 40px;
+}
+.l10px{
+  margin-left: 10px;
+}
 .no-shadow{
   box-shadow: none !important;
+}
+/*============================ Custom */
+.smallSeparator{
+  height: 10pt;
+  width: 1px;
+  border-left: solid 1px #a6a6a6;
+  margin: 0 15px;
 }
 /*============================ Inputs */
 .in--text--big{
@@ -208,13 +221,19 @@ sub{
   font-family: "Fira Code", monospace;
   border: none;
   border-radius: 0;
-  min-height: 150px;
+  min-height: 100px;
   padding: 0;
 }
 .in--text--link{
   font-size: 14pt;
   font-weight: 400;
   font-family: "Fira Code", monospace;
+  border: none;
+}
+.in--keyword{
+  font-size: 8pt;
+  margin-left: 20px;
+  outline: none;
 }
 .in--sub{
   font-size: 8pt;
@@ -230,7 +249,7 @@ sub{
   display: none;
 }
 .radio--label{
-  padding: 10px 20px;
+  padding: 7px 20px;
   margin-right: 5px;
   border: 1px solid #545454;
   color: #545454;
@@ -249,6 +268,7 @@ sub{
   position: absolute;
   top: 12vh;
   left: 7%;
+  z-index: 3;
 }
 .link--logo img{
   width: 200px;
@@ -332,11 +352,39 @@ sub{
   text-align: center;
   cursor: pointer;
 }
+.smallPrimaryButton{
+  background: #a6a6a6;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 8pt;
+  font-weight: 300;
+  padding: 2px 7px;
+  text-align: center;
+  cursor: pointer;
+}
 .button--main--submit{
   position: absolute;
   top: 7.5vh;
   right: 5%;
   font-size: 8pt;
+}
+.button--main--container{
+  position: absolute;
+  top: 7.5vh;
+  right: 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.smallColorButton{
+  background: #3462eb;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 8pt;
+  font-weight: 300;
+  padding: 2.5px 10px;
+  text-align: center;
+  cursor: pointer;
 }
 /*============================ Main display */
 .mainWindow{
@@ -350,6 +398,7 @@ sub{
   background-size: cover;
   border-radius: 15px;
   z-index: -1;
+  overflow-y: scroll;
 }
 
 .content--wrapper{
@@ -362,14 +411,143 @@ sub{
   min-height: 150px;
   width: 100%;
 }
-.articles--wrapper{
-  min-height: 150px;
+.keywords--wrapper{
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+  padding-top: 2.5vh;
 }
+.articles--wrapper{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+  padding-top: 2.5vh;
+}
+.keyword--unit{
+  font-size: 8pt;
+  padding: 3.5px 10px;
+  border: solid 1px #545454;
+  border-radius: 20px;
+  transition: 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+.keyword--delete--btn {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #a6a6a6;
+  font-size: 10pt;
+  padding-left: 10px;
+}
+.keyword--unit:hover {
+  padding-right: 15px;
+  background: #121212;
+  color: #fff;
+}
+.keyword--unit:hover .keyword--delete--btn {
+  display: inline-flex;
+}
+.keyword--input{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.article--unit{
+  font-size: 8pt;
+  padding: 3.5px 10px;
+  border: solid 1px #545454;
+  border-radius: 20px;
+  transition: 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+.article--delete--btn {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #a6a6a6;
+  font-size: 10pt;
+  padding-left: 10px;
+}
+.article--suggest--btn{
+  display: none;
+  cursor: pointer;
+  padding-left: 10px;
+}
+.article--unit:hover {
+  padding-right: 15px;
+  background: #121212;
+  color: #fff;
+}
+.article--unit:hover .article--delete--btn, .article--unit:hover .article--suggest--btn {
+  display: inline-flex;
+}
+
 /*============================ meta-data page */
 .image--submit--wrapper{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/*============================ Text previewer */
+.textPreviewer{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 75vh;
+  width: 100vw;
+  padding: 10vh 15% 10vh 30%;
+  overflow-y: scroll;
+  color: #fff;
+  background: #222;
+  z-index: 5;
+}
+.textPreviewer p {
+  margin-bottom: 10px;
+}
+.textPreviewer h1{
+  font-size: 24pt;
+  margin: 10px 0;
+}
+.textPreviewer h2{
+  font-size: 16pt;
+  margin: 10px 0;
+}
+.textPreviewer h3{
+  font-size: 14pt;
+}
+.textPreviewer p{
+  font-size: 11pt;
+  color: #ccc;
+}
+.textPreviewer section{
+  margin: 50px 0;
+}
+.textPreviewer ul{
+  padding-left: 50px;
+  margin-bottom: 10px;
+}
+.textPreviewer li{
+  list-style: circle;
+  font-size: 11pt;
+}
+.preview--button--container{
+  position: absolute;
+  top: 25vh;
+  left: 7%;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
