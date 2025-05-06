@@ -23,9 +23,9 @@ export async function generateKeywords(workspace: IWorkspace) {
 
 export async function generateArticleIdeas(workspace: IWorkspace) {
 
-    const prompt = "Complète la liste d'idées d'articles ou crées-en une pour atteindre 15 idées d'articles hyper optimisés pour le SEO de l'entreprise suivante en te basant sur son nom, sa description et ses mots clés."
+    const prompt = "Complète la liste d'idées d'articles ou crées-en une pour atteindre 5 idées d'articles hyper optimisés pour le SEO de l'entreprise suivante en te basant sur son nom, sa description et ses mots clés. Les idées d'article peuvent être très nichés ou s'attaquer au marché de manière très large."
     +"\n"+"Nom de l'entreprise :"+workspace.name+"\n"+"Description :"+workspace.description+"\n"+"Liste de mots clés existants:"+workspace.keywords+"\n"+"Liste des idées d'articles (possiblement nulle):"+workspace.articlesIdeas
-    +"\n"+"Output: Français"+"\n"+"Format: liste JSON d'idées d'articles. Ex: [article 1, article 2, article 3, ...]";
+    +"\n"+"Output: Français"+"\n"+"Format: liste JSON d'idées de titre d'articles. Ex: [titre 1, titre 2, titre 3, ...]";
 
     const response = await ai.models.generateContent({
         model: "gemini-2.0-flash",
@@ -43,7 +43,7 @@ export async function generateArticle(workspace: IWorkspace, article: articlePro
         articleLength = "Format LinkedIn";
     }
     
-    const prompt = "Génère une article hyper optimisé pour le SEO du site de l'entreprise suivante. Utilise les mots clés du titre et la liste des mots clés que je te fournis pour générer l'article. N'inclus pas d'élément image."
+    const prompt = "Génère un article hyper optimisé pour le SEO du site de l'entreprise suivante. Utilise les mots clés du titre et la liste des mots clés que je te fournis pour générer l'article. N'inclus pas d'élément image."
     +"\n"+"Titre de l'article: "+article.title
     +"\n"+"Consignes supplémentaires (possiblement nulles): "+article.description
     +"\n"+"Nom de l'entreprise: "+workspace.name

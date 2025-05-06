@@ -59,7 +59,7 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
         }
     }
 
-    const createArticle = async (workspace: IWorkspace, prompt: articlePrompt) => {
+    /*const createArticle = async (workspace: IWorkspace, prompt: articlePrompt) => {
         console.log("Create article called");
         const answer = await generateArticle(workspace, prompt);
         const bodyMatch = answer?.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
@@ -68,7 +68,32 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
         setPreviewContent(answer_preview); // Stockage du contenu HTML
         setShowPreview(true); // Affichage de la pop-up
         setShowPreviewButton(true);
-    }
+    }*/
+
+        const createArticle = async (workspace: IWorkspace, prompt: articlePrompt) => {
+            try {
+                const res = await fetch("/api/internal/article", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ workspace, article: prompt }),
+                });
+            
+                const data = await res.json();
+                if (res.ok && data.content) {
+                    const bodyMatch = data.content.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+                    const answer_preview = bodyMatch ? bodyMatch[1] : '';
+                    setAiAnswer(data.content);
+                    setPreviewContent(answer_preview);
+                    setShowPreview(true);
+                    setShowPreviewButton(true);
+                } else {
+                    console.error("Erreur :", data.error);
+                }
+            } catch (err) {
+                console.error("Erreur de fetch IA :", err);
+            }
+        };
+          
 
     function resetForm(){
         form.reset(initialValues);
@@ -114,9 +139,8 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
                 <FormItem>
                     <FormLabel className='in--label'>Titre de votre article</FormLabel>
                     <FormControl>
-                        <Input placeholder="Une idée d'article ?" {...field} className='in--text--big no-shadow'/>
+                        <Input placeholder="" {...field} className='in--text--big no-shadow'/>
                     </FormControl>
-                    <FormDescription></FormDescription>
                     <FormMessage />
                 </FormItem>
                 
@@ -127,8 +151,9 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
             render={({ field }) => (
                 <FormItem>
                 <FormLabel className='in--label'>Consignes de rédaction (optionnel)</FormLabel>
+                <FormDescription className='in--sub'>Decrivez en précision ce que vous souhaitez voir dans votre article.</FormDescription>
                 <FormControl>
-                    <Textarea spellCheck={false} cols={50} rows={7} placeholder="Decrivez en précision ce que vous souhaitez voir dans votre article..." {...field} className='in--text--narrative no-shadow'/>
+                    <Textarea spellCheck={false} cols={50} rows={7} placeholder="" {...field} className='in--text--narrative no-shadow'/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>

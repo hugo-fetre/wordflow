@@ -208,6 +208,8 @@ sub{
   font-size: 24pt;
   font-weight: bold;
   border: 0px;
+  border-bottom: solid 1px #a6a6a6;
+  padding-bottom: 5px;
   padding: 0;
   border-radius: 0;
 }
@@ -220,15 +222,21 @@ sub{
   font-weight: 400;
   font-family: "Fira Code", monospace;
   border: none;
+  border-bottom: solid 1px #a6a6a6;
+  min-height: 30px;
+  /*background: rgba(255, 255, 255, 0.15);*/
   border-radius: 0;
-  min-height: 100px;
   padding: 0;
+  padding-bottom: 5px;
 }
 .in--text--link{
   font-size: 14pt;
   font-weight: 400;
   font-family: "Fira Code", monospace;
   border: none;
+  border-radius: 0;
+  border-bottom: solid 1px #a6a6a6;
+  padding: 0 0 5px 0;
 }
 .in--keyword{
   font-size: 8pt;
@@ -237,6 +245,7 @@ sub{
 }
 .in--sub{
   font-size: 8pt;
+  margin-bottom: 5px;
 }
 .in--label{
   font-size: 10pt;
@@ -249,7 +258,8 @@ sub{
   display: none;
 }
 .radio--label{
-  padding: 7px 20px;
+  font-size: 10pt;
+  padding: 5px 20px;
   margin-right: 5px;
   border: 1px solid #545454;
   color: #545454;
@@ -307,10 +317,11 @@ sub{
   left: 0%;
 }
 .nav--workspace--selector--wrapper{
-  margin: 0 5% 0 7.5%;
+  margin: 0 5% 0 5%;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
+  height: fit-content;
 }
 .nav--workspace--selector{
   width: 200px;
@@ -330,6 +341,17 @@ sub{
   font-size: 12pt;
   width: 250px;
   border: 1px solid #3462eb;
+}
+.btn--addWorkspace{
+  height: 12px;
+  width: 12px;
+  background: #9d9cd2;
+  color: #fff;
+  font-weight: 300;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin-left: 20px;
 }
 
 /*============================ Buttons */
@@ -386,6 +408,12 @@ sub{
   text-align: center;
   cursor: pointer;
 }
+/*============================ Loaders display */
+.loader--register{
+  color: #fff;
+  font-size: 14pt;
+}
+
 /*============================ Main display */
 .mainWindow{
   width: 95vw;

@@ -69,11 +69,26 @@ const KeywordsManager = ({ id }: { id: string }) => {
     // Call AI for keyword completion
     const completeKeywords = async () => {
         if(currentWorkspace){
-            const answer = await generateKeywords(currentWorkspace);
-            if(answer){
-                const withoutJsonTag = answer.replace('```json', '');
-                const cleanedText = withoutJsonTag.replace('```', '').trim();
-                const keywordsList = JSON.parse(cleanedText);
+            
+            const answer = await fetch('/api/internal/keywords', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ workspace: currentWorkspace })
+            });
+              
+            // const response = await generateKeywords(currentWorkspace);
+            if(answer.ok){
+                const raw = await answer.text();
+
+                // Étape 1 : parser la réponse JSON contenant la chaîne markdown
+                const { result } = JSON.parse(raw); // result est une string contenant ```json\n[...]\n```
+
+                // Étape 2 : nettoyer la string pour enlever ```json et ```
+                const withoutJsonTag = result.replace('```json', '').replace('```', '').trim();
+
+                // Étape 3 : parser enfin la vraie liste JSON
+                const keywordsList = JSON.parse(withoutJsonTag);
+
                 setKeywords(keywordsList);
 
                 // Database update
@@ -98,11 +113,26 @@ const KeywordsManager = ({ id }: { id: string }) => {
      // Call AI for keyword completion
     const completeArticleIdeas = async () => {
         if(currentWorkspace){
-            const answer = await generateArticleIdeas(currentWorkspace);
-            if(answer){
-                const withoutJsonTag = answer.replace('```json', '');
-                const cleanedText = withoutJsonTag.replace('```', '').trim();
-                const articlesList = JSON.parse(cleanedText);
+            // USE Fetch to target Internal API Call to avoid 504 errors due to long IA response >10s
+            // OLD WAY: const answer = await generateArticleIdeas(currentWorkspace);
+            const answer = await fetch('/api/internal/suggestions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ workspace: currentWorkspace })
+            });
+
+            if(answer.ok){
+                const raw = await answer.text();
+
+                // Étape 1 : parser la réponse JSON contenant la chaîne markdown
+                const { result } = JSON.parse(raw); // result est une string contenant ```json\n[...]\n```
+
+                // Étape 2 : nettoyer la string pour enlever ```json et ```
+                const withoutJsonTag = result.replace('```json', '').replace('```', '').trim();
+
+                // Étape 3 : parser enfin la vraie liste JSON
+                const articlesList = JSON.parse(withoutJsonTag);
+
                 setArticles(articlesList);
 
                 // Database update

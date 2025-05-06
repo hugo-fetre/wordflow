@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
 import Workspace from "../database/models/workspace.model";
+import User from "../database/models/user.model";
 
 // CREATE
 export async function createWorkspace(workspace: AddWorkspaceParams) {
@@ -46,6 +47,26 @@ export async function updateWorkspace(workspaceId: string, workspace: UpdateWork
     if (!updatedWorkspace) throw new Error("User update failed");
     
     return JSON.parse(JSON.stringify(updatedWorkspace));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+// DELETE
+export async function deleteWorkspaces(clerkId: string) {
+  try {
+    await connectToDatabase();
+    // Find user to delete
+    const userToDelete = await User.findOne({ clerkId });
+    //console.log("user trouvé: "+userToDelete._id);
+    const result = await Workspace.find({manager: userToDelete._id});
+    //console.log("Workspace trouvé: "+result[0]._id);
+    const res = await Workspace.deleteMany({manager: userToDelete._id});
+    //console.log("Deleted ? "+res.deletedCount)
+    return {
+      success: true
+    };
+
   } catch (error) {
     handleError(error);
   }

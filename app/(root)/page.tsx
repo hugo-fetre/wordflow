@@ -29,7 +29,7 @@ const Home = async () => {
                 <SignInButton forceRedirectUrl={'/auth-redirect'}>
                     <button className='secondaryButton'>Se connecter</button>
                 </SignInButton>
-                <SignUpButton forceRedirectUrl={'/auth-redirect'}>
+                <SignUpButton forceRedirectUrl={'/register-process'}>
                     <button className='secondaryButton'>S'inscrire</button>
                 </SignUpButton>
             </header>

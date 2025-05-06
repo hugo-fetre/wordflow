@@ -18,7 +18,7 @@ const Firafont = Fira_Code({
 
 
 export const metadata: Metadata = {
-  title: "Wordify",
+  title: "Wordflow",
   description: "IA-powered SEO articles generator",
 };
 

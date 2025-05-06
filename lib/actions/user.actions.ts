@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
+import { auth } from "@clerk/nextjs/server";
 
 // CREATE
 export async function createUser(user: CreateUserParams) {
@@ -32,6 +33,18 @@ export async function getUserById(userId: string) {
   } catch (error) {
     handleError(error);
   }
+}
+
+// CHECK USER CREATION
+export async function checkUser() {
+    const { userId }= await auth();
+    await connectToDatabase();
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user){
+      return false;
+    }
+    return true;
 }
 
 // UPDATE

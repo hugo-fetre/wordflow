@@ -17,7 +17,7 @@ const WorkspaceSchema = new Schema({
     publicId: { type: String },
     name: { type: String, default:"Nouveau Workspace" },
     description: { type: String, default:"" },
-    website: { type: String },
+    website: { type: String, default:"" },
     keywords: { type: [String] },
     articlesIdeas: { type: [String] },
     manager: { type: Schema.Types.ObjectId, ref: 'User' },

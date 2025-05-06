@@ -36,7 +36,7 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
     const initialValues = currentWorkspace ? {
         title: currentWorkspace.name,
         description: currentWorkspace.description,
-        website: currentWorkspace.website,
+        website: currentWorkspace.website ?? "",
     } : defaultValues
 
     // 1. Define your form.
@@ -73,11 +73,10 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
                 render={({ field }) => (
                     <FormItem>
                       <FormLabel className='in--label'>Titre de votre business</FormLabel>
-                      <FormControl>
-                          <Input placeholder="Workspace name" {...field} className='in--text--big no-shadow'/>
-                      </FormControl>
-                      <FormDescription></FormDescription>
                       <FormMessage />
+                      <FormControl>
+                          <Input placeholder="" {...field} className='in--text--big no-shadow'/>
+                      </FormControl>
                     </FormItem>  
                 )}
                 />
@@ -87,8 +86,9 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
                 render={({ field }) => (
                     <FormItem>
                     <FormLabel className='in--label'>Décrivez votre business</FormLabel>
+                    <FormDescription className='in--sub'>Expliquez-nous en détail votre produit, votre vision, vos cibles, vos atouts... et tout ce que vous jugerez utile de nous partager.</FormDescription>
                     <FormControl>
-                        <Textarea spellCheck={false} cols={50} rows={7} placeholder="Parlez-nous de vous en quelques lignes. Expliquez-nous votre produit, votre vision, vos cibles, vos atouts... et tout ce que vous jugerez utile de nous partager." {...field} className='in--text--narrative no-shadow'/>
+                        <Textarea spellCheck={false} placeholder="" {...field} className='in--text--narrative no-shadow'/>
                     </FormControl>
                     <FormMessage />
                     </FormItem>

@@ -29,7 +29,7 @@ const Layout = async ({ children, params }: { children: ReactNode, params: Promi
                         <div className="mainWindow">
                             {children}                
                         </div>
-                        <MainNav currentWorkspaceId={workspaceId} />
+                        <MainNav currentWorkspaceId={workspaceId} user={user}/>
                     </WorkspacesProvider>
                 </div>
             </div>
