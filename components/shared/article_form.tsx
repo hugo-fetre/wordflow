@@ -12,6 +12,7 @@ import { Button } from '../ui/button';
 import { useWorkspaces } from '@/context/WorkspacesContext';
 import { generateArticle } from '@/lib/actions/ai.actions';
 import { IWorkspace } from '@/lib/database/models/workspace.model';
+import Image from 'next/image';
 
 const formSchema = z.object({
   title: z.string().max(150),
@@ -70,30 +71,29 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
         setShowPreviewButton(true);
     }*/
 
-        const createArticle = async (workspace: IWorkspace, prompt: articlePrompt) => {
-            try {
-                const res = await fetch("/api/internal/article", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ workspace, article: prompt }),
-                });
-            
-                const data = await res.json();
-                if (res.ok && data.content) {
-                    const bodyMatch = data.content.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-                    const answer_preview = bodyMatch ? bodyMatch[1] : '';
-                    setAiAnswer(data.content);
-                    setPreviewContent(answer_preview);
-                    setShowPreview(true);
-                    setShowPreviewButton(true);
-                } else {
-                    console.error("Erreur :", data.error);
-                }
-            } catch (err) {
-                console.error("Erreur de fetch IA :", err);
+    const createArticle = async (workspace: IWorkspace, prompt: articlePrompt) => {
+        try {
+            const res = await fetch("/api/internal/article", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ workspace, article: prompt }),
+            });
+        
+            const data = await res.json();
+            if (res.ok && data.content) {
+                const bodyMatch = data.content.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+                const answer_preview = bodyMatch ? bodyMatch[1] : '';
+                setAiAnswer(data.content);
+                setPreviewContent(answer_preview);
+                setShowPreview(true);
+                setShowPreviewButton(true);
+            } else {
+                console.error("Erreur :", data.error);
             }
-        };
-          
+        } catch (err) {
+            console.error("Erreur de fetch IA :", err);
+        }
+    };
 
     function resetForm(){
         form.reset(initialValues);
@@ -130,110 +130,117 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
 
   return (
     <div>
-    <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-                <FormItem>
-                    <FormLabel className='in--label'>Titre de votre article</FormLabel>
+    {!showPreview && (        
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className='in--label'>Titre de votre article</FormLabel>
+                        <FormControl>
+                            <Input placeholder="" {...field} className='in--text--big no-shadow'/>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}/>
+                <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel className='in--label'>Consignes de rédaction (optionnel)</FormLabel>
+                    <FormDescription className='in--sub'>Decrivez en précision ce que vous souhaitez voir dans votre article.</FormDescription>
                     <FormControl>
-                        <Input placeholder="" {...field} className='in--text--big no-shadow'/>
+                        <Textarea spellCheck={false} cols={50} rows={7} placeholder="" {...field} className='in--text--narrative no-shadow'/>
                     </FormControl>
                     <FormMessage />
-                </FormItem>
-                
-            )}/>
-            <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-                <FormItem>
-                <FormLabel className='in--label'>Consignes de rédaction (optionnel)</FormLabel>
-                <FormDescription className='in--sub'>Decrivez en précision ce que vous souhaitez voir dans votre article.</FormDescription>
-                <FormControl>
-                    <Textarea spellCheck={false} cols={50} rows={7} placeholder="" {...field} className='in--text--narrative no-shadow'/>
-                </FormControl>
-                <FormMessage />
-                </FormItem>
-            )}/>
-            <FormField
-            control={form.control}
-            name="output_format"
-            render={({ field }) => (
-                <FormItem>
-                    <FormLabel className="in--label">Taille de l'article</FormLabel>
-                    <FormControl>
-                        <div className="flex items-center">
-                            <label htmlFor="500" className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" id="500" value="500" checked={field.value === "500"} onChange={field.onChange} className="radio--hidden"/>
-                                <span className="radio--label">Court ~500 mots</span>
-                            </label>
-                            <label htmlFor="1000" className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" id="1000" value="1000" checked={field.value === "1000"} onChange={field.onChange} className="radio--hidden"/>
-                                <span className="radio--label">Moyen ~1000 mots</span>
-                            </label>
-                            <label htmlFor="1500" className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" id="1500" value="1500" checked={field.value === "1500"} onChange={field.onChange} className="radio--hidden"/>
-                                <span className="radio--label">Long ~1500 mots</span>
-                            </label>
-                            <label htmlFor="LinkedIn" className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" id="LinkedIn" value="LinkedIn" checked={field.value === "LinkedIn"} onChange={field.onChange} className="radio--hidden"/>
-                                <span className="radio--label">LinkedIn</span>
-                            </label>
-                        </div>
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}/>
-            <FormField
-            control={form.control}
-            name="output_style"
-            render={({ field }) => (
-                <FormItem>
-                    <FormLabel className="in--label">Ton d'écriture</FormLabel>
-                    <FormControl>
-                        <div className="flex items-center">
-                            <label htmlFor="formel" className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" id="formel" value="formel" checked={field.value === "formel"} onChange={field.onChange} className="radio--hidden"/>
-                                <span className="radio--label">Formel</span>
-                            </label>
-                            <label htmlFor="decontract" className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" id="decontract" value="decontract" checked={field.value === "decontract"} onChange={field.onChange} className="radio--hidden"/>
-                                <span className="radio--label">Décontracté</span>
-                            </label>
-                            <label htmlFor="amical" className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" id="amical" value="amical" checked={field.value === "amical"} onChange={field.onChange} className="radio--hidden"/>
-                                <span className="radio--label">Amical</span>
-                            </label>
-                        </div>
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}/>
-            <div className='button--main--container'>
-                {(form.formState.isDirty && !showPreviewButton) &&(
-                    <Button type="submit" className='primaryButton'>Générer</Button>
-                )}
-                {showPreviewButton && (
-                    <Button type='button' onClick={resetForm}>Nouvel article</Button>
-                )}
-                {showPreviewButton && (
-                    <Button type="button" className='secondaryButton' onClick={() => setShowPreview(true)}>Afficher le résultat</Button>
-                )}
-            </div>
-        </form>
-    </Form>
+                    </FormItem>
+                )}/>
+                <FormField
+                control={form.control}
+                name="output_format"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="in--label">Taille de l'article</FormLabel>
+                        <FormControl>
+                            <div className="flex items-center">
+                                <label htmlFor="500" className="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" id="500" value="500" checked={field.value === "500"} onChange={field.onChange} className="radio--hidden"/>
+                                    <span className="radio--label">Court ~500 mots</span>
+                                </label>
+                                <label htmlFor="1000" className="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" id="1000" value="1000" checked={field.value === "1000"} onChange={field.onChange} className="radio--hidden"/>
+                                    <span className="radio--label">Moyen ~1000 mots</span>
+                                </label>
+                                <label htmlFor="1500" className="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" id="1500" value="1500" checked={field.value === "1500"} onChange={field.onChange} className="radio--hidden"/>
+                                    <span className="radio--label">Long ~1500 mots</span>
+                                </label>
+                                <label htmlFor="LinkedIn" className="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" id="LinkedIn" value="LinkedIn" checked={field.value === "LinkedIn"} onChange={field.onChange} className="radio--hidden"/>
+                                    <span className="radio--label">LinkedIn</span>
+                                </label>
+                            </div>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}/>
+                <FormField
+                control={form.control}
+                name="output_style"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="in--label">Ton d'écriture</FormLabel>
+                        <FormControl>
+                            <div className="flex items-center">
+                                <label htmlFor="formel" className="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" id="formel" value="formel" checked={field.value === "formel"} onChange={field.onChange} className="radio--hidden"/>
+                                    <span className="radio--label">Formel</span>
+                                </label>
+                                <label htmlFor="decontract" className="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" id="decontract" value="decontract" checked={field.value === "decontract"} onChange={field.onChange} className="radio--hidden"/>
+                                    <span className="radio--label">Décontracté</span>
+                                </label>
+                                <label htmlFor="amical" className="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" id="amical" value="amical" checked={field.value === "amical"} onChange={field.onChange} className="radio--hidden"/>
+                                    <span className="radio--label">Amical</span>
+                                </label>
+                            </div>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}/>
+                <div className='button--main--container'>
+                    {(form.formState.isDirty && !showPreviewButton) &&(
+                        <Button type="submit" className='primaryButton'>Générer</Button>
+                    )}
+                    {showPreviewButton && (
+                        <Button type='button' onClick={resetForm}>Nouvel article</Button>
+                    )}
+                    {showPreviewButton && (
+                        <Button type="button" className='secondaryButton' onClick={() => setShowPreview(true)}>Afficher le résultat</Button>
+                    )}
+                </div>
+            </form>
+        </Form>
+    )}
     {showPreview && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center px-4">
+        <div className="">
             <div className="textPreviewer">
                 <button type="button" className="absolute top-4 right-4 text-gray-600 hover:text-black" onClick={() => setShowPreview(false)}><X size={24} /></button>
                 <div dangerouslySetInnerHTML={{ __html: previewContent }} />
             </div>
             <div className='preview--button--container'>
-                <button type="button" className='secondaryButton' onClick={downloadContent}>Télécharger (html)</button>
-                <button type="button" className='secondaryButton'onClick={copyContent}>Copier</button>
+                <button type="button" className='primaryButton' onClick={downloadContent}>
+                    Télécharger
+                     <Image width={16} height={12} src={"/download-icon.png"} alt='télécharger'/>
+                </button>
+                <button type="button" className='primaryButton'onClick={copyContent}>
+                    Copier
+                    <Image width={16} height={16} src={"/copy-icon.png"} alt='copier'/>
+                    </button>
             </div>
         </div>
     )}

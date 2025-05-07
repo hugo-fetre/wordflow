@@ -181,6 +181,9 @@ sub{
   margin-bottom: 5px;
 }
 /*============================ Variables */
+.w100{
+  width: 100%;
+}
 .t40px{
   margin-top: 40px;
 }
@@ -354,6 +357,16 @@ sub{
   margin-left: 20px;
 }
 
+.nav--small{
+  width: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.15);
+  padding: 5px 25px;
+  border-radius: 15px;
+}
 /*============================ Buttons */
 .primaryButton{
   background: #121212;
@@ -362,8 +375,11 @@ sub{
   font-size: 10pt;
   font-weight: 300;
   padding: 10px;
-  text-align: center;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 .secondaryButton{
   background: #fff;
@@ -373,6 +389,15 @@ sub{
   padding: 10px;
   text-align: center;
   cursor: pointer;
+}
+.outlineWhite{
+  color: #fff;
+  font-size: 10pt;
+  font-weight: 300;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 7px;
+  border: solid 1px #fff;
 }
 .smallPrimaryButton{
   background: #a6a6a6;
@@ -529,35 +554,22 @@ sub{
 }
 
 /*============================ Text previewer */
-.textPreviewer{
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 75vh;
-  width: 100vw;
-  padding: 10vh 15% 10vh 30%;
-  overflow-y: scroll;
-  color: #fff;
-  background: #222;
-  z-index: 5;
-}
+
 .textPreviewer p {
   margin-bottom: 10px;
+  font-size: 11pt;
 }
 .textPreviewer h1{
   font-size: 24pt;
-  margin: 10px 0;
+  margin: 20px 0 10px 0;
 }
 .textPreviewer h2{
   font-size: 16pt;
-  margin: 10px 0;
+  margin: 20px 0 10px 0;
 }
 .textPreviewer h3{
   font-size: 14pt;
-}
-.textPreviewer p{
-  font-size: 11pt;
-  color: #ccc;
+  margin: 20px 0 5px 0;
 }
 .textPreviewer section{
   margin: 50px 0;
@@ -571,11 +583,97 @@ sub{
   font-size: 11pt;
 }
 .preview--button--container{
-  position: absolute;
+  position: fixed;
   top: 25vh;
   left: 7%;
+  width: 8.5%;
   z-index: 6;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+/*================================ Landing */
+.landingPage{
+  background: #191919;
+  min-height: 100vh;
+  color: #fff;
+}
+.landingPage h1{
+  font-size: 50pt;
+  font-weight: 500;
+  padding: 0 15%;
+  text-align: center;
+  line-height: 1;
+}
+.landingPage h2{
+  font-size: 35pt;
+  font-weight: 500;
+  padding: 0 15%;
+  margin: 10vh 0 0 0;
+  text-align: center;
+  line-height: 1;
+}
+.landingPage h3{
+  font-size: 15pt;
+  font-weight: 500;
+  padding: 0 15%;
+  margin: 5vh 0 2.5vh 0;
+  text-align: center;
+  line-height: 1;
+}
+.landingPage .mainSub{
+  font-size: 14pt;
+  font-weight: 200;
+  padding: 0 20%;
+  margin: 5vh 0 7.5vh 0;
+  text-align: center;
+  line-height: 1.5;
+  color: #a6a6a6;
+}
+#landing--bloc1{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 15vh;
+}
+#landing--bloc2{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f0f0f0;
+  color: #545454;
+}
+.presentationContainer{
+  width: 70%;
+  margin-top: 20vh;
+  padding-bottom: 10vh;
+  background-image: linear-gradient(to bottom right, transparent 60%, rgba(190,203,255,0.2));
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#features--table{
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  border-top: solid 1px #a6a6a6;
+  padding-top: 5vh;
+  margin-top: 7.5vh;
+}
+#features--table div{
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#features--table li{
+  font-size: 10pt;
+  /*padding: 10px 25px;
+  width: fit-content;
+  background: #e7e7e7;
+  color: #191919;
+  border-radius: 20px;*/
+  margin-bottom: 5px;
 }
