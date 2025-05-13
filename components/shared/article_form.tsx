@@ -48,7 +48,7 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
 
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("AI Call - gen article. Values check "+values);
+        //console.log("AI Call - gen article. Values check "+values);
         if(values && currentWorkspace){
             const prompt = {
                 title: values.title,
