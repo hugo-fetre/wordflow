@@ -390,6 +390,24 @@ sub{
   text-align: center;
   cursor: pointer;
 }
+.blueButton{
+  background: #3462eb;
+  color: #fff;
+  border-radius: 7px;
+  font-size: 10pt;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+.unselectedButton{
+  background: #121212;
+  color: #545454;
+  border-radius: 7px;
+  font-size: 10pt;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
 .outlineWhite{
   color: #fff;
   font-size: 10pt;
@@ -453,10 +471,18 @@ sub{
   z-index: -1;
   overflow-y: scroll;
 }
-
 .content--wrapper{
   display: flex;
   flex-direction: column;
+}
+
+/*============================ General page */
+.general--page h1{
+  font-size: 50pt;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 7.5vh;
 }
 
 /*============================ Keywords page */
@@ -715,3 +741,102 @@ sub{
   border-radius: 20px;*/
   margin-bottom: 5px;
 }
+/*================================ SEO Checkup */
+.seo-analyzer-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10vh;
+}
+.seo-analyzer{
+  color: #fff;
+  width: 60%;
+}
+.text--editor, .text--editor--keywords{
+  background: #191919;
+  text-align: left;
+  border-radius: 7px;
+}
+.text--editor{
+  border: none;
+  outline: none;
+}
+.text--editor--keywords{
+  margin-top: 10px;
+  padding: 10px 15px 10px 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.text--editor div{
+  outline: none;
+  border: none;
+  padding: 10px 15px;
+}
+.text--editor p {
+  margin-bottom: 10px;
+  font-size: 10pt;
+  color: #aba9bc;
+}
+.text--editor h1{
+  font-size: 24pt;
+  margin: 20px 0 10px 0;
+  text-align: left;
+  color:#e4e4e4;
+}
+.text--editor h2{
+  font-size: 16pt;
+  margin: 20px 0 10px 0;
+  color:#e4e4e4;
+}
+.text--editor h3{
+  font-size: 14pt;
+  margin: 20px 0 5px 0;
+  color:#e4e4e4;
+}
+.text--editor ul, .text--editor ol{
+  padding-left: 35px;
+  font-size: 10pt;
+}
+.text--editor ul li{
+  list-style: disc;
+}
+.text--editor ol li{
+  list-style: decimal;
+}
+.text--editor li p{
+  font-size: 10pt;
+  margin-bottom: 2px;
+}
+.text--editor a{
+  text-decoration: underline;
+  color: #9d9cd2;
+}
+.text--editor .link--button:hover{
+  background: #9d9cd2;
+}
+.seo--analyzer--left--container{
+  position: fixed;
+  left: 2vw;
+  top: 12.5vh;
+}
+.seo--analyzer--result{
+  position: fixed;
+  left: 82.5vw;
+  top: 12.5vh;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.seo--analyzer--result li{
+  background: #212843;
+  font-size: 8pt;
+  margin: 5px 0;
+  padding: 10px;
+  color: #9aafee;
+  border-radius: 5px;
+}
+/*Purpl grey: #aba9bc Purple: #9d9cd2 Dream blue: #becbff */
