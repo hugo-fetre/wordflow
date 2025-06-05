@@ -2,24 +2,32 @@ import SEOAnalyzer from '@/components/shared/seo_analyzer'
 import React from 'react'
 import { SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
+import { auth } from '@clerk/nextjs/server'
+import { getUserById } from '@/lib/actions/user.actions'
+import { getWorkspacesList } from '@/lib/actions/workspace.actions'
+import { IWorkspace } from '@/lib/database/models/workspace.model'
+import SideNav from '@/components/shared/sidenav'
 
-const SeoCheckUpPage = () => {
+const SeoCheckUpPage = async () => {
+
+  const { userId }= await auth();
+  var workspaces: IWorkspace[] = [];
+  var currentWorkspace = undefined;
+  var workspaceId = '';
+  if(userId){
+      const user = await getUserById(userId);
+      workspaces = await getWorkspacesList(user._id);
+      currentWorkspace = workspaces[0];
+      workspaceId = currentWorkspace._id;
+  }
+
   return (
     <div>
-      <header className="flex justify-between items-center p-4 gap-4 h-16">
-        <Image src={"/logo.png"} alt="Logo wordflow" width={200} height={32}></Image>
-        <SignedOut>
-            <div className='flex gap-4'>
-                <SignInButton forceRedirectUrl={'/auth-redirect'}>
-                    <button className='outlineWhite'>Se connecter</button>
-                </SignInButton>
-                <SignUpButton forceRedirectUrl={'/register-process'}>
-                    <button className='outlineWhite'>S'inscrire</button>
-                </SignUpButton>
-            </div>
-        </SignedOut>
-      </header>
         <SEOAnalyzer></SEOAnalyzer>
+        {userId && (
+          <SideNav currentWorkspaceId={workspaceId}/>
+        )}
+        
     </div>    
   )
 }

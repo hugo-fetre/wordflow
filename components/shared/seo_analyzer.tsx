@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import RichTextEditor from "./rich_text";
 import Image from 'next/image'
 import ScoreChart from "./score_chart";
+import { LoadingDots } from "../ui/loadingdots";
+import { analyzeArticleSEO } from "@/lib/actions/local.actions";
+import { analyzeArticle } from "@/lib/actions/ai.actions";
 
 const seoFormSchema = z.object({
   html: z.string().min(10, "Le contenu HTML est requis")
@@ -22,7 +24,10 @@ const SEOAnalyzer = () => {
     const [newKeyword, setNewKeyword] = useState("");
     const [keywords, setKeywords] = useState<string[]>([]);
     const [analysisWarnings, setAnalysisWarnings] = useState<string[]>([]);
+    const [aiWarnings, setAiWarnings] = useState<string[]>([]);
+    const [aiScore, setAiScore] = useState<number>(0);
     const [editorMode, setEditorMode] = useState<"rich" | "code">("rich");
+    const [loading, setLoading] = useState(false);
 
 
   const form = useForm<FormValues>({
@@ -47,158 +52,42 @@ const SEOAnalyzer = () => {
     }
 
     // Handle submit
-    const analyzeHTML = (html: string) => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, "text/html");
+    const analyzeHTML = async (html: string) => {
+        setLoading(true);
+        // Check if user is connected
+        const result = await analyzeArticleSEO(html, keywords, false);
+        const aiResult = await analyzeArticle(html);
+        let aiScore = 0;
+        if(aiResult != undefined){
+            // Étape 1 : nettoyer la string pour enlever ```json et ```
+            const withoutJsonTag = aiResult.replace('```json', '').replace('```', '').trim();
 
-        let score = 0;
-        const warnings: string[] = [];
-
-        // Word count
-        const wordCount = doc.body.textContent?.split(/\s+/).length || 0;
-        if(wordCount < 300){
-            warnings.push("Article trop court");
-        } else if(wordCount < 800){
-            score += 5;
-            warnings.push("Longueur de l'article à améliorer ("+wordCount+"/800)");
-        }
-
-        // Analyze keywords
-        const textContent = doc.body.textContent?.toLowerCase() || "";
-        const keywordOccurrences: Record<string, number> = {};
-        let keyWordStuffed = false;
-        let keyWordNotFound = false;
-        if(keywords.length === 0){
-            warnings.push("Aucun mot-clé repéré");
-        }
-        
-        keywords.forEach((kw) => {
-            const normalizedKeyword = kw.trim().toLowerCase().replace(/\s+/g, "\\s*"); // remplace tous les espaces par \s*
-            const regex = new RegExp(`\\b${normalizedKeyword}\\b`, "g");
-            const matches = textContent.match(regex);
-            keywordOccurrences[kw] = matches ? matches.length : 0;
-            if(keywordOccurrences[kw] === 0){
-                keyWordNotFound = true;
-                warnings.push("Le mot clé "+kw+" n'apparaît pas.");
-            } else if(keywordOccurrences[kw]/wordCount > 0.02){
-                keyWordStuffed = true;
-                warnings.push("Le mot clé "+kw+" apparait trop de fois. Risque d'être repéré comme \"keyword stuffing\".");
-            }
-        });
-        if(keyWordStuffed === false){
-            score += 5;
-        }
-        if(keyWordNotFound === false){
-            score += 5;
-        }
-
-        // H1 count
-        const h1Count = doc.querySelectorAll("h1").length;
-        if (h1Count === 1) {
-            score += 5;
-            const h1 = doc.querySelector("h1")?.textContent || "";
+            // Étape 2 : parser enfin la vraie liste JSON
+            const response = JSON.parse(withoutJsonTag);
             
-            // Normalise le h1
-            const normalizedH1 = h1.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // enlève les accents
-            let keywordInH1 = false;
-            for (const kw of keywords) {
-                const normalizedKeyword = kw
-                    .trim()
-                    .toLowerCase()
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
-                    .replace(/\s+/g, "\\s*"); // tolère les espaces optionnels
-
-                const regex = new RegExp(`\\b${normalizedKeyword}\\b`, "g");
-
-                if (regex.test(normalizedH1)) {
-                    keywordInH1 = true;
-                    break;
-                }
-            }
-
-            if (keywordInH1) {
-                score += 5; // ou ce que tu veux
-            } else {
-                warnings.push("Aucun mot-clé trouvé dans la balise H1.");
-            }
-        } else if (h1Count === 0) {
-            warnings.push("Aucune balise H1 trouvée.");
+            Object.entries(response.rating).forEach(([key, value]) => {
+                aiScore += value as number;
+            });
+            setAiScore(aiScore);
+            setAiWarnings(response.warnings);
         } else {
-            warnings.push("Plusieurs balises H1 détectées.");
+            // Remplacer par erreur Toaster/sonner
+            console.log("Erreur de génération");
         }
 
-        // H2 compare - error check
-        const h2Count = doc.querySelectorAll("h2").length;
-        if(h2Count > 0 && h1Count === 0){
-            warnings.push("Erreur de structure: Balise(s) H2 détectée(s) sans balise H1.");
-        }
-
-        // H3 compare - error check
-        const h3Count = doc.querySelectorAll("h3").length;
-        if(h3Count > 0 && h2Count === 0){
-            warnings.push("Erreur de structure: Balise(s) H3 détectée(s) sans balise H2.");
-        }
-
-        // Good title structure: There are several H2 titles under an H1 - may have no h3, it's ok
-        if(h2Count > 0 && h1Count === 1){
-            score += 5;
-        }
-
-        const imgCount = doc.querySelectorAll("img").length;
-
-        // Images with alt - doesn't affect score but show warning
-        const images = doc.querySelectorAll("img");
-        const imagesWithAlt = [...images].filter(img => img.hasAttribute("alt")).length;
-        if (imagesWithAlt === images.length && images.length >= 0) {
-            score += 0;
-        } else {
-            warnings.push("Certaines images n'ont pas de balise ALT.");
-        }
-        
-        // Check if there are internal and external links
-        const links = doc.querySelectorAll("a");
-        const hasInternal = [...links].some(link => link.getAttribute("href")?.startsWith("/"));
-        const hasExternal = [...links].some(link => link.getAttribute("href")?.startsWith("http"));
-        if (hasInternal && hasExternal) {
-            score += 5;
-        } else {
-            if (!hasInternal) warnings.push("Aucun lien interne trouvé.");
-            if (!hasExternal) warnings.push("Aucun lien externe trouvé.");
-        }
-
-        // Check title meta
-        const title = doc.querySelector("title")?.textContent || "";
-        if(title === ""){
-            warnings.push("Pas de balise title trouvée");
-        } else {
-            score += 5;
-        }
-
-        // Check meta description
-        const metaDesc = doc.querySelector("meta[name='description']")?.getAttribute("content") || "";
-        if(metaDesc === ""){
-            warnings.push("Pas de balise meta description");
-        } else {
-            score += 5;
-        }
-
-        setAnalysisWarnings(warnings);
+        setLoading(false);
+        setAnalysisWarnings(result.warnings);
+        const wordCount = result.wordCount;
+        const score = result.score;
         return {
             wordCount,
-            h1Count,
-            h2Count,
-            imgCount,
-            imagesWithAlt,
-            title,
-            metaDesc,
             score
         };
         
     };
 
-  const onSubmit = (values: FormValues) => {
-    const result = analyzeHTML(values.html);
+  const onSubmit = async (values: FormValues) => {
+    const result = await analyzeHTML(values.html);
     setAnalysis(result);
   };
 
@@ -206,6 +95,7 @@ const SEOAnalyzer = () => {
     <div className="seo-analyzer-wrapper general--page">
         <div className="space-y-6 seo-analyzer">
         <h1 className="text-xl font-bold">Analyseur SEO</h1>
+        <h2>Analysez votre Score SEO grâce à l'IA</h2>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <sub>Mot-clés à vérifier</sub>
             <div className="text--editor--keywords">
@@ -244,16 +134,19 @@ const SEOAnalyzer = () => {
                 (<RichTextEditor value={form.watch("html")} onChange={(val) => form.setValue("html", val)}/>) 
                 : (<Textarea value={form.watch("html")} onChange={(e) => form.setValue("html", e.target.value)} className="text--editor" placeholder="Collez ici votre HTML"/>
             )}
-
-            <div className='seo--analyzer--left--container'>
-                <Button type="submit" className="secondaryButton">Analyser</Button>
-            </div>  
+            <Button type="submit" className='secondaryButton button--main--submit' disabled={loading}>{loading ? <LoadingDots color='#000' message='Analyse'/> : "Analyser"}</Button> 
         </form>
 
         {analysis && (
             <div className="seo--analyzer--result">
-                <h3 className="b40px">Votre score SEO</h3>
-                <ScoreChart score={analysis.score}></ScoreChart>
+                <h3 className="b15px">Votre score SEO</h3>
+                {aiScore && (
+                    <div className="flex flex-col items-center justify-center">
+                        <ScoreChart score={(analysis.score+aiScore)/2} size={200}></ScoreChart>
+                        <span className="t80px b15px score--title">Score de structure</span>
+                    </div>
+                )}
+                <ScoreChart score={analysis.score} size={150}></ScoreChart>
                 {analysisWarnings.length > 0 ? 
                     (<ul className="t40px">
                         {analysisWarnings.map((k, i) => (
@@ -264,6 +157,22 @@ const SEOAnalyzer = () => {
                     </ul>) 
                     : ( <div>Aucune erreur</div>)
                 }
+                {aiScore && (
+                    <div className="flex flex-col items-center justify-center t40px">
+                        <span className="b15px score--title">Score de contenu</span>
+                        <ScoreChart score={aiScore} size={150}></ScoreChart>
+                        {aiWarnings.length > 0 ? 
+                            (<ul className="t40px">
+                                {aiWarnings.map((k, i) => (
+                                    <li key={i} className=''>
+                                        {k}
+                                    </li>
+                                ))}
+                            </ul>) 
+                            : ( <div>Aucune erreur</div>)
+                        }
+                    </div>
+                )}
             </div>
         )}
         </div>

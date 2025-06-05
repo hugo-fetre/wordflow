@@ -61,3 +61,18 @@ export async function generateArticle(workspace: IWorkspace, article: articlePro
     //console.log(response.text);
     return response.text;
 }
+
+export async function analyzeArticle(content: string){
+    const prompt = "Analyse le SEO de l'article suivant et attribue une note pour haque critère que je te fournis."
+        +"\nCritères: Pertinence du texte (relevance, 10 points), Ton et lisibilité (readability, 10 points), Optimisation sémantique (optimisation, 10 points), Cohérence globale (consistency, 10 points), Appel à l'action (call, 10 points)."
+        +"\nFormat de réponse: une liste JSON avec une partie \"rating\" qui contient le score pour chaque critère et une partie \"warnings\" qui contient des pistes à améliorer (phrases courtes en français). Seulement un tableau brut, pas de phrases superflues."
+        +"\nExemple de réponse: { \"rating\": {\"relevance\": 7,\"readability\": 5,\"optimisation\": 6,\"consistency\": 8,\"call\": 3},\"warnings\": [\"CTA peu clair\", \"Phrases trop longues\"]}"
+        +"\nConsignes supplémentaires: Pas besoin d'analyser la structuer HTML, ni la densité des mot-clés, ni la présence de liens."
+        +"\nArticle à analyser: "+content;
+    
+    const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: prompt,
+    });
+    return response.text;
+}

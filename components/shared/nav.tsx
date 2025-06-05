@@ -97,7 +97,7 @@ const MainNav = ({ currentWorkspaceId, user }: { currentWorkspaceId: string, use
           </div>
           <SignedIn>
             <div className='nav--user--button'>
-              <button onClick={() => signOut({ redirectUrl: '/presentation' })}>Sign out</button>
+              <button onClick={() => signOut({ redirectUrl: '/' })} className='unselectedButton'>Se déconnecter</button>
             </div>
           </SignedIn>
         </div>

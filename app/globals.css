@@ -184,6 +184,9 @@ sub{
 .w100{
   width: 100%;
 }
+.t80px{
+  margin-top: 80px;
+}
 .t40px{
   margin-top: 40px;
 }
@@ -193,8 +196,14 @@ sub{
 .b40px{
   margin-bottom: 40px;
 }
+.b15px{
+  margin-bottom: 15px;
+}
 .l10px{
   margin-left: 10px;
+}
+.pb10vh{
+  padding-bottom: 10vh;
 }
 .no-shadow{
   box-shadow: none !important;
@@ -317,7 +326,7 @@ sub{
 }
 .nav--user--button{
   position: relative;
-  left: 0%;
+  left: 20%;
 }
 .nav--workspace--selector--wrapper{
   margin: 0 5% 0 5%;
@@ -367,9 +376,45 @@ sub{
   padding: 5px 25px;
   border-radius: 15px;
 }
+
+.side--main{
+  width: 18vw;
+  height: 100vh;
+  padding-left: 35px;
+  padding-top: 7.5vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: transparent;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.sidenav--link--wrapper{
+  display: flex;
+  flex-direction: column;
+}
+.sidenav--links--col{
+  display: flex;
+  flex-direction: column;
+  color: #a6a6a6;
+  font-size: 11pt;
+}
+.sidenav--user--button{
+  margin-top: 20vh;
+}
+.side--main .mainLogo{
+  margin-bottom: 25vh;
+}
+.side--main .nav--link--regular {
+  transition: 0.2s ease;
+}
+.side--main .nav--link--regular:hover {
+  transform: scale(1.05);
+}
 /*============================ Buttons */
 .primaryButton{
-  background: #121212;
+  background: #7b61ff;
   color: #fff;
   border-radius: 7px;
   font-size: 10pt;
@@ -380,6 +425,11 @@ sub{
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  text-align: center;
+}
+.primaryButton:disabled{
+  background: #000000;
+  opacity: 0.6;
 }
 .secondaryButton{
   background: #fff;
@@ -400,7 +450,7 @@ sub{
   cursor: pointer;
 }
 .unselectedButton{
-  background: #121212;
+  background: #1e1e1e;
   color: #545454;
   border-radius: 7px;
   font-size: 10pt;
@@ -416,6 +466,16 @@ sub{
   padding: 10px;
   border-radius: 7px;
   border: solid 1px #fff;
+}
+.outlineBlack{
+  color: #000;
+  background: transparent;
+  font-size: 10pt;
+  font-weight: 300;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 7px;
+  border: solid 1px #000;
 }
 .smallPrimaryButton{
   background: #a6a6a6;
@@ -436,7 +496,7 @@ sub{
 .button--main--container{
   position: absolute;
   top: 7.5vh;
-  right: 5%;
+  right: 2.5%;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -464,7 +524,7 @@ sub{
   position: absolute;
   top: 5vh;
   left: 2.5vw;
-  padding: 7.5vh 15% 0 27.5%;
+  padding: 7.5vh 15% 7.5vh 27.5%;
   background-image: url("../public/bg-sign-in.png");
   background-size: cover;
   border-radius: 15px;
@@ -482,7 +542,14 @@ sub{
   font-weight: 500;
   text-align: center;
   line-height: 1;
-  margin-bottom: 7.5vh;
+}
+.general--page h2{
+  font-size: 16pt;
+  font-weight: 200;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 10vh;
+  color: #545454;
 }
 
 /*============================ Keywords page */
@@ -747,11 +814,11 @@ sub{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 10vh;
+  padding-top: 7.5vh;
 }
 .seo-analyzer{
   color: #fff;
-  width: 60%;
+  width: 55%;
 }
 .text--editor, .text--editor--keywords{
   background: #191919;
@@ -761,6 +828,7 @@ sub{
 .text--editor{
   border: none;
   outline: none;
+  text-align: left;
 }
 .text--editor--keywords{
   margin-top: 10px;
@@ -788,11 +856,13 @@ sub{
 .text--editor h2{
   font-size: 16pt;
   margin: 20px 0 10px 0;
+  text-align: left;
   color:#e4e4e4;
 }
 .text--editor h3{
   font-size: 14pt;
   margin: 20px 0 5px 0;
+  text-align: left;
   color:#e4e4e4;
 }
 .text--editor ul, .text--editor ol{
@@ -819,12 +889,12 @@ sub{
 .seo--analyzer--left--container{
   position: fixed;
   left: 2vw;
-  top: 12.5vh;
+  top: 10vh;
 }
 .seo--analyzer--result{
-  position: fixed;
+  position: absolute;
   left: 82.5vw;
-  top: 12.5vh;
+  top: 25vh;
   max-width: 200px;
   display: flex;
   flex-direction: column;
@@ -838,5 +908,9 @@ sub{
   padding: 10px;
   color: #9aafee;
   border-radius: 5px;
+}
+.score--title{
+  font-size: 10pt;
+  color: #a6a6a6;
 }
 /*Purpl grey: #aba9bc Purple: #9d9cd2 Dream blue: #becbff */

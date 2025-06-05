@@ -1,5 +1,7 @@
-import LogoComponent from '@/components/shared/logo'
-import { SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { Button } from '@/components/ui/button'
+import ConnectButton from '@/components/ui/connectbutton'
+import { LoadingDots } from '@/components/ui/loadingdots'
+import { PricingTable, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
@@ -12,6 +14,7 @@ const Home = async () => {
     if(userId){
         redirect('/auth-redirect');
     }
+    
     /*var workspaces: IWorkspace[] = [];
     var currentWorkspace = undefined;
     if(userId){
@@ -21,6 +24,8 @@ const Home = async () => {
         console.log("Home page: workspaces loaded, try to redirect");
         window.location.replace('/app/'+currentWorkspace._id);
     }*/
+
+    
     
     return (
     <div>

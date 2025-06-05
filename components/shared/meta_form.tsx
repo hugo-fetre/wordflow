@@ -8,6 +8,8 @@ import { FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Image from 'next/image'
+import { LoadingDots } from '../ui/loadingdots';
+import { RotateCcw } from 'lucide-react';
 
 export const imageFormSchema = z.object({
   image: z.any().refine((file) => file instanceof File && file.size > 0, {
@@ -111,7 +113,7 @@ const MetaForm = () => {
                             )}
                         />
                         {form.formState.isDirty && (
-                            <Button type="submit" className='primaryButton button--main--submit' disabled={loading}>{loading ? "Analyse..." : "Générer"}</Button>
+                            <Button type="submit" className='primaryButton button--main--submit' disabled={loading}>{loading ? <LoadingDots color='#fff' message='Analyse'/> : "Générer"}</Button>
                         )}
                     </form>
                 </Form>
@@ -138,7 +140,7 @@ const MetaForm = () => {
                         <sub>Nom suggéré</sub>
                         <p>{meta?.suggestedName || "—"}</p>
                     </div>
-                    <Button type='button' onClick={resetForm} className='button--main--submit'>Nouveau</Button>
+                    <Button type='button' onClick={resetForm} className='button--main--submit'><span>Nouveau</span><RotateCcw /></Button>
                 </div>
             )}
         </div>

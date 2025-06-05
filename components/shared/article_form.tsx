@@ -2,7 +2,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { X } from 'lucide-react';
+import { RotateCcw, X } from 'lucide-react';
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
@@ -13,6 +13,7 @@ import { useWorkspaces } from '@/context/WorkspacesContext';
 import { generateArticle } from '@/lib/actions/ai.actions';
 import { IWorkspace } from '@/lib/database/models/workspace.model';
 import Image from 'next/image';
+import { LoadingDots } from '../ui/loadingdots';
 
 const formSchema = z.object({
   title: z.string().max(150),
@@ -26,6 +27,7 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
     
     const workspaces = useWorkspaces();
     const currentWorkspace = workspaces.find(w => w._id == id);
+    const [loading, setLoading] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
     const [showPreviewButton, setShowPreviewButton] = useState(false);
     const [AiAnswer, setAiAnswer] = useState('');
@@ -49,6 +51,7 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
         //console.log("AI Call - gen article. Values check "+values);
+        setLoading(true);
         if(values && currentWorkspace){
             const prompt = {
                 title: values.title,
@@ -58,6 +61,7 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
             }
             createArticle(currentWorkspace, prompt);
         }
+        
     }
 
     /*const createArticle = async (workspace: IWorkspace, prompt: articlePrompt) => {
@@ -93,10 +97,11 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
         } catch (err) {
             console.error("Erreur de fetch IA :", err);
         }
+        setLoading(false);
     };
 
     function resetForm(){
-        form.reset(initialValues);
+        form.reset();
         setShowPreview(false);
         setShowPreviewButton(false);
         setAiAnswer('');
@@ -212,15 +217,15 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
                         <FormMessage />
                     </FormItem>
                 )}/>
+                {(form.formState.isDirty && !showPreviewButton) &&(
+                    <Button type="submit" className='primaryButton button--main--submit' disabled={loading}>{loading ? <LoadingDots color='#fff' message='Génération'/> : "Générer"}</Button>
+                )}
                 <div className='button--main--container'>
-                    {(form.formState.isDirty && !showPreviewButton) &&(
-                        <Button type="submit" className='primaryButton'>Générer</Button>
+                    {showPreviewButton && (
+                        <Button type='button' onClick={resetForm} className='primaryButton'><span>Nouvel article</span><RotateCcw /></Button>
                     )}
                     {showPreviewButton && (
-                        <Button type='button' onClick={resetForm}>Nouvel article</Button>
-                    )}
-                    {showPreviewButton && (
-                        <Button type="button" className='secondaryButton' onClick={() => setShowPreview(true)}>Afficher le résultat</Button>
+                        <Button type="button" className='outlineBlack' onClick={() => setShowPreview(true)}>Afficher le résultat</Button>
                     )}
                 </div>
             </form>
