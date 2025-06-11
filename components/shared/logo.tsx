@@ -5,7 +5,7 @@ import React from 'react'
 const LogoComponent = () => {
   return (
     <Link href={"/"} className='link--logo'>
-        <Image src={"/logo_black.png"} alt="Logo wordflow" width={200} height={32}></Image>
+        <Image src={"/logo/rich-logo-full-black.png"} alt="Logo wordflow" width={100} height={10}></Image>
     </Link>
   )
 }

@@ -142,16 +142,9 @@ body{
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   font-style: normal;
-  background: #121212;
-}
-
-.auth{
-  background-image: url("../public/bg-sign-in.png");
+  background: #110420;
+  background-repeat: no-repeat;
   background-size: cover;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .button--back{
@@ -161,8 +154,8 @@ body{
   top: 5vh;
   left: 5vw;
   border-radius: 7px;
-  background: #121212;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  color: #bcbcbc;
   font-size: 10pt;
   text-align: center;
 }
@@ -190,6 +183,9 @@ sub{
 .t40px{
   margin-top: 40px;
 }
+.t20px{
+  margin-top: 20px;
+}
 .t10px{
   margin-top: 10px;
 }
@@ -215,6 +211,12 @@ sub{
   border-left: solid 1px #a6a6a6;
   margin: 0 15px;
 }
+.horizontalSeparator{
+  height: 1pt;
+  width: 100%;
+  border-bottom: solid 1px #333333;
+  margin: 30px 0;
+}
 /*============================ Inputs */
 .in--text--big{
   font-size: 24pt;
@@ -232,7 +234,7 @@ sub{
 .in--text--narrative{
   font-size: 9pt;
   font-weight: 400;
-  font-family: "Fira Code", monospace;
+  font-family: "Poppins", sans-serif;
   border: none;
   border-bottom: solid 1px #a6a6a6;
   min-height: 30px;
@@ -284,6 +286,12 @@ sub{
   color: #fff;
   border: none;
 }
+.radio--hidden:checked + .plan--card{
+  border: solid 2px rgb(52, 98, 235);
+}
+.radio--hidden:checked + #plan--pro{
+  box-shadow: rgba(52, 98, 235, 0.5) 0px 13px 27px -5px, rgba(52, 98, 235, 0.3) 0px 8px 16px -8px;
+}
 
 /*============================ Nav */
 .link--logo{
@@ -303,7 +311,7 @@ sub{
   position: fixed;
   bottom: 0;
   left: 0;
-  background: #121212;
+  background: #110420;
   color: #fff;
   display: flex;
   flex-direction: row;
@@ -337,7 +345,7 @@ sub{
 }
 .nav--workspace--selector{
   width: 200px;
-  background: #121212;
+  background: #110420;
   padding: 5px 10px;
   color: #aba9bc;
   cursor: pointer;
@@ -367,14 +375,14 @@ sub{
 }
 
 .nav--small{
-  width: 20%;
+  width: fit-content;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255,255,255,0.15);
   padding: 5px 25px;
   border-radius: 15px;
+  color: #545454;
 }
 
 .side--main{
@@ -414,7 +422,8 @@ sub{
 }
 /*============================ Buttons */
 .primaryButton{
-  background: #7b61ff;
+  font-family: "Poppins", sans-serif;
+  background: #121212;
   color: #fff;
   border-radius: 7px;
   font-size: 10pt;
@@ -432,6 +441,7 @@ sub{
   opacity: 0.6;
 }
 .secondaryButton{
+  font-family: "Poppins", sans-serif;
   background: #fff;
   color: #121212;
   border-radius: 7px;
@@ -459,6 +469,7 @@ sub{
   cursor: pointer;
 }
 .outlineWhite{
+  font-family: "Poppins", sans-serif;
   color: #fff;
   font-size: 10pt;
   font-weight: 300;
@@ -468,6 +479,7 @@ sub{
   border: solid 1px #fff;
 }
 .outlineBlack{
+  font-family: "Poppins", sans-serif;
   color: #000;
   background: transparent;
   font-size: 10pt;
@@ -478,6 +490,7 @@ sub{
   border: solid 1px #000;
 }
 .smallPrimaryButton{
+  font-family: "Poppins", sans-serif;
   background: #a6a6a6;
   color: #fff;
   border-radius: 20px;
@@ -511,11 +524,62 @@ sub{
   text-align: center;
   cursor: pointer;
 }
+.skipButton{
+  color: #545454;
+  background: none;
+  font-size: 10pt;
+  position: absolute;
+  top: 2.5vh;
+  right: 2.5%;
+}
 /*============================ Loaders display */
 .loader--register{
   color: #fff;
   font-size: 14pt;
 }
+
+/*============================ Auth */
+.auth{
+  background: #110420;
+  min-height: 100vh;
+  padding: 0 2.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20;
+}
+.auth--left{
+  width: 50%;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25vh;
+  border-radius: 17px;
+  background-image: linear-gradient(to left top, #110420 30%, #1f1c53);
+  border-top: solid 1px #333333;
+  border-left: solid 1px #333333;
+}
+.auth--left h1{
+  margin-top: 7.5vh;
+  font-size: 26pt;
+  line-height: 1.1;
+  background: linear-gradient(to top right, #9d9cd2 0%, #f3f3f3 87%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  width: 70%;
+
+}
+.auth--right{
+  width: 50%;
+  height: 95vh;
+  border-radius: 17px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+}
+
 
 /*============================ Main display */
 .mainWindow{
@@ -729,6 +793,11 @@ sub{
   min-height: 100vh;
   color: #fff;
 }
+#landing--header{
+  background: transparent;
+  width: 90%;
+  padding-top: 7.5vh;
+}
 .landingPage h1{
   font-size: 50pt;
   font-weight: 500;
@@ -754,59 +823,92 @@ sub{
 }
 .landingPage .mainSub{
   font-size: 14pt;
-  font-weight: 200;
+  font-weight: 300;
   padding: 0 20%;
   margin: 5vh 0 7.5vh 0;
   text-align: center;
   line-height: 1.5;
-  color: #a6a6a6;
+  color: #545454;
 }
 #landing--bloc1{
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 15vh;
+  background-image: url("../public/bg-sign-in.png");
+  background-size: cover;
 }
-#landing--bloc2{
+.mainCTA{
+  background: #7B62FF;
+  padding: 15px;
+  border-radius: 30px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.mainCTA:hover{
+  gap: 20;
+}
+#fonctionnalités{
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f0f0f0;
-  color: #545454;
+  background: #fff;
+  background-image: url("../public/landing_features_chart.png");
+  background-size: cover;
+  color: #191919;
+}
+#fonctionnalités h2{
+  background: #478AE1;
+  background: linear-gradient(to top right, #478AE1 0%, #BB58CF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
 }
 .presentationContainer{
   width: 70%;
-  margin-top: 20vh;
+  margin-top: 17.5vh;
   padding-bottom: 10vh;
-  background-image: linear-gradient(to bottom right, transparent 60%, rgba(190,203,255,0.2));
+ /*background-image: linear-gradient(to bottom right, transparent 60%, rgba(190,203,255,0.2));*/
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #1e1e1e;
 }
 #features--table{
-  width: 50%;
+  width: 70%;
   display: flex;
   flex-direction: row;
-  border-top: solid 1px #a6a6a6;
-  padding-top: 5vh;
-  margin-top: 7.5vh;
-}
-#features--table div{
-  flex: 1 1 auto;
-  display: flex;
+  flex-wrap: wrap;
+  gap: 20;
   justify-content: center;
-  align-items: center;
 }
-#features--table li{
-  font-size: 10pt;
-  /*padding: 10px 25px;
-  width: fit-content;
-  background: #e7e7e7;
-  color: #191919;
-  border-radius: 20px;*/
-  margin-bottom: 5px;
+.featureCard{
+  width: 30%;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  box-shadow: rgba(50, 50, 93, 0.15) 0px 13px 27px -5px, rgba(0, 0, 0, 0.15) 0px 8px 16px -8px;
+  border-bottom: solid 1px #d7d7d7;
+  border-right: solid 1px #d7d7d7;
+  border-radius: 10px;
+}
+.featureCard span{
+  font-weight: 600;
+  font-size: 15pt;
+  line-height: 1.1;
+  color: #545454;
+}
+.featureCard p{
+  font-size: 9pt;
+  line-height: 1.2;
+  margin-top: 5px;
+  color: #545454;
 }
 /*================================ SEO Checkup */
 .seo-analyzer-wrapper{
@@ -914,3 +1016,159 @@ sub{
   color: #a6a6a6;
 }
 /*Purpl grey: #aba9bc Purple: #9d9cd2 Dream blue: #becbff */
+
+/*================================ Choose Plan section */
+.plan--section{
+  /*background-image: linear-gradient(to left top, #fff 30%, #ece8fb);*/
+  background-image: linear-gradient(to left top, #f3f3f3 10%, #fff 30%);
+  padding: 7.5vh 0;
+}
+
+.plan--section h1{
+  color: #191919;
+  text-align: center;
+  font-size: 18pt;
+  font-weight: 500;
+}
+.plan--wrapper{
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  left: 25%;
+  margin-top: 5vh;
+  justify-content: center;
+  gap: 5%;
+}
+.plan--card{
+  padding: 40px;
+  border-radius: 15px;
+  border: solid 1px #d7d7d7;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+.plan--card h2{
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+.plan--card ul li{
+  align-items: center;
+  color: #191919;
+}
+.plan--card ul li span{
+  font-size: 10pt;
+}
+/*_______________________ Plan pro */
+#plan--pro--display{
+  width: 50%;
+}
+#plan--pro{
+  padding: 40px 40px;
+  background-image: linear-gradient(to left top, #110420 30%, #1f1c53);
+  color: #fff;
+}
+#plan--pro h2{
+  font-size: 20pt;
+  background: #FFFFFF;
+  background: linear-gradient(to top right, #bcbcbc 0%, #fcfcfc 87%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}
+#plan--pro ul li{
+  color: #d3d3d3;
+}
+#plan--pro .horizontalSeparator{
+  border-bottom: solid 1px #545454;
+}
+
+/*_______________________ Plan Light */
+#plan--basic{
+  background-image: linear-gradient(to left top, #f3f3f3 10%, #fff 30%);
+  color: #000;
+}
+#plan--basic--display{
+  width: 40%;
+}
+#plan--basic h2{
+  font-size: 20pt;
+  background: linear-gradient(to top right, #242424 0%, #a8a8a8 87%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#plan--basic ul li{
+  color: #545454;
+}
+#plan--basic .horizontalSeparator{
+  border-bottom: solid 1px #d7d7d7;
+}
+
+.plan--label--wrapper{
+  text-align: center;
+}
+.plan--label--pro{
+  font-size: 8pt;
+  padding: 2px 7px;
+  text-align: center;
+  background: #3462eb;
+  color: #ffffff;
+  border-radius: 10px;
+}
+.plan--label--basic{
+  font-size: 8pt;
+  padding: 2px 7px;
+  text-align: center;
+  background: #545454;
+  color: #fff;
+  border-radius: 10px;
+}
+.price--display{
+  text-align: center;
+}
+.price{
+  font-size: 32pt;
+  font-weight: 200;
+  margin-right: 10px;
+}
+.price--info{
+  font-size: 8pt;
+}
+.choose--button{
+  width: 200px;
+  position: relative;
+  left: 27%;
+  margin-top: 5vh;
+  background: #3462eb;
+  color: #fff;
+  cursor: pointer;
+  padding: 15px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 10pt;
+}
+/*================================ Checkout */
+#checkout{
+  background: #fff;
+  padding: 5vh 0;
+  font-family: "Poppins", sans-serif;
+}
+#thanks--page{
+  min-height: 100vh;
+  background: #fff;
+  padding: 10vh 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#thanks--page h1{
+  font-size: 30pt;
+  text-align: center;
+}
+.payment--confirmed--label{
+  color: #7B62FF;
+  margin-bottom: 20px;
+}
+#thanks--page .mainCTA{
+  margin-top: 5vh;
+}

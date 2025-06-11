@@ -14,16 +14,18 @@ const SeoCheckUpPage = async () => {
   var workspaces: IWorkspace[] = [];
   var currentWorkspace = undefined;
   var workspaceId = '';
+  var userConnected = false;
   if(userId){
       const user = await getUserById(userId);
       workspaces = await getWorkspacesList(user._id);
       currentWorkspace = workspaces[0];
       workspaceId = currentWorkspace._id;
+      userConnected = true;
   }
 
   return (
     <div>
-        <SEOAnalyzer></SEOAnalyzer>
+        <SEOAnalyzer userConnected={userConnected}></SEOAnalyzer>
         {userId && (
           <SideNav currentWorkspaceId={workspaceId}/>
         )}

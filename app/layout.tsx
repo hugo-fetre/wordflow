@@ -3,6 +3,7 @@ import { Poppins, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from '@clerk/nextjs'
+import { frFR } from '@clerk/localizations';
 
 const Poppinsfont = Poppins({
   subsets: ["latin"],
@@ -31,7 +32,7 @@ export default function RootLayout({
   return (
       <html lang="fr">
         <body className={cn("Poppinsfont intialiased", Poppinsfont.variable)}>
-        <ClerkProvider appearance={{ variables: { colorPrimary: "#212121"}}}>
+        <ClerkProvider localization={frFR} appearance={{ variables: { colorPrimary: "#212121"}}}>
           {children}
         </ClerkProvider>
         </body>

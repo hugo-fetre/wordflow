@@ -49,6 +49,60 @@ export const navLinks1 = (workspaceId: string | null) => [
       route: "/pricing",
     },
   ];
+
+  export const proFeatures = [
+    "Génération de mots clés",
+    "Suggestion d'articles",
+    "Génération d'articles",
+    "Analyse d'articles SEO",
+    "Génération de méta-données",
+    "De nouvelles fonctionnalités à venir"
+  ];
+
+  export const basicFeatures = [
+    "Génération de mots clés",
+    "Suggestion d'articles",
+    "Génération d'articles",
+    "Analyse d'articles SEO",
+    "",
+    ""
+  ];
+
+  export const presentationFeatures = [
+    {
+      title: "Génération de mots clés",
+      description: "Wordflow identifie pour vous les mots clés les plus pertinents sur lesquels se positionner selon votre niche",
+    },
+    {
+      title: "Génération d'articles SEO",
+      description: "Des textes conçus pour plaire à vos lecteurs comme à Google",
+    },
+    {
+      title: "Analyse d'articles SEO",
+      description: "Lisibilité, structure, densité de mots-clés... améliorez vos articles pour des contenus plus performants",
+    },
+    {
+      title: "Suggestion d'articles",
+      description: "Wordflow identifie pour vous des idées de contenu à explorer pour captiver vos lecteurs et développer votre SEO",
+    },
+    {
+      title: "Analyse des tendances",
+      description: "Détectez les sujets les plus tendances et les axes à fort potentiel grâce à notre IA de veille sémantique",
+    },
+    {
+      title: "Meta-descriptions IA",
+      description: "Une image à intégrer ? Wordflow génère pour vous toutes les balises meta (title, alt, etc.) à ne pas négliger.",
+    },
+    {
+      title: "Réseau Hyperlink",
+      description: "Bénéficiez de backlinks pointant vers votre site grâce au contenu généré par les autres utilisateurs de la communauté Wordflow.",
+    },
+  ];
+
+  export const prices = [{
+    test_pro: "price_1RXk4sPDeyXZlganJhk49AgS",
+    test_light: "price_1RXk5FPDeyXZlganbYsZoVrv"
+  }]
   
   /*export const plans = [
     {

@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button'
 import ConnectButton from '@/components/ui/connectbutton'
 import { LoadingDots } from '@/components/ui/loadingdots'
+import { presentationFeatures } from '@/constants'
 import { PricingTable, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
+import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
@@ -30,47 +32,46 @@ const Home = async () => {
     return (
     <div>
         <section className='landingPage'>
-            <header className="flex justify-between items-center p-4 gap-4 h-16">
-                <Image src={"/logo.png"} alt="Logo wordflow" width={200} height={32}></Image>
-                <SignedOut>
-                    <div className='flex gap-4'>
-                        <SignInButton forceRedirectUrl={'/auth-redirect'}>
-                            <button className='outlineWhite'>Se connecter</button>
-                        </SignInButton>
-                        <SignUpButton forceRedirectUrl={'/register-process'}>
-                            <button className='outlineWhite'>S'inscrire</button>
-                        </SignUpButton>
-                    </div>
-                </SignedOut>
-            </header>
             <div id='landing--bloc1'>
-                <div className='presentationContainer'>
-                    <h1>Vos articles de blog optimisés avec l'IA</h1>
-                    <p className='mainSub'>Meilleurs mot-clés, meilleures idées, meilleurs articles. Générez du contenu SEO de pointe pour vos clients et augmentez votre productivité avec Wordflow.</p>
+                <header className="flex justify-between items-center p-4 gap-4 h-16" id='landing--header'>
+                    <Image src={"/logo_cb.png"} alt="Logo wordflow" width={200} height={32}></Image>
                     <div className='nav--small'>
-                        <span>Découvrir</span>
+                        <span><a href='#fonctionnalités'>Fonctionnalités</a></span>
                         <div className='smallSeparator'></div>
                         <span>Tarifs</span>
+                        <div className='smallSeparator'></div>
+                        <span>Check-up SEO</span>
+                        <div className='smallSeparator'></div>
+                        <span>Parrainage</span>
                     </div>
+                    <SignedOut>
+                        <div className='flex gap-4'>
+                            <SignInButton forceRedirectUrl={'/auth-redirect'}>
+                                <button className='outlineBlack'>Se connecter</button>
+                            </SignInButton>
+                            <SignUpButton forceRedirectUrl={'/register-process'}>
+                                <button className='outlineBlack'>S'inscrire</button>
+                            </SignUpButton>
+                        </div>
+                    </SignedOut>
+                </header>
+                <div className='presentationContainer'>
+                    <h1>Votre contenu SEO, optimisé avec l'IA</h1>
+                    {/*<p className='mainSub'>Meilleurs mot-clés, meilleures idées, meilleurs articles. Générez du contenu SEO de pointe pour vos clients et augmentez votre productivité avec Wordflow.</p>*/}
+                    <p className='mainSub'>Générez des articles SEO de pointe, améliorez vos performances sur Google et augmentez votre productivité avec Wordflow.</p>
+                    <div className='mainCTA'><span>Essayer maintenant</span><ArrowRight size={20} /></div>
                 </div>
             </div>
-            <div id='landing--bloc2'>
-                <h2>De nouveaux articles. Plus performants.<br/> Plus rapidement. Tout simplement.</h2>
+            <div id='fonctionnalités'>
+                <h2>Votre référencement Google,<br/> boosté avec l'IA</h2>
+                <p className='mainSub'>Plus d'articles. Plus performants. Plus rapidement. Tout simplement.</p>
                 <div id='features--table'>
-                    <div>
-                        <ul>
-                            <li>Gestion et génération de mot clés </li>
-                            <li>Suggestion d'articles</li>
-                            <li>Rédaction d'articles optimisés SEO</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul>
-                            <li>Accès aux tendances de votre niche</li>
-                            <li>Génération de méta données d'images</li>
-                            <li>Analyse de score SEO</li>
-                        </ul>
-                    </div>
+                    {presentationFeatures.map((item, idx) => (
+                        <div className='featureCard' key={idx}>
+                            <span>{item.title}</span>
+                            <p>{item.description}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>

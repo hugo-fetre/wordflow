@@ -11,6 +11,7 @@ import ScoreChart from "./score_chart";
 import { LoadingDots } from "../ui/loadingdots";
 import { analyzeArticleSEO } from "@/lib/actions/local.actions";
 import { analyzeArticle } from "@/lib/actions/ai.actions";
+import { auth } from "@clerk/nextjs/server";
 
 const seoFormSchema = z.object({
   html: z.string().min(10, "Le contenu HTML est requis")
@@ -18,7 +19,7 @@ const seoFormSchema = z.object({
 
 type FormValues = z.infer<typeof seoFormSchema>;
 
-const SEOAnalyzer = () => {
+const SEOAnalyzer = ({userConnected} : {userConnected: boolean}) => {
   
     const [analysis, setAnalysis] = useState<any | null>(null);
     const [newKeyword, setNewKeyword] = useState("");
@@ -29,11 +30,10 @@ const SEOAnalyzer = () => {
     const [editorMode, setEditorMode] = useState<"rich" | "code">("rich");
     const [loading, setLoading] = useState(false);
 
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(seoFormSchema),
-    defaultValues: { html: "" }
-  });
+    const form = useForm<FormValues>({
+        resolver: zodResolver(seoFormSchema),
+        defaultValues: { html: "" }
+    });
 
     // Define add keyword function
     const handleAddKeyword = () => {
@@ -56,23 +56,27 @@ const SEOAnalyzer = () => {
         setLoading(true);
         // Check if user is connected
         const result = await analyzeArticleSEO(html, keywords, false);
-        const aiResult = await analyzeArticle(html);
-        let aiScore = 0;
-        if(aiResult != undefined){
-            // Étape 1 : nettoyer la string pour enlever ```json et ```
-            const withoutJsonTag = aiResult.replace('```json', '').replace('```', '').trim();
 
-            // Étape 2 : parser enfin la vraie liste JSON
-            const response = JSON.parse(withoutJsonTag);
-            
-            Object.entries(response.rating).forEach(([key, value]) => {
-                aiScore += value as number;
-            });
-            setAiScore(aiScore);
-            setAiWarnings(response.warnings);
-        } else {
-            // Remplacer par erreur Toaster/sonner
-            console.log("Erreur de génération");
+        // Partie analyse IA - à réserver aux abonnés payants
+        if(userConnected){
+            const aiResult = await analyzeArticle(html);
+            let aiScore = 0;
+            if(aiResult != undefined){
+                // Étape 1 : nettoyer la string pour enlever ```json et ```
+                const withoutJsonTag = aiResult.replace('```json', '').replace('```', '').trim();
+
+                // Étape 2 : parser enfin la vraie liste JSON
+                const response = JSON.parse(withoutJsonTag);
+                
+                Object.entries(response.rating).forEach(([key, value]) => {
+                    aiScore += value as number;
+                });
+                setAiScore(aiScore);
+                setAiWarnings(response.warnings);
+            } else {
+                // Remplacer par erreur Toaster/sonner
+                console.log("Erreur de génération");
+            }
         }
 
         setLoading(false);
@@ -140,7 +144,7 @@ const SEOAnalyzer = () => {
         {analysis && (
             <div className="seo--analyzer--result">
                 <h3 className="b15px">Votre score SEO</h3>
-                {aiScore && (
+                {aiScore > 0 && (
                     <div className="flex flex-col items-center justify-center">
                         <ScoreChart score={(analysis.score+aiScore)/2} size={200}></ScoreChart>
                         <span className="t80px b15px score--title">Score de structure</span>
@@ -157,7 +161,7 @@ const SEOAnalyzer = () => {
                     </ul>) 
                     : ( <div>Aucune erreur</div>)
                 }
-                {aiScore && (
+                {aiScore > 0 && (
                     <div className="flex flex-col items-center justify-center t40px">
                         <span className="b15px score--title">Score de contenu</span>
                         <ScoreChart score={aiScore} size={150}></ScoreChart>
