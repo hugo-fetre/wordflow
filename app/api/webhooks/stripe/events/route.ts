@@ -3,12 +3,12 @@ import { headers } from 'next/headers';
 import Stripe from 'stripe';
 import { updateUserSubscription } from '@/lib/actions/user.actions';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string);
 
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = (await headers()).get('stripe-signature') as string;
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET! as string;
 
   let event: Stripe.Event;
 

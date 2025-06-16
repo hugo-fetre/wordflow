@@ -42,7 +42,7 @@ const NewUserPlanSelection = ({ userId }:{ userId: string }) => {
           planId: plan_id
         }
         const res = updateSelectedPlan(userId, selectedPlan);
-        const url = "/checkout/"+values.plan;
+        const url = "/checkout/"+values.plan+"/"+userId;
         redirect(url);
     }
   

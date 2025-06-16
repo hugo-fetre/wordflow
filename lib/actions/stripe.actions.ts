@@ -6,7 +6,7 @@ import Stripe from 'stripe'
 if(process.env.STRIPE_TEST_SECRET_KEY === undefined){
     throw new Error("No Stripe key in .env")
 }
-let stripeKey = process.env.STRIPE_TEST_SECRET_KEY;
+let stripeKey = process.env.STRIPE_TEST_SECRET_KEY as string;
 let defaultUrl = "http://localhost:3000"
 if(process.env.ENV_MODE !== "DEV" && process.env.STRIPE_SECRET_KEY !== undefined){
     stripeKey = process.env.STRIPE_SECRET_KEY as string;
