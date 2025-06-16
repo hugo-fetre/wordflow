@@ -11,11 +11,11 @@ const RegisterProcesspage = () => {
     useEffect(() => {
         const fetchUser = async () => {
           try {
-            const isUserCreated = await checkUser()
-            if (isUserCreated) {
+            const user = await checkUser()
+            if (user !== false) {
               router.push(`/select-plan`);
             } else {
-              setTimeout(fetchUser, 1000)
+              setTimeout(fetchUser, 2000)
             }
           } catch (err) {
             console.error("Erreur récupération user", err)

@@ -44,7 +44,7 @@ export async function checkUser() {
     if (!user){
       return false;
     }
-    return true;
+    return user;
 }
 
 // UPDATE
