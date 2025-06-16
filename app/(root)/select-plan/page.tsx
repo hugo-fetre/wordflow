@@ -8,6 +8,7 @@ import NewUserPlanSelection from '@/components/shared/new_user_plan_selection'
 const CreditsPage = async () => {
 
   const { userId }= await auth();
+  console.log(userId);
 
   let user_id = "";
   if(!userId){
