@@ -4,11 +4,22 @@
 declare type CreateUserParams = {
     clerkId: string;
     email: string;
+    isActive: boolean;
   };
   
   declare type UpdateUserParams = {
     email: string;
   };
+
+  declare type updateUserSubscriptionParams = {
+    stripeCustomerId: string;   // L'ID stripe de l'abonné
+    stripeSessionId: string;    // L'ID stripe de l'abonnement (au cas où)
+    isActive: boolean;
+  };
+
+  declare type updateUserSelectedPlanParams = {
+    planId: number;
+  }
   
   // ====== Workspace PARAMS
   declare type AddWorkspaceParams = {

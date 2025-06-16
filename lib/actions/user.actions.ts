@@ -64,6 +64,38 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
   }
 }
 
+export async function updateSelectedPlan(userId: string, updateUserData: updateUserSelectedPlanParams){
+  try {
+    await connectToDatabase();
+
+    const updatedUser = await User.findOneAndUpdate({ _id: userId }, updateUserData, {
+      new: true,
+    });
+
+    if (!updatedUser) throw new Error("User update failed");
+    
+    return JSON.parse(JSON.stringify(updatedUser));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function updateUserSubscription(userId: string, updateUserData: updateUserSubscriptionParams){
+  try {
+    await connectToDatabase();
+
+    const updatedUser = await User.findOneAndUpdate({ _id: userId }, updateUserData, {
+      new: true,
+    });
+
+    if (!updatedUser) throw new Error("User update failed");
+    
+    return JSON.parse(JSON.stringify(updatedUser));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 // DELETE
 export async function deleteUser(clerkId: string) {
   try {
