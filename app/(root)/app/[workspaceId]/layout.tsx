@@ -5,6 +5,7 @@ import { getUserById } from '@/lib/actions/user.actions'
 import { getWorkspacesList } from '@/lib/actions/workspace.actions'
 import { IWorkspace } from '@/lib/database/models/workspace.model'
 import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 import { ReactNode } from 'react'
 
 const Layout = async ({ children, params }: { children: ReactNode, params: Promise<{ workspaceId: string }> }) => {
@@ -17,6 +18,9 @@ const Layout = async ({ children, params }: { children: ReactNode, params: Promi
 
     // Récupération des workspaces
     const user = await getUserById(userId)
+    if(user.isActive === false){
+        redirect('/select-plan');
+    }
     const workspacesList = await getWorkspacesList(user._id)
     const workspaceId = (await params).workspaceId;
 

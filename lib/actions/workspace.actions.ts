@@ -71,3 +71,26 @@ export async function deleteWorkspaces(clerkId: string) {
     handleError(error);
   }
 }
+// DELETE ONE WORKSPACE
+export async function deleteWorkspaceById(workspaceId: string) {
+  try {
+    await connectToDatabase();
+    
+    const deleted = await Workspace.findByIdAndDelete(workspaceId);
+
+    if (!deleted) {
+      return {
+        success: false,
+        message: "Workspace not found"
+      };
+    }
+
+    return {
+      success: true,
+      message: "Workspace deleted successfully"
+    };
+
+  } catch (error) {
+    handleError(error);
+  }
+}

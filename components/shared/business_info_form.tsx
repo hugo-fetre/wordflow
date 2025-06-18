@@ -17,8 +17,9 @@ import { Input } from "@/components/ui/input"
 import { defaultValues } from '@/constants'
 import { useWorkspaces } from '@/context/WorkspacesContext'
 import { Textarea } from '../ui/textarea'
-import { updateWorkspace } from '@/lib/actions/workspace.actions'
+import { createWorkspace, deleteWorkspaceById, updateWorkspace } from '@/lib/actions/workspace.actions'
 import { useRouter } from "next/navigation"
+import { Trash2 } from 'lucide-react'
 
 const formSchema = z.object({
   title: z.string().max(50),
@@ -27,7 +28,7 @@ const formSchema = z.object({
 })
 
 
-const BusinessInfoForm = ({ id }: { id: string }) => {
+const BusinessInfoForm = ({ id, userId }: { id: string, userId: string }) => {
 
     const router = useRouter()
     const workspaces = useWorkspaces();
@@ -38,6 +39,33 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
         description: currentWorkspace.description,
         website: currentWorkspace.website ?? "",
     } : defaultValues
+
+    async function deleteWorkspace(){
+      const workspace = {
+        manager: userId
+      }
+      const deleted = await deleteWorkspaceById(id);
+      
+      // Cas erreur de suppression
+      if (!deleted || !deleted.success) {
+        console.error("Erreur lors de la suppression du workspace");
+        return;
+      }
+
+      // Supprimer le workspace actuel dans la liste
+      const remainingWorkspaces = workspaces.filter((w) => w._id !== id);
+
+      // S'il ne reste plus de workspaces, en créer un nouveau
+      if(remainingWorkspaces.length === 0){
+        const newWorkspace = await createWorkspace(workspace);
+        window.location.replace('/app/'+newWorkspace._id);
+        return;
+      }
+
+      // Sinon, rediriger vers le "prochain" workspace (ex: le premier dans la liste restante)
+      const nextWorkspace = remainingWorkspaces[0];
+      window.location.replace("/app/" + nextWorkspace._id); 
+    }
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
@@ -110,6 +138,7 @@ const BusinessInfoForm = ({ id }: { id: string }) => {
                 {form.formState.isDirty && (
                   <Button type="submit" className='button--main--submit primaryButton'>Enregistrer</Button>
                 )}
+                <Button type='button' onClick={deleteWorkspace} className='deleteWorkspaceButton'><span>Supprimer ce workspace</span><Trash2 className="w-5 h-5" /></Button>
             </form>
         </Form>
     )

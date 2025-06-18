@@ -1,10 +1,9 @@
 "use server"
-import React, { useEffect } from 'react'
+import React from 'react'
 import { redirect } from 'next/navigation'
 import { auth } from '@clerk/nextjs/server'
-import User from '@/lib/database/models/user.model'
 import NewUserPlanSelection from '@/components/shared/new_user_plan_selection'
-import { checkUser, getUserById } from '@/lib/actions/user.actions'
+import { getUserById } from '@/lib/actions/user.actions'
 
 const CreditsPage = async () => {
 
