@@ -36,18 +36,20 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId }:{ userId: string
         };
         await updateSelectedPlan(userId, selectedPlan);
 
-        // Redirect sur page "plan mis à jour avec succès"
+        redirect('/plan-updated');
         
     };
 
-    const handleCancelSubscription = async () => {
-        
-        cancelStripeSubscription(stripeSubsriptionId); // Dit simplement à stripe d'annuler la session d'abonnement stripeSessionId
+    const handleCancelSubscription = async (selected: 'pro' | 'light') => {
+        setLoading(selected);
+        await cancelStripeSubscription(stripeSubsriptionId); // Dit simplement à stripe d'annuler la session d'abonnement stripeSessionId
 
         // maj le user avec hook stripe -> oui car on màj en base seulement une fois qu'on sait que le client ne sera plus facturé
         // ou appeler user.actions ici -> non car si le user ou admin annule autrement qu'ici, le user peut continuer à utiliser sans payer
 
         // Ensuite rediriger vers page abonnement désactivé avec succès
+
+        redirect('/plan-canceled');
     };
   
     return (
@@ -80,7 +82,7 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId }:{ userId: string
                     </div>
                     <div className='flex justify-center t20px'>
                         <Button
-                            onClick={() => planId === 2 ? handleCancelSubscription() : handleSelectPlan('pro')}
+                            onClick={() => planId === 2 ? handleCancelSubscription('pro') : handleSelectPlan('pro')}
                             disabled={loading === 'pro'}
                             className={planId === 2 ? 'glassButton' : 'blueButton'}
                         >
@@ -115,7 +117,7 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId }:{ userId: string
                     </div>
                     <div className='flex justify-center t20px'>
                         <Button
-                            onClick={() => planId === 1 ? handleCancelSubscription() : handleSelectPlan('light')}
+                            onClick={() => planId === 1 ? handleCancelSubscription('light') : handleSelectPlan('light')}
                             disabled={loading === 'light'}
                             className={planId === 1 ? 'glassButton' : 'blueButton' }
                         >
