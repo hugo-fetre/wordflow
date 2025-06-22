@@ -17,9 +17,9 @@ const page = async ({params}: { params: Promise<{ plan_type: string, user_id: st
     redirect('/auth-redirect');
   }
 
-  let priceId = prices[0].test_pro;
+  let priceId = prices[0].pro;
   if(plan_type == "light"){
-    priceId = prices[0].test_light;
+    priceId = prices[0].light;
   }
   return (
     <div>

@@ -15,16 +15,19 @@ const AuthRedirectPage = async () => {
         const user = await getUserById(userId);
         workspaces = await getWorkspacesList(user._id);
         currentWorkspace = workspaces[0]; //workspaces.find(w => w.publicId === params.workspaceId);
-        if(currentWorkspace){
-            redirect_url = '/app/'+currentWorkspace._id;
+        if(user.isActive === false){
+            redirect_url = '/select-plan';
         } else {
-            const workspace = {
-                manager: user._id
+            if(currentWorkspace){
+                redirect_url = '/app/'+currentWorkspace._id;
+            } else {
+                const workspace = {
+                    manager: user._id
+                }
+                const newWorkspace = await createWorkspace(workspace);
+                redirect_url = '/app/'+newWorkspace._id;
             }
-            const newWorkspace = await createWorkspace(workspace);
-            redirect_url = '/app/'+newWorkspace._id;
-        }
-        
+        }        
     }
 
     return (

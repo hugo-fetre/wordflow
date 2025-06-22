@@ -11,11 +11,16 @@ declare type CreateUserParams = {
     email: string;
   };
 
-  declare type updateUserSubscriptionParams = {
+  declare type  updateUserSubscriptionParams = {
     stripeCustomerId: string;   // L'ID stripe de l'abonné
-    stripeSessionId: string;    // L'ID stripe de l'abonnement (au cas où)
+    stripeSubsriptionId: string;
     isActive: boolean;
   };
+
+  declare type cancelUserSubscriptionParams = {
+    isActive: boolean;
+    planId: number;
+  }
 
   declare type updateUserSelectedPlanParams = {
     planId: number;

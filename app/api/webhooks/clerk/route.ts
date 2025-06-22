@@ -106,6 +106,8 @@ export async function POST(req: Request) {
     const deletedWorkspaces = await deleteWorkspaces(id!);
     const deletedUser = await deleteUser(id!);
 
+    // TODO: Supprimer abonnement stripe
+
     return NextResponse.json({ message: "OK", workspace: deletedWorkspaces?.success});
   }
 

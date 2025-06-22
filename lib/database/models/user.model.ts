@@ -6,7 +6,7 @@ export interface IUser extends Document{
     planId: number;             // L'ID du plan d'abonnement de l'utilisateur
     isActive: boolean;
     stripeCustomerId: string;   // L'ID stripe de l'abonné
-    stripeSessionId: string;    // L'ID stripe de l'abonnement (au cas où)
+    stripeSubsriptionId: string; // L'ID stripe de l'abonnement pour switch d'abonnement (produit)
     creditBalance: number;      // Le solde de crédits de l'utilisateur
     creationDate: Date;         // La date de création du compte de l'utilisateur
 }  
@@ -17,7 +17,7 @@ const UserSchema = new Schema({
     planId: { type: Number, default: 0 },
     isActive: {type: Boolean, default: false},
     stripeCustomerId: {type: String, default: ""},
-    stripeSessionId: {type: String, default: ""},
+    stripeSubsriptionId: {type: String, default: ""},
     creditBalance: { type: Number, default: 10 },
     creationDate: { type: Date, default: Date.now },
 })

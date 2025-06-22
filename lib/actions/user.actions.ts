@@ -35,6 +35,20 @@ export async function getUserById(userId: string) {
   }
 }
 
+export async function findUserByStripeCustomerId(stripeCustomerId: string){
+  try {
+    await connectToDatabase();
+
+    const user = await User.findOne({ stripeCustomerId: stripeCustomerId });
+
+    if (!user) throw new Error("User not found");
+
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 // CHECK USER CREATION
 export async function checkUser() {
     const { userId }= await auth();
@@ -89,6 +103,22 @@ export async function updateUserSubscription(userId: string, updateUserData: upd
     });
 
     if (!updatedUser) throw new Error("User update failed");
+    
+    return JSON.parse(JSON.stringify(updatedUser));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function cancelSubscription(userId: string, cancelData: cancelUserSubscriptionParams){
+  try {
+    await connectToDatabase();
+
+    const updatedUser = await User.findOneAndUpdate({ _id: userId }, cancelData, {
+      new: true,
+    });
+
+    if (!updatedUser) throw new Error("Cancel subscription failed");
     
     return JSON.parse(JSON.stringify(updatedUser));
   } catch (error) {

@@ -11,10 +11,10 @@ if(process.env.NEXT_PUBLIC_STRIPE_TEST_KEY === undefined){
     throw new Error("No Stripe key in .env")
 }
 let stripeKey = process.env.NEXT_PUBLIC_STRIPE_TEST_KEY;
-let defaultUrl = "http://localhost:3000"
+//let defaultUrl = "http://localhost:3000"
 if(process.env.ENV_MODE !== "DEV" && process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY !== undefined){
     stripeKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string;
-    defaultUrl = "https://www.wordflowseo.ai"
+    //defaultUrl = "https://www.wordflowseo.ai"
 }
 
 const stripePromise = loadStripe(stripeKey);
@@ -22,7 +22,6 @@ const stripePromise = loadStripe(stripeKey);
 const Checkout = ({priceId, userId} : {priceId: string, userId: string}) => {
     
     const [clientSecret, setClientSecret] = useState<string | null>(null);
-    console.log(userId);
     useEffect(() => {
         fetchClientSecret(priceId, userId).then((secret) => {
         setClientSecret(secret);

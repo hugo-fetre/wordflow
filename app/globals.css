@@ -546,6 +546,20 @@ sub{
   background: #f9b4b4;
   color: #a43838;
 }
+.glassButton{
+  padding: 10px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.5);
+  color: #bcbcbc;
+  font-size: 10pt;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.glassButton:hover{
+  background: #f9b4b4;
+  color: #a43838;
+}
 /*============================ Loaders display */
 .loader--register{
   color: #fff;

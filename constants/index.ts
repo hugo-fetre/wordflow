@@ -35,7 +35,7 @@ export const navLinks1 = (workspaceId: string | null) => [
     },
     {
       label: "Change plan",
-      route: "/credits",
+      route: "/change-plan",
     },
   ];
 
@@ -99,9 +99,10 @@ export const navLinks1 = (workspaceId: string | null) => [
     },
   ];
 
+  // !!!! Warning : currently test prices
   export const prices = [{
-    test_pro: "price_1RXk4sPDeyXZlganJhk49AgS",
-    test_light: "price_1RXk5FPDeyXZlganbYsZoVrv"
+    pro: "price_1RXk4sPDeyXZlganJhk49AgS",
+    light: "price_1RXk5FPDeyXZlganbYsZoVrv"
   }]
   
   /*export const plans = [

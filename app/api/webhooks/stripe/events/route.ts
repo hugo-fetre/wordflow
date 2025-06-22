@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
-import { updateUserSubscription } from '@/lib/actions/user.actions';
+import { cancelSubscription, findUserByStripeCustomerId, updateUserSubscription } from '@/lib/actions/user.actions';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string);
 
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
       const updatedUserData: updateUserSubscriptionParams = {
         stripeCustomerId: customerId,
-        stripeSessionId: subscriptionId,
+        stripeSubsriptionId: subscriptionId,
         isActive: true,
       }
 
@@ -46,6 +46,23 @@ export async function POST(req: Request) {
       console.warn('⚠️ Paiement échoué pour customer :', customerId);
 
       // Optionnel : gère l'échec (notifie, désactive l’accès, etc.)
+      break;
+    }
+
+    // voir si c'est utile ici ou utiliser en local
+    case 'customer.subscription.deleted' : {
+      const subscription = event.data.object as Stripe.Subscription;
+      const customerId = subscription.customer as string;
+
+      const user = await findUserByStripeCustomerId(customerId);
+
+      if (user) {
+        const cancelData: cancelUserSubscriptionParams = {
+          isActive: false,
+          planId: 0
+        }
+        await cancelSubscription(user._id, cancelData);
+      }
       break;
     }
 
