@@ -32,6 +32,12 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId, isCancelPlanned }
         };
         await updateSelectedPlan(userId, selectedPlan);
 
+        // On Màj la base pour dire que le plan n'est plus en phase d'être annulé
+        const cancelUserSub: cancelUserSubscriptionParams = {
+            isCancelPlanned: false
+        };
+        await cancelUserSubscription(userId, cancelUserSub);
+
         redirect('/plan-updated');
         
     };

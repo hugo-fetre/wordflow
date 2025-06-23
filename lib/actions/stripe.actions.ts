@@ -73,3 +73,8 @@ export async function updateStripeSubscription(subscriptionId: string, newPriceI
 
   return updatedSubsrciption;
 }
+
+export async function deleteStripeCustomer(customerId: string) {
+  const deleted = await stripe.customers.del(customerId)
+  return deleted // retourne { id, deleted: true }
+}

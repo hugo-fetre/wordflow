@@ -7,7 +7,7 @@ import { Webhook } from "svix";
 
 import { createUser, deleteUser, getUserById, updateUser } from "@/lib/actions/user.actions";
 import { createWorkspace, deleteWorkspaces } from "@/lib/actions/workspace.actions";
-import { cancelStripeSubscription } from "@/lib/actions/stripe.actions";
+import { cancelStripeSubscription, deleteStripeCustomer } from "@/lib/actions/stripe.actions";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -106,7 +106,10 @@ export async function POST(req: Request) {
     const { id } = evt.data;
 
     const user = await getUserById(id!);
+    // Supprimer l'abonnement
     await cancelStripeSubscription(user.stripeSubsriptionId);
+    // Supprime le client
+    await deleteStripeCustomer(user.stripeCustomerId);
 
     const deletedWorkspaces = await deleteWorkspaces(id!);
     const deletedUser = await deleteUser(id!);
