@@ -126,6 +126,23 @@ export async function cancelUserSubscription(userId: string, cancelData: cancelU
   }
 }
 
+export async function blockUserAccess(userId: string, cancelData: cancelUserSubscriptionParams){
+  try {
+    await connectToDatabase();
+
+    const updatedUser = await User.findOneAndUpdate({ _id: userId }, cancelData, {
+      new: true,
+    });
+
+    if (!updatedUser) throw new Error("Cancel subscription failed");
+    
+    return JSON.parse(JSON.stringify(updatedUser));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+
 // DELETE
 export async function deleteUser(clerkId: string) {
   try {

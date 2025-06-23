@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
-import { cancelSubscription, findUserByStripeCustomerId, updateUserSubscription } from '@/lib/actions/user.actions';
+import { blockUserAccess, findUserByStripeCustomerId, updateUserSubscription } from '@/lib/actions/user.actions';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string);
 
@@ -57,11 +57,12 @@ export async function POST(req: Request) {
       const user = await findUserByStripeCustomerId(customerId);
 
       if (user) {
-        const cancelData: cancelUserSubscriptionParams = {
+        const cancelData: blockUserAccessParams = {
           isActive: false,
-          planId: 0
+          planId: 0,
+          isCancelPlanned: false,
         }
-        await cancelSubscription(user._id, cancelData);
+        await blockUserAccess(user._id, cancelData);
       }
       break;
     }
