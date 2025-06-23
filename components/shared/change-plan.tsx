@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { redirect } from 'next/navigation'
 import { cancelUserSubscription, updateSelectedPlan } from '@/lib/actions/user.actions'
 import { LoadingDots } from '../ui/loadingdots'
-import { cancelStripeSubscription, reactivateStripeSubscription, updateStripeSubscription } from '@/lib/actions/stripe.actions'
+import { updateStripeSubscription } from '@/lib/actions/stripe.actions'
 
 
 const ChangePlanForm = ({ userId, planId, stripeSubsriptionId, isCancelPlanned }:{ userId: string, planId: number, stripeSubsriptionId: string, isCancelPlanned: boolean }) => {
