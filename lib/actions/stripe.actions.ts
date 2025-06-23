@@ -50,6 +50,14 @@ export async function cancelStripeSubscription(subscriptionId: string) {
   return canceled;
 }
 
+export async function reactivateStripeSubscription(subscriptionId: string) {
+  const reactivated = await stripe.subscriptions.update(subscriptionId, {
+    cancel_at_period_end: false, // Annulation à la période de fin: non
+  });
+
+  return reactivated;
+}
+
 export async function updateStripeSubscription(subscriptionId: string, newPriceId: string) {
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
   const currentItem = subscription.items.data[0].id; // Item = cycle de facturation (dans notre cas 1 par user, mais on pourrait en avoir plusieurs)

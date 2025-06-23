@@ -1,7 +1,9 @@
 "use client"
+import { LoadingDots } from '@/components/ui/loadingdots'
 import { checkUser } from '@/lib/actions/user.actions'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 const RegisterProcesspage = () => {
 
@@ -26,7 +28,11 @@ const RegisterProcesspage = () => {
     }, [])
 
     return (
-        <div className='loader--register'>Porecessing register...</div>
+        <div className='loading--wrapper'>
+            <Image src={"/logo/rich-logo-full-black.png"} alt="Logo wordflow" width={200} height={50}></Image>
+            <h1 className='t40px b40px'>Votre profil est en cours de création</h1>
+            <LoadingDots color='#000' message=''/>
+        </div>
     )
 }
 

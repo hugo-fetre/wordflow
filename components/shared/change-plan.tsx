@@ -1,19 +1,15 @@
 "use client"
 import React, { useState } from 'react'
-import { ArrowRight, Check, X } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { basicFeatures, prices, proFeatures } from '@/constants'
 import { Button } from '@/components/ui/button'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { redirect } from 'next/navigation'
-import { findUserByStripeCustomerId, updateSelectedPlan } from '@/lib/actions/user.actions'
+import { cancelUserSubscription, updateSelectedPlan } from '@/lib/actions/user.actions'
 import { LoadingDots } from '../ui/loadingdots'
-import { cancelStripeSubscription, updateStripeSubscription } from '@/lib/actions/stripe.actions'
+import { cancelStripeSubscription, reactivateStripeSubscription, updateStripeSubscription } from '@/lib/actions/stripe.actions'
 
 
-const ChangePlanForm = ({ userId, planId, stripeSubsriptionId }:{ userId: string, planId: number, stripeSubsriptionId: string }) => {
+const ChangePlanForm = ({ userId, planId, stripeSubsriptionId, isCancelPlanned }:{ userId: string, planId: number, stripeSubsriptionId: string, isCancelPlanned: boolean }) => {
     
     const [loading, setLoading] = useState<'pro' | 'light' | null>(null);
     
@@ -28,7 +24,7 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId }:{ userId: string
         }
 
         // Appeler stripe update plan
-        updateStripeSubscription(stripeSubsriptionId, newPriceId)
+        const res = await updateStripeSubscription(stripeSubsriptionId, newPriceId)
         
         // Si ok on execute la suite
         const selectedPlan: updateUserSelectedPlanParams = {
@@ -42,15 +38,57 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId }:{ userId: string
 
     const handleCancelSubscription = async (selected: 'pro' | 'light') => {
         setLoading(selected);
-        await cancelStripeSubscription(stripeSubsriptionId); // Dit simplement à stripe d'annuler la session d'abonnement stripeSessionId
+        
+        // On planifie l'arrêt de l'abonnement à la fin du cycle
+        const res = await fetch('/api/internal/cancel-stripe-sub', {
+            method: 'POST',
+            body: JSON.stringify({ subscriptionId: stripeSubsriptionId }),
+            headers: {
+            'Content-Type': 'application/json',
+            },
+        })
 
-        // maj le user avec hook stripe -> oui car on màj en base seulement une fois qu'on sait que le client ne sera plus facturé
-        // ou appeler user.actions ici -> non car si le user ou admin annule autrement qu'ici, le user peut continuer à utiliser sans payer
+        if (!res.ok) {
+            // Affiche une erreur ou déclenche un toast
+            console.log("Problème avec l'appel annulation de l'API")
+            return
+        }
 
-        // Ensuite rediriger vers page abonnement désactivé avec succès
+        // On dit en base que l'arrêt est prévu (pour avoir le bouton réactiver)
+        const cancelUserSub: cancelUserSubscriptionParams = {
+            isCancelPlanned: true
+        };
+        await cancelUserSubscription(userId, cancelUserSub);
 
+        // On redirige pour confirmer que l'annulation est prise en compte
         redirect('/plan-canceled');
     };
+
+    const handleReactivateSubscription = async (selected: 'pro' | 'light') => {
+        setLoading(selected);
+
+        // On Màj stripe pour annuler l'annulation
+        const res = await fetch('/api/internal/reactivate-stripe-sub', {
+            method: 'POST',
+            body: JSON.stringify({ subscriptionId: stripeSubsriptionId }),
+            headers: {
+            'Content-Type': 'application/json',
+            },
+        })
+
+        if (!res.ok) {
+            // Affiche une erreur ou déclenche un toast
+            console.log("problème avec la réactivation API")
+            return
+        }
+
+        // On Màj la BDD pour mettre isCancelPlanned à false
+        const cancelUserSub: cancelUserSubscriptionParams = {
+            isCancelPlanned: false
+        };
+        await cancelUserSubscription(userId, cancelUserSub);
+        
+    }
   
     return (
       <div className='plan--section'>
@@ -82,11 +120,18 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId }:{ userId: string
                     </div>
                     <div className='flex justify-center t20px'>
                         <Button
-                            onClick={() => planId === 2 ? handleCancelSubscription('pro') : handleSelectPlan('pro')}
+                            onClick={() => planId === 2 ? 
+                                isCancelPlanned ? handleReactivateSubscription('pro') : handleCancelSubscription('pro') 
+                                : handleSelectPlan('pro')}
                             disabled={loading === 'pro'}
-                            className={planId === 2 ? 'glassButton' : 'blueButton'}
+                            className={planId === 2 ? 
+                                isCancelPlanned ? 'blueButton' : 'glassButton' 
+                                : 'blueButton'}
                         >
-                            {loading === 'pro' ? <LoadingDots color='#fff' message='' /> : planId === 2 ? 'Annuler l’abonnement' : 'Choisir cet abonnement'}
+                            {loading === 'pro' ? <LoadingDots color='#fff' message='' /> 
+                                : planId === 2 ? 
+                                    isCancelPlanned ? 'Réactiver l\'abonnement' : 'Annuler l’abonnement' 
+                                : 'Choisir cet abonnement'}
                         </Button>
                     </div>
                 </div>
@@ -117,12 +162,18 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId }:{ userId: string
                     </div>
                     <div className='flex justify-center t20px'>
                         <Button
-                            onClick={() => planId === 1 ? handleCancelSubscription('light') : handleSelectPlan('light')}
+                            onClick={() => planId === 1 ? 
+                                isCancelPlanned ? handleReactivateSubscription('light') : handleCancelSubscription('light') 
+                                : handleSelectPlan('light')}
                             disabled={loading === 'light'}
-                            className={planId === 1 ? 'glassButton' : 'blueButton' }
+                            className={planId === 1 ? 
+                                isCancelPlanned ? 'blueButton' : 'glassButton' 
+                                : 'blueButton' }
                         >
                             {loading === 'light' ? <LoadingDots color='#fff' message='' /> :
-                            planId === 1 ? 'Annuler l’abonnement' : 'Choisir cet abonnement'}
+                            planId === 1 ? 
+                               isCancelPlanned ? 'Réactiver' : 'Annuler l’abonnement' 
+                               : 'Choisir cet abonnement'}
                         </Button>
                     </div>
                 </div>

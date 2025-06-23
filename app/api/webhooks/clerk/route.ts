@@ -5,8 +5,9 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 
-import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
+import { createUser, deleteUser, getUserById, updateUser } from "@/lib/actions/user.actions";
 import { createWorkspace, deleteWorkspaces } from "@/lib/actions/workspace.actions";
+import { cancelStripeSubscription } from "@/lib/actions/stripe.actions";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -103,10 +104,12 @@ export async function POST(req: Request) {
   // DELETE
   if (eventType === "user.deleted") {
     const { id } = evt.data;
+
+    const user = await getUserById(id!);
+    await cancelStripeSubscription(user.stripeSubsriptionId);
+
     const deletedWorkspaces = await deleteWorkspaces(id!);
     const deletedUser = await deleteUser(id!);
-
-    // TODO: Supprimer abonnement stripe
 
     return NextResponse.json({ message: "OK", workspace: deletedWorkspaces?.success});
   }

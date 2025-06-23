@@ -110,7 +110,7 @@ export async function updateUserSubscription(userId: string, updateUserData: upd
   }
 }
 
-export async function cancelSubscription(userId: string, cancelData: cancelUserSubscriptionParams){
+export async function cancelUserSubscription(userId: string, cancelData: cancelUserSubscriptionParams){
   try {
     await connectToDatabase();
 
