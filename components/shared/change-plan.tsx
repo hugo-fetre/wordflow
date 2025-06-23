@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation'
 import { cancelUserSubscription, updateSelectedPlan } from '@/lib/actions/user.actions'
 import { LoadingDots } from '../ui/loadingdots'
 import { updateStripeSubscription } from '@/lib/actions/stripe.actions'
+import { keepOnlyOneWorkspace } from '@/lib/actions/workspace.actions'
 
 
 const ChangePlanForm = ({ userId, planId, stripeSubsriptionId, isCancelPlanned }:{ userId: string, planId: number, stripeSubsriptionId: string, isCancelPlanned: boolean }) => {
@@ -15,13 +16,17 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId, isCancelPlanned }
     
     const handleSelectPlan = async (selected: 'pro' | 'light') => {
         setLoading(selected);
-        const plan_id = selected === 'pro' ? 2 : 1;
-        if (plan_id === planId) return; // Already current plan, do nothing
 
         let newPriceId = prices[0].pro;
-        if(plan_id == 1){
+        const plan_id = selected === 'pro' ? 2 : 1;
+
+        if (plan_id === planId){
+            return; // Already current plan, do nothing
+        } else if (plan_id === 1){
+            await keepOnlyOneWorkspace(userId);
             newPriceId = prices[0].light;
         }
+
 
         // Appeler stripe update plan
         const res = await updateStripeSubscription(stripeSubsriptionId, newPriceId)

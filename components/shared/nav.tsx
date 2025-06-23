@@ -77,7 +77,7 @@ const MainNav = ({ currentWorkspaceId, user }: { currentWorkspaceId: string, use
           </div>
           <div className='nav--links--col'>
             <SignedIn>
-              {navLinks2(currentWorkspaceId).map((link) => {
+              { user.planId > 1 && navLinks2(currentWorkspaceId).map((link) => {
                   const isActive = link.route === pathName
                   return (
                     <Link key={link.route} href={link.route} className={`${isActive ? 'nav--link--selected' : 'nav--link--regular'}`}>{isActive ? ">"+link.label : link.label}</Link>

@@ -15,10 +15,6 @@ export const navLinks1 = (workspaceId: string | null) => [
 
   export const navLinks2 = (workspaceId: string | null) => [
     {
-      label: "Tendances",
-      route: "/app/"+workspaceId+"/trends",
-    },
-    {
       label: "Meta-descripteur",
       route: "/app/"+workspaceId+"/meta-generator",
     },
@@ -34,7 +30,7 @@ export const navLinks1 = (workspaceId: string | null) => [
       route: "/profile",
     },
     {
-      label: "Change plan",
+      label: "Mon abonnement",
       route: "/change-plan",
     },
   ];

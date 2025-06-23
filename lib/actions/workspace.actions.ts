@@ -71,6 +71,32 @@ export async function deleteWorkspaces(clerkId: string) {
     handleError(error);
   }
 }
+export async function keepOnlyOneWorkspace(clerkId: string) {
+  try {
+    await connectToDatabase();
+    // Find user to delete
+    const userToDelete = await User.findOne({ clerkId });
+    //console.log("user trouvé: "+userToDelete._id);
+    const allWorkspaces = await Workspace.find({manager: userToDelete._id}).sort({ createdAt: 1 });
+
+    if (allWorkspaces.length <= 1) {
+      return { success: true }; // rien à faire
+    }
+
+    // Garde le premier, supprime les autres
+    const toDelete = allWorkspaces.slice(1).map(ws => ws._id);
+
+    await Workspace.deleteMany({ _id: { $in: toDelete } });
+    
+    return {
+      success: true
+    };
+
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 // DELETE ONE WORKSPACE
 export async function deleteWorkspaceById(workspaceId: string) {
   try {

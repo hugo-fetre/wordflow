@@ -16,11 +16,13 @@ const Layout = async ({ children, params }: { children: ReactNode, params: Promi
         return { notFound: true }  // Si pas d'utilisateur authentifié, on retourne un 404
     }
 
-    // Récupération des workspaces
+    // Check si user autorisé
     const user = await getUserById(userId)
     if(user.isActive === false){
-        redirect('/select-plan');
+        redirect('/access-suspended');
     }
+
+    // Récupération des workspaces
     const workspacesList = await getWorkspacesList(user._id)
     const workspaceId = (await params).workspaceId;
 
