@@ -1,8 +1,9 @@
-import { Button } from '@/components/ui/button'
-import ConnectButton from '@/components/ui/connectbutton'
-import { LoadingDots } from '@/components/ui/loadingdots'
+import FaqPage from '@/components/shared/faq_page'
+import LandingFooter from '@/components/shared/landing_footer'
+import LandingPlanPresentation from '@/components/shared/landing_plan_presentation'
+import MarketingAngles from '@/components/shared/marketing_angles'
 import { presentationFeatures } from '@/constants'
-import { PricingTable, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { SignedOut, SignInButton, SignUpButton } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
@@ -16,18 +17,7 @@ const Home = async () => {
     if(userId){
         redirect('/auth-redirect');
     }
-    
-    /*var workspaces: IWorkspace[] = [];
-    var currentWorkspace = undefined;
-    if(userId){
-        const user = await getUserById(userId);
-        workspaces = await getWorkspacesList(user._id);
-        currentWorkspace = workspaces[0]; //workspaces.find(w => w.publicId === params.workspaceId);
-        console.log("Home page: workspaces loaded, try to redirect");
-        window.location.replace('/app/'+currentWorkspace._id);
-    }*/
-
-    
+  
     
     return (
     <div>
@@ -35,10 +25,10 @@ const Home = async () => {
             <div id='landing--bloc1'>
                 <header className="flex justify-between items-center p-4 gap-4 h-16" id='landing--header'>
                     <Image src={"/logo_cb.png"} alt="Logo wordflow" width={200} height={32}></Image>
-                    <div className='nav--small'>
+                    <div className='topMenu'>
                         <span><a href='#fonctionnalités'>Fonctionnalités</a></span>
                         <div className='smallSeparator'></div>
-                        <span>Tarifs</span>
+                        <span><a href="#tarifs">Tarifs</a></span>
                         <div className='smallSeparator'></div>
                         <span>Check-up SEO</span>
                         <div className='smallSeparator'></div>
@@ -68,13 +58,46 @@ const Home = async () => {
                 <div id='features--table'>
                     {presentationFeatures.map((item, idx) => (
                         <div className='featureCard' key={idx}>
+                            {item.isInDevelopment && (
+                                <div className='smallTag'>En développement</div>
+                            )}
+                            <div className='flex justify-center b15px'>
+                                <Image src={item.image_url.toString()} alt="Logo wordflow" width={35} height={35}></Image>
+                            </div>
                             <span>{item.title}</span>
                             <p>{item.description}</p>
                         </div>
                     ))}
                 </div>
             </div>
+            <div id="tarifs">
+                <LandingPlanPresentation></LandingPlanPresentation>
+                <div className='flex justify-center'>
+                    <SignUpButton forceRedirectUrl={'/register-process'}>
+                        <button className='mainCTA'>Souscrire à un abonnement</button>
+                    </SignUpButton>
+                </div>
+            </div>
         </section>
+        <section className='landingPage'>
+            <div id='quelques-chiffres'>
+                <h2>Pourquoi investir dans le SEO <br /> avec Wordflow ?</h2>
+                <MarketingAngles></MarketingAngles>
+            </div>
+            <div>
+                <h2>Questions fréquentes</h2>
+                <FaqPage></FaqPage>
+            </div>
+            {/*}
+            <div>
+                <h2>Faites du Business avec Wordflow</h2>
+                <h3>Devenez affilié et gagnez de l'argent en partageant Wordflow</h3>
+                <p className='mainSub'>Vous aimez notre app ? Parlez-en autour de vous et gagnez 50% <br /> des ventes nettes réalisées grâce à votre lien.</p>
+                <h3>Comment ça marche ?</h3>
+            </div>
+            */}
+        </section>
+        <LandingFooter></LandingFooter>
     </div>
   )
 }

@@ -198,11 +198,18 @@ sub{
 .l10px{
   margin-left: 10px;
 }
+.l5px{
+  margin-left: 5px;
+}
 .pb10vh{
   padding-bottom: 10vh;
 }
 .no-shadow{
   box-shadow: none !important;
+}
+.column{
+  display: flex;
+  flex-direction: column;
 }
 /*============================ Custom */
 .smallSeparator{
@@ -380,9 +387,9 @@ sub{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 25px;
-  border-radius: 15px;
-  color: #545454;
+  padding: 3px 3px;
+  border-radius: 30px;
+  background: #212843;
 }
 
 .side--main{
@@ -560,10 +567,33 @@ sub{
   background: #f9b4b4;
   color: #a43838;
 }
+.planSwitchButton{
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  background: #7B62FF;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.planSwitchButtonDisabled{
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
 /*============================ Loaders display */
 .loader--register{
   color: #fff;
   font-size: 14pt;
+}
+
+.smallTag{
+  padding: 2px 7px;
+  font-size: 6pt;
+  color: #fff;
+  background: #7B62FF;
+  border-radius: 15px;
+  position: absolute;
 }
 
 /*============================ Auth */
@@ -817,14 +847,21 @@ sub{
 }
 /*================================ Landing */
 .landingPage{
-  background: #191919;
+  background: #fff;
   min-height: 100vh;
-  color: #fff;
+  color: #191919;
 }
 #landing--header{
   background: transparent;
   width: 90%;
   padding-top: 7.5vh;
+}
+.topMenu{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #191919;
 }
 .landingPage h1{
   font-size: 50pt;
@@ -889,6 +926,7 @@ sub{
   background-image: url("../public/landing_features_chart.png");
   background-size: cover;
   color: #191919;
+  padding-bottom: 10vh;
 }
 #fonctionnalités h2{
   background: #478AE1;
@@ -937,6 +975,56 @@ sub{
   line-height: 1.2;
   margin-top: 5px;
   color: #545454;
+}
+#tarifs{
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+#tarifs h2{
+  color: #191919;
+  margin-top: 5vh;
+  margin-bottom: 2.5vh;
+}
+#tarifs h3{
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+#tarifs .mainCTA{
+  width: fit-content;
+  margin: 5vh 0 10vh 0;
+}
+#tarifs #plan--pro{
+  border: solid 2px #3462eb;
+  box-shadow: rgba(52, 98, 235, 0.5) 0px 13px 27px -5px, rgba(52, 98, 235, 0.3) 0px 8px 16px -8px;
+}
+.gradientBg{
+  background-image: url('../public/bg-sign-in.png');
+  background-size: cover;
+}
+#quelques-chiffres{
+  padding-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#quelques-chiffres h2{
+  margin-top: 0;
+  margin-bottom: 10vh;
+  color: #191919;
+}
+#quelques-chiffres .featureCard{
+  color: #1f1c53;
+  width: 30%;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(15px);
+  border-bottom: solid 1px #bcbcbc;
+  border-right: solid 1px #bcbcbc;
+}
+#quelques-chiffres p{
+  color: #191919;
 }
 /*================================ SEO Checkup */
 .seo-analyzer-wrapper{
@@ -1103,6 +1191,14 @@ sub{
   -webkit-text-fill-color: transparent;
 
 }
+#plan--pro h3{
+  font-size: 20pt;
+  background: #FFFFFF;
+  background: linear-gradient(to top right, #bcbcbc 0%, #fcfcfc 87%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}
 #plan--pro ul li{
   color: #d3d3d3;
 }
@@ -1119,6 +1215,12 @@ sub{
   width: 40%;
 }
 #plan--basic h2{
+  font-size: 20pt;
+  background: linear-gradient(to top right, #242424 0%, #a8a8a8 87%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#plan--basic h3{
   font-size: 20pt;
   background: linear-gradient(to top right, #242424 0%, #a8a8a8 87%);
   -webkit-background-clip: text;
@@ -1152,6 +1254,7 @@ sub{
 }
 .price--display{
   text-align: center;
+  height: 100px;
 }
 .price{
   font-size: 32pt;
@@ -1272,4 +1375,147 @@ sub{
 .topLogo{
   position: absolute;
   top: 10vh;
+}
+
+.maketingAngles{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  gap: 10;
+  padding: 0 25%;
+}
+.marketing--col{
+  display: flex;
+  flex-direction: column;
+  gap: 10;
+  height: 50vh;
+  flex: 1 1;
+}
+.marketing--col div{
+  flex: 1 1;
+  border-radius: 15px;
+  background: rgb(242,242,242);
+  height: max-content;
+  padding: 15px;
+}
+.marketing--col h3{
+  font-size: 15pt;
+  color: #333333;
+  text-align: left;
+  padding: 0;
+  padding-top: 15px;
+  margin: 0;
+  margin-bottom: 10px;
+  line-height: 1.1;
+  font-weight: 400;
+}
+.marketing--col p{
+  font-size: 8pt;
+  color: #545454;
+  text-align: left;
+  line-height: 1.1;
+}
+#marketingAnglesCurveImage{
+  border-radius: 10px;
+}
+#curve--wrapper{
+  padding: 10px;
+}
+#curve--wrapper h3{
+  padding: 10px 5px 0 5px;
+}
+#curve--wrapper p{
+  padding: 0 5px;
+}
+.left--text--tiles{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.centered--text--tiles{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.centered--text--tiles h3{
+  text-align: center;
+}
+.centered--text--tiles p{
+  text-align: center;
+}
+.bigFigure{
+  font-size: 24pt;
+}
+.bigText{
+  color: #727272 !important;
+  font-size: 11pt !important;
+  font-weight: 500;
+}
+.colorTile{
+  background-image: linear-gradient(to left top, #7173fb 10%, #382a5c) !important;
+}
+.colorTile h3{
+  color: #fff !important;
+}
+.colorTile p{
+  color: #fff !important;
+}
+.logosWrapper{
+  padding: 0 !important;
+  display: flex;
+  flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+/* FAQ */
+.faq--wrapper{
+  width: 100%;
+  padding: 10vh 20%;
+}
+.faq--card{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 2.5vh 5%;
+  border-radius: 25px;
+  border: 1px solid rgb(215, 215, 215);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px
+}
+.faq--card h3{
+  margin: 0 !important;
+  padding: 0 !important;
+  font-weight: 300 !important;
+}
+.faq--card p{
+  font-size: 8pt;
+}
+.faq--right--side ul{
+  padding-left: 20px;
+}
+.faq--right--side ul li{
+  font-size: 8pt;
+  list-style-type: disc !important;
+  margin-bottom: 10px;
+}
+.faq--left--side{
+  width: 40%;
+}
+.faq--right--side{
+  width: 60%;
+}
+
+/* FOOTER */
+.landing--footer{
+  padding: 10vh 5%;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: #110420;
+  color: #9d9cd2;
 }
