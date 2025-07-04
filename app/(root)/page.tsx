@@ -30,9 +30,9 @@ const Home = async () => {
                         <div className='smallSeparator'></div>
                         <span><a href="#tarifs">Tarifs</a></span>
                         <div className='smallSeparator'></div>
-                        <span>Check-up SEO</span>
+                        <span><a href="/seo-checkup">Check-up SEO</a></span>
                         <div className='smallSeparator'></div>
-                        <span>Parrainage</span>
+                        <span><a href="#FAQ">FAQ</a> </span>
                     </div>
                     <SignedOut>
                         <div className='flex gap-4'>
@@ -84,7 +84,7 @@ const Home = async () => {
                 <h2>Pourquoi investir dans le SEO <br /> avec Wordflow ?</h2>
                 <MarketingAngles></MarketingAngles>
             </div>
-            <div>
+            <div id="FAQ">
                 <h2>Questions fréquentes</h2>
                 <FaqPage></FaqPage>
             </div>

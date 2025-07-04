@@ -12,6 +12,7 @@ import { LoadingDots } from "../ui/loadingdots";
 import { analyzeArticleSEO } from "@/lib/actions/local.actions";
 import { analyzeArticle } from "@/lib/actions/ai.actions";
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const seoFormSchema = z.object({
   html: z.string().min(10, "Le contenu HTML est requis")
@@ -19,7 +20,7 @@ const seoFormSchema = z.object({
 
 type FormValues = z.infer<typeof seoFormSchema>;
 
-const SEOAnalyzer = ({userConnected} : {userConnected: boolean}) => {
+const SEOAnalyzer = ({userConnected, isUserPro} : {userConnected: boolean, isUserPro: boolean}) => {
   
     const [analysis, setAnalysis] = useState<any | null>(null);
     const [newKeyword, setNewKeyword] = useState("");
@@ -58,7 +59,7 @@ const SEOAnalyzer = ({userConnected} : {userConnected: boolean}) => {
         const result = await analyzeArticleSEO(html, keywords, false);
 
         // Partie analyse IA - à réserver aux abonnés payants
-        if(userConnected){
+        if(isUserPro){
             const aiResult = await analyzeArticle(html);
             let aiScore = 0;
             if(aiResult != undefined){
@@ -89,6 +90,14 @@ const SEOAnalyzer = ({userConnected} : {userConnected: boolean}) => {
         };
         
     };
+
+    const handlePromoClic = async () => {
+        if(userConnected){
+            redirect("/change-plan");
+        } else {
+            redirect("/sign-up");
+        }
+    }
 
   const onSubmit = async (values: FormValues) => {
     const result = await analyzeHTML(values.html);
@@ -130,10 +139,20 @@ const SEOAnalyzer = ({userConnected} : {userConnected: boolean}) => {
                     : ( <div></div>)
                 }
             </div>
-            <div className="editor-mode-toggle flex gap-2">
-                <Button type="button" className={editorMode === "rich" ? "blueButton" : "unselectedButton"} onClick={() => setEditorMode("rich")}>Texte</Button>
-                <Button type="button" className={editorMode === "code" ? "blueButton" : "unselectedButton"} onClick={() => setEditorMode("code")}>{"<html/>"}</Button>
-            </div>
+            {analysis != undefined ? 
+                (<div className="editor-mode-toggle flex gap-2">
+                    {editorMode === "rich" ? 
+                        (<Button type="button" className={editorMode === "rich" ? "blueButton" : "unselectedButton"} onClick={() => setEditorMode("rich")}>Texte</Button>)
+                        : (<Button type="button" className={editorMode === "code" ? "blueButton" : "unselectedButton"} onClick={() => setEditorMode("code")}>{"<html/>"}</Button>)
+                    }
+                </div>)
+                : (<div className="editor-mode-toggle flex gap-2">
+                        <Button type="button" className={editorMode === "rich" ? "blueButton" : "unselectedButton"} onClick={() => setEditorMode("rich")}>Texte</Button>
+                        <Button type="button" className={editorMode === "code" ? "blueButton" : "unselectedButton"} onClick={() => setEditorMode("code")}>{"<html/>"}</Button> 
+                    </div>
+                )
+            }
+            
             {editorMode === "rich" ? 
                 (<RichTextEditor value={form.watch("html")} onChange={(val) => form.setValue("html", val)}/>) 
                 : (<Textarea value={form.watch("html")} onChange={(e) => form.setValue("html", e.target.value)} className="text--editor" placeholder="Collez ici votre HTML"/>
@@ -175,6 +194,13 @@ const SEOAnalyzer = ({userConnected} : {userConnected: boolean}) => {
                             </ul>) 
                             : ( <div>Aucune erreur</div>)
                         }
+                    </div>
+                )}
+                {!aiScore &&(
+                    <div className="wordflowPromo t40px">
+                        <h3 className="">Envie d'une annalyse plus approfondie ?</h3>
+                        <p className="t10px">Optez pour Wordflow Pro et débloquez de nouvelles fonctionnalités</p>
+                        <Button className="t20px secondaryButton" onClick={handlePromoClic}>C'est parti !</Button>
                     </div>
                 )}
             </div>

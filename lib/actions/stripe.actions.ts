@@ -68,10 +68,11 @@ export async function updateStripeSubscription(subscriptionId: string, newPriceI
         id: currentItem,
         price: newPriceId
       }
-    ]
+    ],
+    proration_behavior: "create_prorations"
   })
 
-  return updatedSubsrciption;
+  return JSON.parse(JSON.stringify(updatedSubsrciption));
 }
 
 export async function deleteStripeCustomer(customerId: string) {

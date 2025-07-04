@@ -12,7 +12,7 @@ import { updateSelectedPlan } from '@/lib/actions/user.actions'
 import { LoadingDots } from '../ui/loadingdots'
 
 const formSchema = z.object({
-  plan: z.enum(['light', 'pro'], {
+  plan: z.enum(['light', 'pro', 'light_annual', 'pro_annual'], {
     required_error: 'Veuillez choisir un plan.',
   }),
 })
@@ -35,11 +35,16 @@ const NewUserPlanSelection = ({ userId }:{ userId: string }) => {
     function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true);
         let plan_id = 2;
-        if(values.plan === "light"){
+        let isYearlyBilled = false;
+        if(values.plan === "light" || values.plan === "light_annual"){
           plan_id = 1;
         }
+        if(values.plan === "light_annual" || values.plan === "pro_annual"){
+          isYearlyBilled = true;
+        }
         const selectedPlan: updateUserSelectedPlanParams = {
-          planId: plan_id
+          planId: plan_id,
+          isYearlyBilled: isYearlyBilled
         }
         const res = updateSelectedPlan(userId, selectedPlan);
         const url = "/checkout/"+values.plan+"/"+userId;

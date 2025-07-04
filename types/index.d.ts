@@ -29,6 +29,7 @@ declare type CreateUserParams = {
 
   declare type updateUserSelectedPlanParams = {
     planId: number;
+    isYearlyBilled: boolean;
   }
   
   // ====== Workspace PARAMS

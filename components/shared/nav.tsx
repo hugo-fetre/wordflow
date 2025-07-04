@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { redirect, usePathname } from 'next/navigation'
 // HomeMade
 import { useWorkspaces } from "@/context/WorkspacesContext";
-import { navLinks1, navLinks2, navLinks3, navNotLogged } from '@/constants'
+import { navLinks1, navLinks2, navLinks2Light, navLinks3, navNotLogged } from '@/constants'
 import { Button } from '../ui/button'
 import { IUser } from '@/lib/database/models/user.model'
 import { createWorkspace } from '@/lib/actions/workspace.actions'
@@ -77,12 +77,21 @@ const MainNav = ({ currentWorkspaceId, user }: { currentWorkspaceId: string, use
           </div>
           <div className='nav--links--col'>
             <SignedIn>
-              { user.planId > 1 && navLinks2(currentWorkspaceId).map((link) => {
+              { user.planId > 1 ? (navLinks2(currentWorkspaceId).map((link) => {
                   const isActive = link.route === pathName
                   return (
                     <Link key={link.route} href={link.route} className={`${isActive ? 'nav--link--selected' : 'nav--link--regular'}`}>{isActive ? ">"+link.label : link.label}</Link>
                   )
-                })}
+                }))
+                : (
+                  navLinks2Light().map((link) => {
+                  const isActive = link.route === pathName
+                  return (
+                    <Link key={link.route} href={link.route} className={`${isActive ? 'nav--link--selected' : 'nav--link--regular'}`}>{isActive ? ">"+link.label : link.label}</Link>
+                  )
+                })
+                )
+              }
             </SignedIn>
           </div>
           <div className='nav--links--col'>

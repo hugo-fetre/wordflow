@@ -11,7 +11,6 @@ const FaqPage = () => {
     <div className='faq--wrapper'>
         <div className='faq--card'>
             <div className='faq--left--side'>
-                <h3>Toutes les questions</h3>
             </div>
             <div className='faq--right--side'>
                 <Accordion type="single" collapsible className="w-full" defaultValue="item-1">

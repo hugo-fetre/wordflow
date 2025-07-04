@@ -15,17 +15,23 @@ const SeoCheckUpPage = async () => {
   var currentWorkspace = undefined;
   var workspaceId = '';
   var userConnected = false;
+  let isUserPro = false;
   if(userId){
       const user = await getUserById(userId);
       workspaces = await getWorkspacesList(user._id);
       currentWorkspace = workspaces[0];
       workspaceId = currentWorkspace._id;
       userConnected = true;
+      if(user.planId > 1){
+        isUserPro = true;
+      }
+      
   }
 
   return (
     <div>
-        <SEOAnalyzer userConnected={userConnected}></SEOAnalyzer>
+        <a href="/"><Image src={"/logo/logo-full-white.png"} alt="Logo wordflow" width={200} height={32} className='absolute al5v at5v'></Image></a>
+        <SEOAnalyzer userConnected={userConnected} isUserPro={isUserPro}></SEOAnalyzer>
         {userId && (
           <SideNav currentWorkspaceId={workspaceId}/>
         )}

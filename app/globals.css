@@ -201,6 +201,12 @@ sub{
 .l5px{
   margin-left: 5px;
 }
+.al5v{
+  left: 2.5vw;
+}
+.at5v{
+  top: 5vh;
+}
 .pb10vh{
   padding-bottom: 10vh;
 }
@@ -210,6 +216,15 @@ sub{
 .column{
   display: flex;
   flex-direction: column;
+}
+.blueBorder{
+  border: solid 1px #b2c5fc !important;
+  box-shadow: rgba(52, 98, 235, 0.5) 0px 13px 27px -5px, rgba(52, 98, 235, 0.3) 0px 8px 16px -8px !important;
+}
+.boringLines{
+  font-size: 7pt;
+  color: #a6a6a6;
+  line-height: 1.05;
 }
 /*============================ Custom */
 .smallSeparator{
@@ -467,7 +482,7 @@ sub{
   cursor: pointer;
 }
 .unselectedButton{
-  background: #1e1e1e;
+  background: #242433;
   color: #545454;
   border-radius: 7px;
   font-size: 10pt;
@@ -1039,7 +1054,8 @@ sub{
   width: 55%;
 }
 .text--editor, .text--editor--keywords{
-  background: #191919;
+  background: #212843;
+  backdrop-filter: blur(5px);
   text-align: left;
   border-radius: 7px;
 }
@@ -1100,6 +1116,9 @@ sub{
 .text--editor a{
   text-decoration: underline;
   color: #9d9cd2;
+}
+.text--editor .link--button{
+  background: transparent;
 }
 .text--editor .link--button:hover{
   background: #9d9cd2;
@@ -1518,4 +1537,25 @@ sub{
   align-items: center;
   background: #110420;
   color: #9d9cd2;
+}
+
+.wordflowPromo{
+  background-image: linear-gradient(to top right, #478AE1 0%, #BB58CF 100%);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: rgba(52, 98, 235, 0.5) 0px 13px 27px -5px, rgba(52, 98, 235, 0.5) 0px 8px 16px -8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+.wordflowPromo h3{
+  line-height: 1.1;
+  font-size: 15pt;
+}
+.wordflowPromo p{
+  line-height: 1.1;
+  font-size: 8pt;
+  color: #d7d7d7;
 }

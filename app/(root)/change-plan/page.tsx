@@ -12,6 +12,7 @@ const ChangePlanPage = async () => {
   let currentPlan = 0;
   let subsriptionId = "";
   let isCancelPlanned = false;
+  let isYearlyBilled = false;
   if(!userId){
     redirect('/auth-redirect');
   } else {
@@ -20,11 +21,12 @@ const ChangePlanPage = async () => {
     currentPlan = user.planId;
     subsriptionId = user.stripeSubsriptionId;
     isCancelPlanned = user.isCancelPlanned;
+    isYearlyBilled = user.isYearlyBilled;
   }
   
   return (
     <div>
-      <ChangePlanForm userId={user_id} planId={currentPlan} stripeSubsriptionId={subsriptionId} isCancelPlanned={isCancelPlanned}></ChangePlanForm>
+      <ChangePlanForm userId={user_id} planId={currentPlan} stripeSubsriptionId={subsriptionId} isCancelPlanned={isCancelPlanned} isYearlyBilled={isYearlyBilled}></ChangePlanForm>
     </div>
   )
 }
