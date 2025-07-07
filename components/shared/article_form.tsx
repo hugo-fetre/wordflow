@@ -85,9 +85,10 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
         
             const data = await res.json();
             if (res.ok && data.content) {
+                let cleanedContent = data.content.replace(/```html|```/g, '').trim();
                 const bodyMatch = data.content.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
                 const answer_preview = bodyMatch ? bodyMatch[1] : '';
-                setAiAnswer(data.content);
+                setAiAnswer(cleanedContent);
                 setPreviewContent(answer_preview);
                 setShowPreview(true);
                 setShowPreviewButton(true);

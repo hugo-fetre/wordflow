@@ -18,7 +18,6 @@ const SideNav = ({ currentWorkspaceId }: { currentWorkspaceId: string }) => {
   return (
     <div className='side--main'>
         <div className='sidenav--link--wrapper'>
-          <Image src={"/logo.png"} alt="Logo wordflow" width={200} height={32} className="mainLogo"></Image>
           <div className='sidenav--links--col'>
             <SignedIn>
               {navLinks1(currentWorkspaceId).map((link) => {

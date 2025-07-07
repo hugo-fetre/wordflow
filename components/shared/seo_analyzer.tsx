@@ -13,6 +13,7 @@ import { analyzeArticleSEO } from "@/lib/actions/local.actions";
 import { analyzeArticle } from "@/lib/actions/ai.actions";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { RotateCcw } from "lucide-react";
 
 const seoFormSchema = z.object({
   html: z.string().min(10, "Le contenu HTML est requis")
@@ -35,6 +36,18 @@ const SEOAnalyzer = ({userConnected, isUserPro} : {userConnected: boolean, isUse
         resolver: zodResolver(seoFormSchema),
         defaultValues: { html: "" }
     });
+
+    const resetForm = () => {
+        form.reset();
+        setAnalysis(null);
+        setNewKeyword("");
+        setKeywords([]);
+        setAnalysisWarnings([]);
+        setAiWarnings([]);
+        setAiScore(0);
+        setEditorMode("rich");
+        setLoading(false);
+    }
 
     // Define add keyword function
     const handleAddKeyword = () => {
@@ -157,7 +170,10 @@ const SEOAnalyzer = ({userConnected, isUserPro} : {userConnected: boolean, isUse
                 (<RichTextEditor value={form.watch("html")} onChange={(val) => form.setValue("html", val)}/>) 
                 : (<Textarea value={form.watch("html")} onChange={(e) => form.setValue("html", e.target.value)} className="text--editor" placeholder="Collez ici votre HTML"/>
             )}
-            <Button type="submit" className='secondaryButton button--main--submit' disabled={loading}>{loading ? <LoadingDots color='#000' message='Analyse'/> : "Analyser"}</Button> 
+            { analysis != undefined ?
+                <Button type="submit" className='secondaryButton button--main--submit' disabled={loading}>{loading ? <LoadingDots color='#000' message='Analyse'/> : "Analyser"}</Button>
+                :<Button type='button' onClick={resetForm} className='outlineWhite button--main--submit'><span>Nouvelle analyse</span><RotateCcw /></Button> 
+            }
         </form>
 
         {analysis && (

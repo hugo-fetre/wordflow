@@ -169,7 +169,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
             <button onClick={handleAddKeyword} className='smallPrimaryButton'>+</button>
             <div className='smallSeparator'></div>
             <button onClick={completeKeywords} className='smallColorButton'>
-                {loadingKeywords ? <LoadingDots color='#fff'></LoadingDots> : "Générer" }
+                {loadingKeywords ? <LoadingDots color='#fff' message=''></LoadingDots> : "Générer" }
             </button>
             {hasChanged && (
                 <button className='button--main--submit primaryButton' onClick={updateDatabase}>
@@ -192,7 +192,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
             <h2>Suggestion d'articles</h2>
             <div className='smallSeparator'></div>
             <button onClick={completeArticleIdeas} className='smallColorButton'>
-                {loadingSuggestions ? <LoadingDots color='#fff'></LoadingDots> : "Générer" }
+                {loadingSuggestions ? <LoadingDots color='#fff' message=''></LoadingDots> : "Générer" }
             </button>
         </div>
         <div className='articles--wrapper b40px'>
