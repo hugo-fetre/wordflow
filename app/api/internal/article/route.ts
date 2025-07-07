@@ -9,8 +9,8 @@ export async function POST(req: NextRequest) {
   try {
     const { workspace, article } = await req.json();
 
-    const prompt_output_format = "Format: un code HTML hyper optimisé pour le SEO avec une hiérarchies des titres et paragraphes claire.";
-    const articleLength = article.output_format === "LinkedIn" ? "Format LinkedIn" : `${article.output_format} mots`;
+    const prompt_output_format = "Format: un code HTML hyper optimisé pour le SEO et le GEO avec une hiérarchies des titres et paragraphes claire.";
+    const articleLength = article.output_format === "LinkedIn" ? "Format LinkedIn" : `${article.output_format} mots, hors balises et éléments html`;
 
     const prompt = `Génère une article hyper optimisé pour le SEO du site de l'entreprise suivante. Utilise les mots clés du titre et la liste des mots clés que je te fournis pour générer l'article. N'inclus pas d'élément image. Rappel: nous sommes en 2025.
 À inclure: liens internes et externes,
@@ -22,7 +22,7 @@ Site de l'entreprise: ${workspace.website},
 Mots clés: ${workspace.keywords},
 Output: Français,
 Tonalité: ${article.output_style},
-Longueur du texte: ${articleLength} mots, hors balises et éléments html,
+Longueur du texte: ${articleLength},
 ${prompt_output_format}`;
 
     const response = await ai.models.generateContent({

@@ -18,7 +18,7 @@ import { LoadingDots } from '../ui/loadingdots';
 const formSchema = z.object({
   title: z.string().max(150),
   description: z.string(),
-  output_format: z.enum(["500", "1000", "1500", "LinkedIn"]),
+  output_format: z.enum(["1500", "LinkedIn"]),
   output_style: z.enum(["formel", "decontract", "amical"]),
   //website: z.string().optional(),
 })
@@ -102,7 +102,13 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
     };
 
     function resetForm(){
-        form.reset();
+
+        form.reset({
+            title: '',
+            description: '',
+            output_format: undefined,
+            output_style: undefined
+        });
         setShowPreview(false);
         setShowPreviewButton(false);
         setAiAnswer('');
@@ -172,17 +178,9 @@ const ArticleForm = ({ id, suggestion }: { id: string, suggestion: string }) => 
                         <FormLabel className="in--label">Taille de l'article</FormLabel>
                         <FormControl>
                             <div className="flex items-center">
-                                <label htmlFor="500" className="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" id="500" value="500" checked={field.value === "500"} onChange={field.onChange} className="radio--hidden"/>
-                                    <span className="radio--label">Court ~500 mots</span>
-                                </label>
-                                <label htmlFor="1000" className="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" id="1000" value="1000" checked={field.value === "1000"} onChange={field.onChange} className="radio--hidden"/>
-                                    <span className="radio--label">Moyen ~1000 mots</span>
-                                </label>
                                 <label htmlFor="1500" className="flex items-center gap-2 cursor-pointer">
                                     <input type="radio" id="1500" value="1500" checked={field.value === "1500"} onChange={field.onChange} className="radio--hidden"/>
-                                    <span className="radio--label">Long ~1500 mots</span>
+                                    <span className="radio--label">Article de blog</span>
                                 </label>
                                 <label htmlFor="LinkedIn" className="flex items-center gap-2 cursor-pointer">
                                     <input type="radio" id="LinkedIn" value="LinkedIn" checked={field.value === "LinkedIn"} onChange={field.onChange} className="radio--hidden"/>

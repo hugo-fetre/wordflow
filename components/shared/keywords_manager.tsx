@@ -94,6 +94,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
                 const keywordsList = JSON.parse(withoutJsonTag);
 
                 setKeywords(keywordsList);
+                setLoadingKeywords(false);
 
                 // Database update
                 const updatedWorkspace = {
@@ -139,6 +140,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
                 const articlesList = JSON.parse(withoutJsonTag);
 
                 setArticles(articlesList);
+                setLoadingSuggestions(false);
 
                 // Database update
                 const updatedWorkspace = {
@@ -169,7 +171,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
             <button onClick={handleAddKeyword} className='smallPrimaryButton'>+</button>
             <div className='smallSeparator'></div>
             <button onClick={completeKeywords} className='smallColorButton'>
-                {loadingKeywords ? <LoadingDots color='#fff' message=''></LoadingDots> : "Générer" }
+                {loadingKeywords ? <LoadingDots color='#fff' message='En cours'></LoadingDots> : "Générer" }
             </button>
             {hasChanged && (
                 <button className='button--main--submit primaryButton' onClick={updateDatabase}>
@@ -192,7 +194,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
             <h2>Suggestion d'articles</h2>
             <div className='smallSeparator'></div>
             <button onClick={completeArticleIdeas} className='smallColorButton'>
-                {loadingSuggestions ? <LoadingDots color='#fff' message=''></LoadingDots> : "Générer" }
+                {loadingSuggestions ? <LoadingDots color='#fff' message='En cours'></LoadingDots> : "Générer" }
             </button>
         </div>
         <div className='articles--wrapper b40px'>

@@ -170,7 +170,7 @@ const SEOAnalyzer = ({userConnected, isUserPro} : {userConnected: boolean, isUse
                 (<RichTextEditor value={form.watch("html")} onChange={(val) => form.setValue("html", val)}/>) 
                 : (<Textarea value={form.watch("html")} onChange={(e) => form.setValue("html", e.target.value)} className="text--editor" placeholder="Collez ici votre HTML"/>
             )}
-            { analysis != undefined ?
+            {!analysis ?
                 <Button type="submit" className='secondaryButton button--main--submit' disabled={loading}>{loading ? <LoadingDots color='#000' message='Analyse'/> : "Analyser"}</Button>
                 :<Button type='button' onClick={resetForm} className='outlineWhite button--main--submit'><span>Nouvelle analyse</span><RotateCcw /></Button> 
             }
