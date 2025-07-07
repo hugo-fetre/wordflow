@@ -6,6 +6,7 @@ import { updateWorkspace } from '@/lib/actions/workspace.actions'
 import { useRouter } from "next/navigation"
 import { generateArticleIdeas, generateKeywords } from '@/lib/actions/ai.actions'
 import Link from 'next/link'
+import { LoadingDots } from '../ui/loadingdots'
 
 const KeywordsManager = ({ id }: { id: string }) => {
 
@@ -19,6 +20,9 @@ const KeywordsManager = ({ id }: { id: string }) => {
     const [keywords, setKeywords] = useState<string[]>([]);
     const [articles, setArticles] = useState<string[]>([]);
     const [newKeyword, setNewKeyword] = useState("");
+
+    const [loadingKeywords, setLoadingKeywords] = useState(false);
+    const [loadingSuggestions, setLoadingSuggestions] = useState(false);
 
     // Set custom comparison function
     const isEqual = (a: string[], b: string[]) => JSON.stringify(a) === JSON.stringify(b);
@@ -69,7 +73,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
     // Call AI for keyword completion
     const completeKeywords = async () => {
         if(currentWorkspace){
-            
+            setLoadingKeywords(true);
             const answer = await fetch('/api/internal/keywords', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -113,6 +117,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
      // Call AI for keyword completion
     const completeArticleIdeas = async () => {
         if(currentWorkspace){
+            setLoadingSuggestions(true);
             // USE Fetch to target Internal API Call to avoid 504 errors due to long IA response >10s
             // OLD WAY: const answer = await generateArticleIdeas(currentWorkspace);
             const answer = await fetch('/api/internal/suggestions', {
@@ -163,7 +168,9 @@ const KeywordsManager = ({ id }: { id: string }) => {
             />
             <button onClick={handleAddKeyword} className='smallPrimaryButton'>+</button>
             <div className='smallSeparator'></div>
-            <button onClick={completeKeywords} className='smallColorButton'>Générer</button>
+            <button onClick={completeKeywords} className='smallColorButton'>
+                {loadingKeywords ? <LoadingDots color='#fff'></LoadingDots> : "Générer" }
+            </button>
             {hasChanged && (
                 <button className='button--main--submit primaryButton' onClick={updateDatabase}>
                     Enregistrer
@@ -184,7 +191,9 @@ const KeywordsManager = ({ id }: { id: string }) => {
         <div className="keyword--input t40px">
             <h2>Suggestion d'articles</h2>
             <div className='smallSeparator'></div>
-            <button onClick={completeArticleIdeas} className='smallColorButton'>Générer</button>
+            <button onClick={completeArticleIdeas} className='smallColorButton'>
+                {loadingSuggestions ? <LoadingDots color='#fff'></LoadingDots> : "Générer" }
+            </button>
         </div>
         <div className='articles--wrapper b40px'>
             {articles.length > 0 ? 
