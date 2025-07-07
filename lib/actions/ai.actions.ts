@@ -23,9 +23,10 @@ export async function generateKeywords(workspace: IWorkspace) {
 
 export async function generateArticleIdeas(workspace: IWorkspace) {
 
-    const prompt = "Complète la liste d'idées d'articles ou crées-en une pour atteindre 10 idées d'articles hyper optimisés pour le SEO de l'entreprise suivante en te basant sur son nom, sa description et ses mots clés. Les idées d'article peuvent être très nichés ou s'attaquer au marché de manière très large."
-    +"\n"+"Nom de l'entreprise :"+workspace.name+"\n"+"Description :"+workspace.description+"\n"+"Liste de mots clés existants:"+workspace.keywords+"\n"+"Liste des idées d'articles (possiblement nulle):"+workspace.articlesIdeas
-    +"\n"+"Output: Français"+"\n"+"Format: liste JSON d'idées de titre d'articles. Ex: [titre 1, titre 2, titre 3, ...]";
+    const prompt = "Complète la liste d'idées d'articles ou crées-en une pour atteindre un total de 10 idées d'articles hyper optimisés pour le SEO de l'entreprise suivante en te basant sur son nom, sa description et ses mots clés. Les idées d'article peuvent être très nichés ou s'attaquer au marché de manière très large."
+    +"\n"+"Nom de l'entreprise :"+workspace.name+"\n"+"Description :"+workspace.description+"\n"+"Liste de mots clés existants:"+workspace.keywords+"\n"+"Liste des idées d'articles (possiblement nulle, à compléter pour atteindre 10 suggestions):"+workspace.articlesIdeas
+    +"\n"+"Output: Français"+"\n"+"Format: liste JSON d'idées de titre d'articles. Ex: [titre 1, titre 2, titre 3, ...]"
+    +"\n Consigne complémentaire: retourne les nouvelles idées que tu as généré avec celles de la liste que je t'ai envoyé.";
 
     const response = await ai.models.generateContent({
         model: "gemini-2.0-flash",

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Check, X } from 'lucide-react'
 import { basicFeatures, prices, proFeatures } from '@/constants'
 import { Button } from '@/components/ui/button'
-import { redirect } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { cancelUserSubscription, updateSelectedPlan } from '@/lib/actions/user.actions'
 import { LoadingDots } from '../ui/loadingdots'
 import { updateStripeSubscription } from '@/lib/actions/stripe.actions'
@@ -14,6 +14,7 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId, isCancelPlanned, 
     
     const [loading, setLoading] = useState<'pro' | 'light' | 'pro_annual' | 'light_annual' | null>(null);
     const [isAnnual, setIsAnnual] = useState(false);
+    const router = useRouter();
     
     const handleSelectPlan = async (selected: 'pro' | 'light' | 'pro_annual' | 'light_annual') => {
         setLoading(selected);
@@ -128,11 +129,12 @@ const ChangePlanForm = ({ userId, planId, stripeSubsriptionId, isCancelPlanned, 
         console.log("réactivation réussie");
         setLoading(null);
         isCancelPlanned = false;
+        router.refresh();
     }
   
     return (
       <div className='plan--section'>
-        <a href="/"><div className="button--back">annuler</div></a>
+        <a href="/"><div className="button--back">retour</div></a>
         <h1>Modifier mon abonnement</h1>
         <div className='flex justify-center t20px'>
             <div className="nav--small">

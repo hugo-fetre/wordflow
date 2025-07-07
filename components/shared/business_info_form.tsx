@@ -37,7 +37,7 @@ const BusinessInfoForm = ({ id, userId }: { id: string, userId: string }) => {
     const initialValues = currentWorkspace ? {
         title: currentWorkspace.name,
         description: currentWorkspace.description,
-        website: currentWorkspace.website ?? "",
+        website: currentWorkspace.website,
     } : defaultValues
 
     async function deleteWorkspace(){

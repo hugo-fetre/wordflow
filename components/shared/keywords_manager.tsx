@@ -203,7 +203,7 @@ const KeywordsManager = ({ id }: { id: string }) => {
                     <span key={i} className='article--unit'>
                         {k}
                         <button className='article--delete--btn' onClick={() => handleDeleteArticle(i)}><Image width={14} height={14} src={"/delete-icon.png"} alt='fermer'/></button>
-                        <Link href={'/app/'+currentWorkspace?._id+'/generate/'+k} className='article--suggest--btn'>
+                        <Link href={`/app/${currentWorkspace?._id}/generate/${encodeURIComponent(k)}`} className='article--suggest--btn'>
                             <Image width={20} height={20} src={"/chevron-right.png"} alt='Générer'/>
                         </Link>
                     </span>
