@@ -356,7 +356,7 @@ sub{
 }
 .nav--user--button{
   position: relative;
-  left: 20%;
+  left: 15%;
 }
 .nav--workspace--selector--wrapper{
   margin: 0 5% 0 5%;
@@ -479,6 +479,25 @@ sub{
   font-size: 10pt;
   padding: 10px;
   text-align: center;
+  cursor: pointer;
+}
+.mainButton{
+  background: linear-gradient(to top right, rgb(124,130,252) 0%, rgba(255,255,255,0.7) 100%);
+  padding: 7px 20px !important;
+  border-radius: 7px;
+  font-size: 10pt;
+  color: #191919;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.outlineMain{
+  border: solid 1px #9aafee;
+  color: #9aafee;
+  padding: 7px 20px !important;
+  border-radius: 7px;
+  font-size: 10pt;
   cursor: pointer;
 }
 .unselectedButton{
@@ -609,6 +628,11 @@ sub{
   background: #7B62FF;
   border-radius: 15px;
   position: absolute;
+}
+.smallText{
+  font-size: 10pt;
+  color: #e4e4e4;
+  text-align: center;
 }
 
 /*============================ Auth */
@@ -870,13 +894,20 @@ sub{
   background: transparent;
   width: 90%;
   padding-top: 7.5vh;
+  position: absolute;
+  top: 85vh;
 }
 .topMenu{
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  color: #191919;
+  color: rgba(255,255,255,0.7);
+}
+#landing-auth-row{
+  position: absolute;
+  top: 5vh;
+  right: 2.5vw;
 }
 .landingPage h1{
   font-size: 50pt;
@@ -915,14 +946,17 @@ sub{
   flex-direction: column;
   align-items: center;
   padding-bottom: 15vh;
-  background-image: url("../public/bg-sign-in.png");
+  background-image: url("../public/wordflow-landing-bg.jpg");
   background-size: cover;
+  background-position: top;
+  min-height: 100vh;
 }
 .mainCTA{
-  background: #7B62FF;
-  padding: 15px;
-  border-radius: 30px;
-  color: #fff;
+  background: linear-gradient(to top right, rgb(124,130,252) 0%, rgba(255,255,255,0.7) 100%);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 10pt;
+  color: #191919;
   display: flex;
   align-items: center;
   gap: 10;
@@ -959,8 +993,25 @@ sub{
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #1e1e1e;
 }
+.presentationContainer h1{
+  font-size: 40pt;
+  font-weight: 300;
+  margin-top: 7.5vh;
+  background: linear-gradient(to left, rgba(210,212,254,0.6), rgba(255,255,255,1), rgba(210,212,254,0.6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.presentationContainer .mainSub{
+  color: #d3d3d3;
+  font-weight: 200;
+}
+#grid1{
+  position: absolute;
+  top: 42vh;
+  right: 45vw;
+}
+
 #features--table{
   width: 70%;
   display: flex;
@@ -1010,6 +1061,8 @@ sub{
 #tarifs .mainCTA{
   width: fit-content;
   margin: 5vh 0 10vh 0;
+  background: #3462eb;
+  color: #fff;
 }
 #tarifs #plan--pro{
   border: solid 2px #3462eb;
@@ -1219,7 +1272,7 @@ sub{
 
 }
 #plan--pro ul li{
-  color: #d3d3d3;
+  color: #ded4f9;
 }
 #plan--pro .horizontalSeparator{
   border-bottom: solid 1px #545454;
@@ -1418,7 +1471,7 @@ sub{
   padding: 15px;
 }
 .marketing--col h3{
-  font-size: 15pt;
+  font-size: 16pt;
   color: #333333;
   text-align: left;
   padding: 0;
@@ -1474,9 +1527,21 @@ sub{
 }
 .colorTile{
   background-image: linear-gradient(to left top, #7173fb 10%, #382a5c) !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px !important;
 }
-.colorTile h3{
+.colorTile div{
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+.colorTile h4{
   color: #fff !important;
+  font-weight: 400;
+  font-size: 30pt;
+  text-align: center;
 }
 .colorTile p{
   color: #fff !important;

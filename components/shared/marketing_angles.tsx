@@ -10,8 +10,17 @@ const MarketingAngles = () => {
                 <p>Retrouvez tous vos mots clés et idées d’articles dans votre workspace. Vous travaillez sur plusieurs projets ? Pas de soucis, Wordflow Pro vous permet de gérer un nombre illimité de workspaces</p>
             </div>
             <div className='colorTile'>
-                <h3>5 fois plus rapide, <br /> 10 fois moins cher</h3>
-                <p>Générez du contenu SEO de qualité professionnelle en un temps record et à coût abordable avec Wordflow</p>
+                <div className='flex justify-center items-center'>
+                    <div className='flex-col items-center justify-center'>
+                        <h4>5x</h4>
+                        <div className='smallText'>plus rapide</div>
+                    </div>
+                    <span className='smallSeparator'></span>
+                    <div className='flex-col items-center justify-center'>
+                        <h4>10x</h4>
+                        <div className='smallText'>moins cher</div>
+                    </div>
+                </div>
             </div>
         </div>
         <div className='marketing--col'>

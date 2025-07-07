@@ -19,7 +19,7 @@ const LandingPlanPresentation = () => {
     }
     return (
       <div className=''>
-        <h2>Tarifs</h2>
+        <h2>Créez. Rankez. Gagnez du temps. Wordflow vous propulse sur Google en 3 clics !</h2>
         <div className='flex justify-center'>
             <div className="nav--small">
                 <button

@@ -23,8 +23,7 @@ const Home = async () => {
     <div>
         <section className='landingPage'>
             <div id='landing--bloc1'>
-                <header className="flex justify-between items-center p-4 gap-4 h-16" id='landing--header'>
-                    <Image src={"/logo_cb.png"} alt="Logo wordflow" width={200} height={32}></Image>
+                <header className="flex justify-center items-center p-4 gap-4 h-16" id='landing--header'>
                     <div className='topMenu'>
                         <span><a href='#fonctionnalités'>Fonctionnalités</a></span>
                         <div className='smallSeparator'></div>
@@ -34,23 +33,25 @@ const Home = async () => {
                         <div className='smallSeparator'></div>
                         <span><a href="#FAQ">FAQ</a> </span>
                     </div>
-                    <SignedOut>
-                        <div className='flex gap-4'>
-                            <SignInButton forceRedirectUrl={'/auth-redirect'}>
-                                <button className='outlineBlack'>Se connecter</button>
-                            </SignInButton>
-                            <SignUpButton forceRedirectUrl={'/register-process'}>
-                                <button className='outlineBlack'>S'inscrire</button>
-                            </SignUpButton>
-                        </div>
-                    </SignedOut>
                 </header>
+                <SignedOut>
+                    <div className='flex gap-4' id='landing-auth-row'>
+                        <SignInButton forceRedirectUrl={'/auth-redirect'}>
+                            <button className='outlineMain'>Se connecter</button>
+                        </SignInButton>
+                        <SignUpButton forceRedirectUrl={'/register-process'}>
+                            <button className='mainButton'>S'inscrire</button>
+                        </SignUpButton>
+                    </div>
+                </SignedOut>
                 <div className='presentationContainer'>
-                    <h1>Votre contenu SEO, optimisé avec l'IA</h1>
+                    <Image src={"/logo/logo-gradient.png"} alt="Logo wordflow" width={200} height={32}></Image>
+                    <h1>Votre contenu SEO, <br /> optimisé avec l'IA</h1>
                     {/*<p className='mainSub'>Meilleurs mot-clés, meilleures idées, meilleurs articles. Générez du contenu SEO de pointe pour vos clients et augmentez votre productivité avec Wordflow.</p>*/}
                     <p className='mainSub'>Générez des articles SEO de pointe, améliorez vos performances sur Google et augmentez votre productivité avec Wordflow.</p>
                     <div className='mainCTA'><span>Essayer maintenant</span><ArrowRight size={20} /></div>
                 </div>
+                <Image src={"/grid1.png"} alt="Logo wordflow" width={800} height={400} id='grid1'></Image>
             </div>
             <div id='fonctionnalités'>
                 <h2>Votre référencement Google,<br/> boosté avec l'IA</h2>
