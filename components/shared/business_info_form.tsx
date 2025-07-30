@@ -18,7 +18,7 @@ import { defaultValues } from '@/constants'
 import { useWorkspaces } from '@/context/WorkspacesContext'
 import { Textarea } from '../ui/textarea'
 import { createWorkspace, deleteWorkspaceById, updateWorkspace } from '@/lib/actions/workspace.actions'
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { Trash2 } from 'lucide-react'
 
 const formSchema = z.object({
@@ -33,6 +33,10 @@ const BusinessInfoForm = ({ id, userId }: { id: string, userId: string }) => {
     const router = useRouter()
     const workspaces = useWorkspaces();
     const currentWorkspace = workspaces.find(w => w._id == id); //params.workspaceId;
+    /*
+    if(!currentWorkspace){
+      redirect("/app/"+workspaces[0]._id);
+    }*/
     
     const initialValues = currentWorkspace ? {
         title: currentWorkspace.name,

@@ -25,6 +25,10 @@ const Layout = async ({ children, params }: { children: ReactNode, params: Promi
     // Récupération des workspaces
     const workspacesList = await getWorkspacesList(user._id)
     const workspaceId = (await params).workspaceId;
+    const accessValidation = workspacesList.some((workspace: { _id: string }) => workspace._id === workspaceId);
+    if(!accessValidation){
+        redirect("/app/"+workspacesList[0]._id);
+    }
 
     return (
         <main className='root'>

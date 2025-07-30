@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Fira_Code } from "next/font/google";
 import "./globals.css";
+import "./mobile.css";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from '@clerk/nextjs'
 import { frFR } from '@clerk/localizations';
@@ -30,7 +31,7 @@ export default function RootLayout({
 }>) {
 
   return (
-      <html lang="fr">
+      <html lang="fr" className='scroll-smooth' style={{scrollBehavior:'smooth'}}>
         <body className={cn("Poppinsfont intialiased", Poppinsfont.variable)}>
         <ClerkProvider localization={frFR} appearance={{ variables: { colorPrimary: "#212121"}}}>
           {children}

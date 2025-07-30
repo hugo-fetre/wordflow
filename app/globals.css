@@ -963,9 +963,7 @@ sub{
   gap: 10;
   cursor: pointer;
   transition: 0.3s ease;
-}
-.mainCTA:hover{
-  gap: 20;
+  z-index: 2;
 }
 #fonctionnalités{
   min-height: 100vh;
@@ -1011,6 +1009,7 @@ sub{
   position: absolute;
   top: 42vh;
   right: 45vw;
+  z-index: 1;
 }
 
 #features--table{
@@ -1066,7 +1065,7 @@ sub{
   color: #fff;
 }
 #tarifs #plan--pro{
-  border: solid 2px #3462eb;
+  border: solid 2px #7173fb;
   box-shadow: rgba(52, 98, 235, 0.5) 0px 13px 27px -5px, rgba(52, 98, 235, 0.3) 0px 8px 16px -8px;
 }
 .gradientBg{
@@ -1253,7 +1252,8 @@ sub{
 }
 #plan--pro{
   padding: 40px 40px;
-  background-image: linear-gradient(to left top, #110420 30%, #1f1c53);
+  background-image: linear-gradient(to bottom right, #382a5c 5%, #7173fb) !important;
+  /*background-image: linear-gradient(to left top, #110420 30%, #1f1c53);*/
   color: #fff;
 }
 #plan--pro h2{
@@ -1273,10 +1273,10 @@ sub{
 
 }
 #plan--pro ul li{
-  color: #ded4f9;
+  color: #fff;
 }
 #plan--pro .horizontalSeparator{
-  border-bottom: solid 1px #545454;
+  border-bottom: solid 1px #9d9cd2;
 }
 
 /*_______________________ Plan Light */

@@ -1,0 +1,98 @@
+@media only screen and (max-width: 600px) {
+    .mobile--hide{
+        display: none;
+    }
+    #landing-auth-row{
+        display: none;
+    }
+    .presentationContainer{
+        margin-top: 15vh;
+        width: 90%;
+    }
+    .presentationContainer h1{
+        font-size: 28pt;
+        padding: 0;
+    }
+    .landingPage .mainSub{
+        font-size: 14pt;
+        padding: 0;
+        margin-bottom: 5vh;
+    }
+    .landingPage {
+        min-height: 80dvh;
+    }
+    .landingPage h2, h2{
+        font-size: 25pt;
+        padding: 10px 20px;
+    }
+    #landing--bloc1{
+        min-height: 80dvh;
+    }
+    #landing--header{
+        top: 65dvh;
+    }
+    #fonctionnalités{
+        margin-top: -5vh;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        background-image: none;
+        padding-bottom: 5vh;
+    }
+    #fonctionnalités h2{
+        margin-top: 7vh;
+    }
+    #features--table{
+        flex-direction: row;
+        width: 95%;
+        gap: 5;
+    }
+    .featureCard{
+        width: 45%;
+        padding: 15px;
+    }
+    .smallTag{
+        margin-top: -10px;
+        margin-left: -5px;
+    }
+    .plan--wrapper{
+        flex-direction: column;
+        width: 100%;
+        left: 0;
+        align-items: center;
+        justify-content: center;
+    }
+    #plan--pro--display, #plan--basic--display{
+        width: 85%;
+    }
+    #tarifs .mainCTA{
+        margin-bottom: 5vh;
+    }
+    #quelques-chiffres{
+        padding-top: 5vh;
+    }
+    #quelques-chiffres h2{
+        margin-bottom: 5vh;
+    }
+    .maketingAngles{
+        flex-direction: column;
+        padding: 20px;
+    }
+    .marketing--col{
+        flex-direction: row;
+    }
+    .marketing--col div{
+        height: 250px;
+    }
+    .col--numbers{
+        justify-self: center;
+        justify-content: center;
+        align-items: center;
+        height: fit-content !important;
+    }
+    .col--numbers p{
+        text-align: center;
+    }
+    .numbers--container{
+        height: 100px !important;
+    }
+}

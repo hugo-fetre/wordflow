@@ -29,8 +29,8 @@ const Home = async () => {
                         <div className='smallSeparator'></div>
                         <span><a href="#tarifs">Tarifs</a></span>
                         <div className='smallSeparator'></div>
-                        <span><a href="/seo-checkup">Check-up SEO</a></span>
-                        <div className='smallSeparator'></div>
+                        <span className="mobile--hide"><a href="/seo-checkup">Check-up SEO</a></span>
+                        <div className='smallSeparator mobile--hide'></div>
                         <span><a href="#FAQ">FAQ</a> </span>
                     </div>
                 </header>
@@ -49,12 +49,14 @@ const Home = async () => {
                     <h1>Votre contenu SEO, <br /> optimisé avec l'IA</h1>
                     {/*<p className='mainSub'>Meilleurs mot-clés, meilleures idées, meilleurs articles. Générez du contenu SEO de pointe pour vos clients et augmentez votre productivité avec Wordflow.</p>*/}
                     <p className='mainSub'>Générez des articles SEO de pointe, améliorez vos performances sur Google et augmentez votre productivité avec Wordflow.</p>
-                    <div className='mainCTA'><span>Essayer maintenant</span><ArrowRight size={20} /></div>
+                    <SignUpButton>
+                        <div className='mainCTA'><span>Essayer maintenant</span><ArrowRight size={20} /></div>
+                    </SignUpButton>
                 </div>
                 <Image src={"/grid1.png"} alt="Logo wordflow" width={800} height={400} id='grid1'></Image>
             </div>
             <div id='fonctionnalités'>
-                <h2>Votre référencement Google,<br/> boosté avec l'IA</h2>
+                <h2>Votre référencement Google,<br className='mobile--hide'/> boosté avec l'IA</h2>
                 <p className='mainSub'>Plus d'articles. Plus performants. Plus rapidement. Tout simplement.</p>
                 <div id='features--table'>
                     {presentationFeatures.map((item, idx) => (

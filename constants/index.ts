@@ -137,7 +137,7 @@ export const navLinks1 = (workspaceId: string | null) => [
   }]
   
   export const defaultValues = {
-    title: "Nouveau workspace",
+    title: "Pas censé accéder à ça",
     description: "",
     website: "",
   };
