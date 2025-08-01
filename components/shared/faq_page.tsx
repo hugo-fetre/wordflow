@@ -10,7 +10,7 @@ const FaqPage = () => {
   return (
     <div className='faq--wrapper'>
         <div className='faq--card'>
-            <div className='faq--left--side'>
+            <div className='faq--left--side mobile--hide'>
             </div>
             <div className='faq--right--side'>
                 <Accordion type="single" collapsible className="w-full" defaultValue="item-1">

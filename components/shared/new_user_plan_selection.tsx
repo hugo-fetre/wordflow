@@ -20,9 +20,21 @@ const formSchema = z.object({
 const NewUserPlanSelection = ({ userId }:{ userId: string }) => {
     
     const [loading, setLoading] = useState(false);
+    const [isAnnual, setIsAnnual] = useState(false);
     
     const initialValues = {
         plan: 'pro' as const,
+    }
+
+    const prices = {
+        monthly: {
+            basic: "24,99€",
+            pro: "24,99€",
+        },
+        yearly: {
+            basic: "249€",
+            pro: "349€",
+        },
     }
   
     // 1. Define your form.
@@ -54,6 +66,23 @@ const NewUserPlanSelection = ({ userId }:{ userId: string }) => {
     return (
       <div className='plan--section'>
         <h1>Veuillez choisir votre plan</h1>
+        <div className='flex justify-center t20px'>
+            <div className="nav--small">
+                <button
+                onClick={() => setIsAnnual(false)}
+                className={`${!isAnnual ? 'planSwitchButton' : 'planSwitchButtonDisabled'}`}
+                >
+                Mensuel
+                </button>
+                <button
+                onClick={() => setIsAnnual(true)}
+                className={`${isAnnual ? 'planSwitchButton' : 'planSwitchButtonDisabled'}`}
+                >
+                <span className=''>Annuel</span>
+                <span className='price--info l5px'>(2 mois offerts)</span>
+                </button>
+            </div>
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>  
               {/* Plan Pro */}
@@ -65,7 +94,13 @@ const NewUserPlanSelection = ({ userId }:{ userId: string }) => {
                     <FormControl>
                       <div className='plan--wrapper'>
                         <label htmlFor="plan-pro" id='plan--pro--display'>
-                          <input type="radio" id='plan-pro' className='radio--hidden' value="pro" checked={field.value === "pro"} onChange={field.onChange}/>
+                          { isAnnual ? (
+                            <input type="radio" id='plan-pro' className='radio--hidden' value="pro_annual" checked={field.value === "pro_annual"} onChange={field.onChange}/>
+                          ) :
+                          (
+                            <input type="radio" id='plan-pro' className='radio--hidden' value="pro" checked={field.value === "pro"} onChange={field.onChange}/>
+                          )}
+                          
                           <div className='plan--card' id='plan--pro'>
                             <h2>Wordflow Pro</h2>
                             <div className='plan--label--wrapper'>
@@ -86,13 +121,26 @@ const NewUserPlanSelection = ({ userId }:{ userId: string }) => {
                             </ul>
                             <div className='horizontalSeparator'></div>
                             <div className='price--display'>
-                              <span className='price'>24,99€</span>
-                              <span className='price--info'>/mois</span>
+                              <span className='price'>{isAnnual ? prices.yearly.pro : prices.monthly.pro}</span>
+                              <span className='price--info'>{isAnnual ? "/an" : "/mois"}</span>
+                              {isAnnual ? (
+                                  <div className='price--info'>Au lieu de 419€</div>
+                              ) : (
+                                  <div>
+                                      <div className='price--info'>Au lieu de 34,99€ <br /> pendant 3 mois avec le code HIGHFIVE <br /> uniquement sur le plan mensuel</div>
+                                  </div> 
+                              )}
                             </div>
                           </div>
                         </label>
                         <label htmlFor="plan-basic" id='plan--basic--display'>
-                          <input type="radio" id='plan-basic' className='radio--hidden' value="light" checked={field.value === "light"} onChange={field.onChange}/>
+                          { isAnnual ? (
+                            <input type="radio" id='plan-basic' className='radio--hidden' value="light_annual" checked={field.value === "light_annual"} onChange={field.onChange}/>
+                          ) :
+                          (
+                            <input type="radio" id='plan-basic' className='radio--hidden' value="light" checked={field.value === "light"} onChange={field.onChange}/>
+                          )}
+                          
                           <div className='plan--card' id='plan--basic'>
                             <h2>Wordflow Light</h2>
                             <div className='plan--label--wrapper'>
@@ -113,8 +161,14 @@ const NewUserPlanSelection = ({ userId }:{ userId: string }) => {
                             </ul>
                             <div className='horizontalSeparator'></div>
                             <div className='price--display'>
-                              <span className='price'>19,99€</span>
-                              <span className='price--info'>/mois</span>
+                              <span className='price'>{isAnnual ? prices.yearly.pro : prices.monthly.pro}</span>
+                              <span className='price--info'>{isAnnual ? "/an" : "/mois"}</span>
+                              {isAnnual ? (
+                                  <div className='price--info'>Au lieu de 299€</div>
+                              ) : (
+                                  <div>
+                                  </div> 
+                              )}
                             </div>
                           </div>
                         </label>

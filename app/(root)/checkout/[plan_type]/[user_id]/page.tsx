@@ -13,14 +13,15 @@ const page = async ({params}: { params: Promise<{ plan_type: string, user_id: st
   if(!user_id){
     redirect('/auth-redirect');
   } 
-  if(!(plan_type == "pro" || plan_type == "light")){
+  if(!(plan_type == "pro" || plan_type == "light" || plan_type == "pro_annual" || plan_type == "light_annual")){
     redirect('/auth-redirect');
   }
 
-  let priceId = prices[0].pro;
+  /*let priceId = prices[0].pro;
   if(plan_type == "light"){
     priceId = prices[0].light;
-  }
+  }*/
+ const priceId = prices[0][plan_type];
   return (
     <div>
       <Checkout priceId={priceId} userId={user_id}></Checkout>

@@ -25,12 +25,13 @@ const MarketingAngles = () => {
         </div>
         <div className='marketing--col'>
             <div id='curve--wrapper'>
-                <Image width={250} height={250} src={'/curve.png'} alt='SEO progression with wordflow' id='marketingAnglesCurveImage'></Image>
+                <Image width={250} height={250} src={'/curve.png'} alt='SEO progression with wordflow' id='marketingAnglesCurveImage' className='mobile--hide'></Image>
+                <Image width={350} height={150} src={'/curve-mobile.png'} alt='SEO progression with wordflow' id='marketingAnglesCurveImage' className='mobile--show'></Image>
                 <h3>Gagnez en productivité</h3>
                 <p>Votre site en top classement sans y passer des heures et sans être un expert SEO</p>
             </div>
         </div>
-        <div className='marketing--col'>
+        <div className='marketing--col' id='marketing--mobile--last--row'>
             <div className='centered--text--tiles'>
                 <div className='logosWrapper'>
                     <Image width={25} height={25} src={'/wordpress.png'} alt='Logo wordpress' className='-mr-2.5 z-50'></Image>

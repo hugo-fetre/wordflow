@@ -2,6 +2,9 @@
     .mobile--hide{
         display: none;
     }
+    .mobile--show{
+        display: block;
+    }
     #landing-auth-row{
         display: none;
     }
@@ -26,10 +29,11 @@
         padding: 10px 20px;
     }
     #landing--bloc1{
-        min-height: 80dvh;
+        height: 50vh;
+        padding-bottom: 0;
     }
     #landing--header{
-        top: 65dvh;
+        top: 75vh;
     }
     #fonctionnalités{
         margin-top: -5vh;
@@ -94,5 +98,52 @@
     }
     .numbers--container{
         height: 100px !important;
+    }
+    .faq--wrapper{
+        width: 100%;
+        padding: 5vh 5%;
+    }
+    .faq--right--side{
+        width: 90%;
+    }
+    .faq--card{
+        justify-content: center;
+    }
+    #FAQ h2{
+        margin-top: 5vh;
+    }
+    #marketingAnglesCurveImage{
+        height: 150px;
+        width: 100%;
+    }
+    .logosWrapper{
+        height: fit-content !important;
+    }
+    #marketing--mobile--last--row div{
+        height: 200px !important;
+    }
+    .bigText{
+        font-size: 9pt !important;
+    }
+    #marketing--mobile--last--row div p{
+        text-align: left;
+    }
+    .centered--text--tiles, .left--text--tiles{
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-top: 25px !important;
+    }
+}
+
+@media only screen and (max-width: 400px){
+    .presentationContainer h1{
+        font-size: 24pt;
+        padding: 0;
+    }
+    #features--table{
+        width: 100%;
+    }
+    #plan--pro--display, #plan--basic--display{
+        width: 90%;
     }
 }
