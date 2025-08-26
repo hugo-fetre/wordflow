@@ -35,6 +35,21 @@ export async function getUserById(userId: string) {
   }
 }
 
+export async function hasBeenSuspended(userId: string){
+  try {
+    await connectToDatabase();
+
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) throw new Error("User not found");
+    const hasBeenSuspended = user.hasBeenSuspended;
+
+    return hasBeenSuspended;
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 export async function findUserByStripeCustomerId(stripeCustomerId: string){
   try {
     await connectToDatabase();

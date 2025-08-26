@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers'
 import Stripe from 'stripe'
-import { getUserById } from './user.actions';
+import { getUserById, hasBeenSuspended } from './user.actions';
 
 if(process.env.STRIPE_TEST_SECRET_KEY === undefined){
     throw new Error("No Stripe key in .env")
@@ -18,8 +18,8 @@ const stripe = new Stripe(stripeKey);
 
 export async function fetchClientSecret(priceId: string, userId: string) {
   const origin = (await headers()).get('origin')
-  const user = await getUserById(userId);
-  const trial = user.hasBeenSuspended ? 0 : 15;
+  const userSuspended = await hasBeenSuspended(userId);
+  const trial = userSuspended ? 0 : 15;
 
   // Create Checkout Sessions from body params.
   const session = await stripe.checkout.sessions.create({
