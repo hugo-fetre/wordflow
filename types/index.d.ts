@@ -25,6 +25,7 @@ declare type CreateUserParams = {
     isActive: boolean;
     planId: number;
     isCancelPlanned: boolean;
+    hasBeenSuspended: boolean;
   }
 
   declare type updateUserSelectedPlanParams = {

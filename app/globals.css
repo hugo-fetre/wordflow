@@ -159,6 +159,10 @@ body{
   font-size: 10pt;
   text-align: center;
 }
+
+.mobile--show{
+  display: none;
+}
 /*============================ General */
 h2{
   font-size: 18pt;

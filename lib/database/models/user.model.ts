@@ -5,6 +5,7 @@ export interface IUser extends Document{
     email: string;              // L'email de l'utilisateur
     planId: number;             // L'ID du plan d'abonnement de l'utilisateur
     isActive: boolean;
+    hasBeenSuspended: boolean;
     isYearlyBilled: boolean;
     isCancelPlanned: boolean;
     stripeCustomerId: string;   // L'ID stripe de l'abonné
@@ -18,6 +19,7 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     planId: { type: Number, default: 0 },
     isActive: {type: Boolean, default: false},
+    hasBeenSuspended: {type: Boolean, default: false},
     isYearlyBilled: {type: Boolean, default: false},
     isCancelPlanned: {type: Boolean, default: false},
     stripeCustomerId: {type: String, default: ""},

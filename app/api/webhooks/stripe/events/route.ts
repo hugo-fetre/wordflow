@@ -45,7 +45,23 @@ export async function POST(req: Request) {
 
       console.warn('⚠️ Paiement échoué pour customer :', customerId);
 
-      // Optionnel : gère l'échec (notifie, désactive l’accès, etc.)
+      // On ne fait rien car stripe est paramétré pour relancer 2 fois la facturation
+      // -> 1 fois 5 jours après l'échec
+      // -> 2e fois 7 jours après l'échec
+      // -> Ensuite, balance un suscription.deleted
+      // Si envie de personnaliser, décommenter le code en dessous, permet de bloquer l'accès
+
+      /*
+      const user = await findUserByStripeCustomerId(customerId);
+
+      if (user) {
+        const cancelData: blockUserAccessParams = {
+          isActive: false,
+          planId: 0,
+          isCancelPlanned: false,
+        }
+        await blockUserAccess(user._id, cancelData);
+      }*/
       break;
     }
 
@@ -61,6 +77,7 @@ export async function POST(req: Request) {
           isActive: false,
           planId: 0,
           isCancelPlanned: false,
+          hasBeenSuspended: true
         }
         await blockUserAccess(user._id, cancelData);
       }
