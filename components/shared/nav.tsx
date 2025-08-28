@@ -46,11 +46,16 @@ const MainNav = ({ currentWorkspaceId, user }: { currentWorkspaceId: string, use
               }
             }}
           >
-            {workspaces.map((w) => (
-              <option key={w._id} value={w._id}>
-                {w.name}
-              </option>
-            ))}
+            { user.planId > 1 ? workspaces.map((w) => (
+                <option key={w._id} value={w._id}>
+                  {w.name}
+                </option>
+              )) : (
+                <option value={workspaces[0]._id}>
+                  {workspaces[0].name}
+                </option>
+              )
+            }
           </select>
           { user.planId > 1 && (
             <Button type='button' className='btn--addWorkspace' onClick={addWorkspace}>+</Button>

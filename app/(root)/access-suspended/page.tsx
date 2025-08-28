@@ -23,7 +23,7 @@ const AccessSuspendedPage = async () => {
         <Image src={"/logo/logo-full-white.png"} alt="Logo wordflow" width={200} height={50} className='topLogo'></Image>
         <h1 className=''>Votre compte est suspendu</h1>
         <p className='mainSub'>Vous avez annulé votre abonnement ou un paiement a été refusé.</p>
-        <Link href={"/select-plan"} className='mainCTA'><span>Réactiver maintenant</span><ArrowRight size={20} /></Link>
+        <Link href={"/select-plan"} className='mainCTA'><span>Réactiver maintenant</span><ArrowRight size={20} color='#fff'/></Link>
     </div>
   )
 }
