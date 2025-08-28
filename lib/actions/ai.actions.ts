@@ -14,7 +14,7 @@ export async function generateKeywords(workspace: IWorkspace) {
     +"\n"+"Output: Français"+"\n"+"Format: liste JSON de mots clés. Ex: [keyword 1, keyword 2, keyword 3, ...]";
 
     const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         contents: prompt,
     });
     //console.log(response.text);
@@ -29,7 +29,7 @@ export async function generateArticleIdeas(workspace: IWorkspace) {
     +"\n Consigne complémentaire: retourne les nouvelles idées que tu as généré avec celles de la liste que je t'ai envoyé.";
 
     const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         contents: prompt,
     });
     //console.log(response.text);
@@ -56,7 +56,7 @@ export async function generateArticle(workspace: IWorkspace, article: articlePro
     +"\n"+prompt_output_format;
 
     const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         contents: prompt,
     });
     //console.log(response.text);
@@ -72,7 +72,7 @@ export async function analyzeArticle(content: string){
         +"\nArticle à analyser: "+content;
     
     const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         contents: prompt,
     });
     return response.text;
